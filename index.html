@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WS Lawn Care - Equipment Maintenance Portal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a2e1a;font-size:14px;height:100vh;overflow:hidden}
+:root{--gd:#2d6a2f;--gm:#3d8b40;--gl:#e8f5e9;--gb:#c8e6c9;--am:#e65100;--al:#fff3e0;--rd:#c62828;--rl:#ffebee;--bl:#1565c0;--gr:#546e7a;--grl:#eceff1;--wh:#fff;--br:#dde5dd;--ra:8px;--rlg:12px;--sh:0 1px 4px rgba(0,0,0,.08)}
+.app{display:flex;height:100vh;overflow:hidden}
+.sidebar{width:230px;background:var(--gd);color:#fff;display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto}
+.sidebar-logo{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.15)}
+.s-brand{font-size:15px;font-weight:700;line-height:1.3}
+.s-tagline{font-size:10px;opacity:.65;margin-top:2px}
+.nav-label{font-size:10px;opacity:.45;text-transform:uppercase;letter-spacing:1px;padding:10px 18px 4px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;font-size:13px;opacity:.78;transition:all .15s;border-left:3px solid transparent}
+.nav-item:hover{background:rgba(255,255,255,.1);opacity:1}
+.nav-item.active{background:rgba(255,255,255,.14);opacity:1;border-left-color:rgba(255,255,255,.7)}
+.sidebar-bottom{margin-top:auto;padding:14px 18px;font-size:10px;opacity:.45;border-top:1px solid rgba(255,255,255,.1);line-height:1.7}
+.main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.topbar{background:var(--wh);border-bottom:1px solid var(--br);padding:12px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:var(--sh)}
+.topbar-title{font-size:17px;font-weight:700;color:var(--gd)}
+.topbar-sub{font-size:11px;color:var(--gr);margin-top:1px}
+.content{padding:20px;flex:1}
+.page{display:none}.page.active{display:block}
+.btn{border:none;border-radius:var(--ra);padding:7px 14px;font-size:13px;cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:all .15s}
+.btn-primary{background:var(--gd);color:#fff}.btn-primary:hover{background:var(--gm)}
+.btn-secondary{background:var(--grl);color:#2c3e2c;border:1px solid var(--br)}.btn-secondary:hover{background:#d7dde0}
+.btn-danger{background:var(--rl);color:var(--rd)}.btn-danger:hover{background:#ffcdd2}
+.btn-amber{background:var(--al);color:var(--am)}
+.btn-sm{padding:4px 10px;font-size:12px}
+.btn-xs{padding:2px 7px;font-size:11px}
+.card{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);padding:16px;box-shadow:var(--sh)}
+.card-title{font-size:13px;font-weight:700;color:var(--gd);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-title span{font-weight:400;color:var(--gr);font-size:11px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.kpi{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);padding:14px 12px;box-shadow:var(--sh)}
+.kpi-label{font-size:10px;color:var(--gr);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-bottom:4px}
+.kpi-val{font-size:28px;font-weight:700;line-height:1}
+.kpi-sub{font-size:10px;margin-top:4px;opacity:.8}
+.kpi-g .kpi-val{color:var(--gd)}.kpi-r .kpi-val{color:var(--rd)}.kpi-a .kpi-val{color:var(--am)}.kpi-b .kpi-val{color:var(--bl)}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.alert-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:var(--ra);margin-bottom:5px;font-size:12px;cursor:pointer}
+.a-ov{background:var(--rl);border-left:3px solid var(--rd)}
+.a-du{background:var(--al);border-left:3px solid #ef6c00}
+.a-ok{background:var(--gl);border-left:3px solid var(--gm)}
+.alert-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.dot-r{background:var(--rd)}.dot-a{background:#ef6c00}.dot-g{background:var(--gm)}
+.eq-mini{display:flex;align-items:center;gap:8px;padding:7px;border-radius:var(--ra);border:1px solid var(--br);margin-bottom:5px;cursor:pointer}
+.eq-mini:hover{border-color:var(--gm);background:var(--gl)}
+.mini-ico{width:32px;height:32px;background:var(--gl);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.mini-info{flex:1;min-width:0}
+.mini-name{font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-det{font-size:10px;color:var(--gr)}
+.badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap}
+.b-ok{background:var(--gl);color:var(--gd)}.b-due{background:var(--al);color:var(--am)}.b-overdue{background:var(--rl);color:var(--rd)}
+.eq-search-row{display:flex;gap:8px;margin-bottom:14px;align-items:center}
+.eq-search-row input{flex:1;padding:8px 12px;border:1px solid var(--br);border-radius:var(--ra);font-size:13px;outline:none;background:var(--wh)}
+.eq-search-row input:focus{border-color:var(--gm)}
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.ec{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);padding:14px;cursor:pointer;transition:all .15s;box-shadow:var(--sh)}
+.ec:hover{border-color:var(--gm);transform:translateY(-1px)}
+.ec-hdr{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start}
+.ec-ico{width:44px;height:44px;background:var(--gl);border-radius:var(--ra);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;border:1px solid var(--gb)}
+.ec-title{font-size:13px;font-weight:700;color:var(--gd);line-height:1.3}
+.ec-sub{font-size:11px;color:var(--gr);margin-top:2px}
+.ec-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-top:8px}
+.estat{text-align:center;padding:5px;background:var(--grl);border-radius:5px}
+.estat-v{font-size:12px;font-weight:700;color:var(--gd)}
+.estat-l{font-size:9px;color:var(--gr);text-transform:uppercase;margin-top:1px}
+.ec-foot{display:flex;justify-content:space-between;margin-top:8px;padding-top:7px;border-top:1px solid var(--br);font-size:10px;color:var(--gr)}
+.detail-hdr{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;padding:14px;background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);box-shadow:var(--sh)}
+.d-big-ico{width:56px;height:56px;background:var(--gl);border-radius:var(--rlg);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:2px solid var(--gb)}
+.d-title{font-size:19px;font-weight:700;color:var(--gd)}
+.d-sub{color:var(--gr);font-size:12px;margin-top:3px}
+.d-actions{margin-top:9px;display:flex;gap:6px;flex-wrap:wrap}
+.hrs-bar{display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--gl);border-radius:var(--ra);margin-bottom:14px;border:1px solid var(--gb);flex-wrap:wrap}
+.hrs-bar label{font-size:12px;color:var(--gd);font-weight:600}
+.hrs-bar input{width:85px;padding:5px 7px;border:1px solid var(--gb);border-radius:5px;font-size:13px;font-weight:600;background:var(--wh);outline:none}
+.dtabs{display:flex;border-bottom:2px solid var(--br);margin-bottom:14px}
+.dtab{padding:7px 14px;font-size:13px;cursor:pointer;color:var(--gr);border-bottom:2px solid transparent;margin-bottom:-2px;font-weight:500}
+.dtab.active{color:var(--gd);border-bottom-color:var(--gd)}
+.ilist{display:flex;flex-direction:column;gap:7px}
+.iitem{background:var(--grl);border-radius:var(--ra);padding:9px 11px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;border:1px solid var(--br)}
+.iitem .in{flex:1;min-width:120px;font-size:13px;font-weight:600}
+.iitem .ifreq{font-size:11px;color:var(--gr)}
+.iitem .istat{font-size:11px;font-weight:600}
+.iadd{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap;padding:9px;background:var(--gl);border-radius:var(--ra);border:1px dashed var(--gb)}
+.iadd input,.iadd select{padding:5px 7px;border:1px solid var(--br);border-radius:5px;font-size:12px;font-family:inherit;outline:none;background:var(--wh)}
+.iadd input{flex:1;min-width:100px}
+.hist-item{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--br);font-size:12px}
+.hist-date{color:var(--gr);width:75px;flex-shrink:0;font-weight:500}
+.hist-task{flex:1}
+.hist-main{font-weight:600;margin-bottom:2px}
+.hist-meta{color:var(--gr)}
+.hist-cost{color:var(--gd);font-weight:700;width:55px;text-align:right;flex-shrink:0}
+.specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.spec-item{padding:8px 10px;background:var(--grl);border-radius:var(--ra)}
+.spec-label{font-size:9px;color:var(--gr);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.spec-val{font-size:13px;font-weight:600;margin-top:2px;color:#222}
+.wo-filter-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.wo-toolbar{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:12px;padding:11px 13px;background:var(--gl);border:1px solid var(--gb);border-radius:var(--ra)}
+.wo-toolbar label{font-size:10px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px;display:block}
+.wo-toolbar input{width:100%;padding:6px 8px;border:1px solid var(--gb);border-radius:5px;font-size:13px;font-family:inherit;outline:none;background:var(--wh)}
+.wo-item{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);padding:13px;margin-bottom:10px;box-shadow:var(--sh);transition:border-color .15s}
+.wo-item.sel{border-color:var(--gm);box-shadow:0 0 0 2px rgba(45,106,47,.15)}
+.wo-select-wrap{display:flex;align-items:flex-start;gap:10px}
+.wo-cb{width:20px;height:20px;border:2px solid var(--br);border-radius:4px;cursor:pointer;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;transition:all .15s;background:var(--wh);font-size:13px;font-weight:700;color:#fff}
+.wo-cb.on{background:var(--gd);border-color:var(--gd)}
+.wo-num{font-size:10px;font-weight:700;color:var(--gr);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.wo-title{font-size:14px;font-weight:700;color:var(--gd)}
+.wo-meta{font-size:11px;color:var(--gr);margin-top:2px}
+.wo-urg{font-size:11px;font-weight:700;margin-top:3px}
+.chk{width:13px;height:13px;border:2px solid #ccc;border-radius:3px;cursor:pointer;flex-shrink:0;display:inline-block;transition:all .15s}
+.chk.done{background:var(--gd);border-color:var(--gd)}
+.wo-step{display:flex;align-items:center;gap:7px;font-size:12px;padding:3px 0;border-top:1px solid var(--br);color:#333}
+.wo-step:first-child{border-top:none;padding-top:0}
+.wo-actions{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap}
+.mgr-note-box{margin-top:9px;padding:9px;background:#fafff9;border:1px solid var(--gb);border-radius:var(--ra)}
+.mgr-note-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--gd);margin-bottom:4px}
+.mgr-note-box textarea{width:100%;padding:5px 7px;border:1px solid var(--gb);border-radius:5px;font-size:12px;font-family:inherit;resize:vertical;outline:none;background:var(--wh);min-height:48px}
+.cal-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.cal-nav{display:flex;align-items:center;gap:10px}
+.cal-month{font-size:15px;font-weight:700;color:var(--gd);min-width:130px;text-align:center}
+.cal-legend{display:flex;gap:10px;font-size:11px;color:var(--gr)}
+.cal-legend span{display:flex;align-items:center;gap:4px}
+.cal-ldot{width:10px;height:10px;border-radius:2px;display:inline-block}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--br);border:1px solid var(--br);border-radius:var(--ra);overflow:hidden}
+.cal-dow{background:var(--gd);color:#fff;text-align:center;padding:6px 2px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.cal-cell{background:var(--wh);min-height:72px;padding:5px 4px}
+.cal-cell.om{background:#f9fbf9}
+.cal-cell.today{background:#f0faf0}
+.cal-dn{font-size:10px;font-weight:700;color:var(--gr);margin-bottom:3px;text-align:right}
+.today .cal-dn{color:var(--gd)}
+.cal-ev{font-size:9px;padding:2px 3px;border-radius:3px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cev-ov{background:#ffcdd2;color:#b71c1c}.cev-du{background:#ffe0b2;color:#bf360c}.cev-ok{background:var(--gl);color:#1b5e20}
+.bulk-card{background:var(--wh);border:1px solid var(--br);border-radius:var(--ra);padding:11px;display:flex;flex-direction:column;gap:5px;transition:border-color .15s}
+.bulk-card.changed{border-color:#f59e0b;background:#fffbeb}
+.bulk-ico-row{display:flex;align-items:center;gap:8px}
+.bulk-ico{width:34px;height:34px;background:var(--gl);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.bulk-name{font-size:12px;font-weight:700;color:var(--gd);line-height:1.3}
+.bulk-cur{font-size:10px;color:var(--gr);margin-top:1px}
+.bulk-inp-row{display:flex;align-items:center;gap:6px;margin-top:3px}
+.bulk-inp-row input{flex:1;padding:5px 8px;border:1px solid var(--br);border-radius:5px;font-size:14px;font-weight:700;font-family:inherit;outline:none;background:var(--wh)}
+.bulk-inp-row input:focus{border-color:var(--gm)}
+.bulk-unit{font-size:11px;color:var(--gr);font-weight:600;white-space:nowrap}
+.bulk-delta{font-size:10px;font-weight:600;padding:2px 5px;border-radius:4px}
+.bulk-delta.pos{background:var(--gl);color:var(--gd)}.bulk-delta.same{color:var(--gr)}
+.bulk-alert{font-size:10px;margin-top:2px}
+.bulk-alert.ov{color:var(--rd);font-weight:600}.bulk-alert.du{color:var(--am);font-weight:600}.bulk-alert.ok{color:var(--gm)}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:flex;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+.modal{background:var(--wh);border-radius:var(--rlg);width:100%;max-width:640px;box-shadow:0 8px 40px rgba(0,0,0,.18)}
+.modal-hdr{padding:14px 18px;border-bottom:1px solid var(--br);display:flex;align-items:center;justify-content:space-between}
+.modal-hdr h2{font-size:15px;font-weight:700;color:var(--gd)}
+.modal-body{padding:18px}
+.modal-footer{padding:10px 18px;border-top:1px solid var(--br);display:flex;justify-content:flex-end;gap:8px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fgrid .full{grid-column:1/-1}
+.fg{display:flex;flex-direction:column;gap:3px}
+.fg label{font-size:11px;font-weight:600;color:var(--gr);text-transform:uppercase;letter-spacing:.3px}
+.fg input,.fg select,.fg textarea{padding:7px 9px;border:1px solid var(--br);border-radius:var(--ra);font-size:13px;font-family:inherit;outline:none;background:var(--wh)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--gm)}
+.fsec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gd);margin:14px 0 7px;padding-bottom:3px;border-bottom:2px solid var(--gb)}
+.fsec:first-child{margin-top:0}
+
+/* ---- GROUPED WORK ORDERS ---- */
+.wo-group{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);margin-bottom:16px;box-shadow:var(--sh);overflow:hidden}
+.wo-group-hdr{display:flex;align-items:flex-start;gap:12px;padding:14px;background:linear-gradient(135deg,#f0f7f0 0%,var(--wh) 100%);border-bottom:1px solid var(--br);flex-wrap:wrap}
+.wo-group-ico{width:46px;height:46px;background:var(--gl);border-radius:var(--ra);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;border:1px solid var(--gb)}
+.wo-group-info{flex:1;min-width:0}
+.wo-group-name{font-size:16px;font-weight:700;color:var(--gd);margin-bottom:2px}
+.wo-group-meta{font-size:11px;color:var(--gr);margin-top:1px}
+.wo-group-right{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0}
+.wo-group-badges{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.wo-group-actions{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.wo-task-list{padding:0 14px 14px}
+.wo-task-row{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--ra);border:1px solid var(--br);margin-top:7px;background:#fafff9;transition:all .15s;cursor:pointer}
+.wo-task-row:hover{border-color:var(--gm);background:var(--gl)}
+.wo-task-row.sel-task{border-color:var(--gm);background:var(--gl);box-shadow:0 0 0 2px rgba(45,106,47,.12)}
+.wo-task-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;width:100%}
+
+.empty-state{text-align:center;padding:36px 20px;color:var(--gr)}
+.empty-state .es-icon{font-size:38px;margin-bottom:9px}
+.empty-state .es-title{font-size:14px;font-weight:600;margin-bottom:5px;color:#444}
+.es-sub{font-size:12px;margin-bottom:14px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--gd);color:#fff;padding:10px 16px;border-radius:var(--ra);font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.toast.show{opacity:1}
+@media print{.sidebar,.topbar,.no-print,.modal-overlay,.toast{display:none!important}body,html{height:auto;overflow:visible}.app,.main{display:block;height:auto;overflow:visible}.content{padding:0}.page{display:block!important}.page:not(#page-workorders){display:none!important}#page-workorders{display:block!important}.wo-item{page-break-inside:avoid}}
+@media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:1fr}.eq-grid{grid-template-columns:1fr}.sidebar{width:56px}.s-brand,.s-tagline,.nav-label,.sidebar-bottom{display:none}.nav-item span:not(.ni){display:none}.fgrid{grid-template-columns:1fr}.fgrid .full{grid-column:1}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="s-brand">&#127807; WS Lawn Care</div>
+    <div class="s-tagline">Equipment Maintenance Portal</div>
+  </div>
+  <div style="padding:8px 0">
+    <div class="nav-label">Main</div>
+    <div class="nav-item active" onclick="navDashboard()" title="Dashboard"><span class="ni">&#128202;</span> <span>Dashboard</span></div>
+    <div class="nav-item" onclick="navEquipment()" title="Equipment"><span class="ni">&#128668;</span> <span>Equipment</span></div>
+    <div class="nav-item" onclick="navWorkorders()" title="Work Orders"><span class="ni">&#128295;</span> <span>Work Orders</span></div>
+    <div class="nav-item" onclick="navCalendar()" title="Calendar"><span class="ni">&#128197;</span> <span>Calendar</span></div>
+    <div class="nav-item" onclick="navBulkhours()" title="Update Hours"><span class="ni">&#9203;</span> <span>Update Hours</span></div>
+    <div class="nav-label" style="margin-top:8px">Quick Actions</div>
+    <div class="nav-item" onclick="openAddEquip()" title="Add Equipment"><span class="ni">&#10133;</span> <span>Add Equipment</span></div>
+    <div class="nav-item" onclick="printSelectedWO()" title="Print Work Orders"><span class="ni">&#128424;</span> <span>Print Work Orders</span></div>
+  </div>
+  <div class="sidebar-bottom">WS Lawn Care Services, LLC<br>Titusville, FL - Brevard County<br>321-209-0668<br>"Jesus First Before Profits"</div>
+</div>
+
+<div class="main">
+  <div class="topbar">
+    <div><div class="topbar-title" id="ptitle">Dashboard</div><div class="topbar-sub">WS Lawn Care Services - Equipment Maintenance Portal &nbsp;&#183;&nbsp; Google Sheets Sync Active</div></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" class="no-print">
+      <span id="api-status" style="font-size:11px;padding:3px 9px;border-radius:12px;font-weight:500;background:#eceff1;color:#546e7a">&#9679; Loading...</span>
+      <button class="btn btn-secondary btn-sm" onclick="forceSync()" title="Refresh from Google Sheets">&#8635; Sync</button>
+      <button class="btn btn-secondary btn-sm" onclick="navWorkorders()">&#128295; Work Orders</button>
+      <button class="btn btn-primary btn-sm" onclick="openAddEquip()">&#10133; Add Equipment</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div id="api-setup-notice" style="display:none;background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px">
+        <b style="color:#e65100">&#9888; Setup Required:</b> To share data across devices, paste your Google Apps Script URL into the portal.
+        <button class="btn btn-amber btn-sm" style="margin-left:10px" onclick="openApiSetup()">Configure Now</button>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi kpi-g"><div class="kpi-label">Total Equipment</div><div class="kpi-val" id="k-total">0</div><div class="kpi-sub">pieces tracked</div></div>
+        <div class="kpi kpi-r"><div class="kpi-label">Overdue Service</div><div class="kpi-val" id="k-ov">0</div><div class="kpi-sub">needs attention now</div></div>
+        <div class="kpi kpi-a"><div class="kpi-label">Due This Month</div><div class="kpi-val" id="k-du">0</div><div class="kpi-sub">coming up soon</div></div>
+        <div class="kpi kpi-b"><div class="kpi-label">Open Work Orders</div><div class="kpi-val" id="k-wo">0</div><div class="kpi-sub">tasks pending</div></div>
+      </div>
+      <div class="dash-grid">
+        <div class="card"><div class="card-title">&#9888;&#65039; Priority Alerts <span>sorted by urgency</span></div><div id="d-alerts"></div></div>
+        <div class="card"><div class="card-title">&#128668; Fleet Status <button class="btn btn-secondary btn-xs no-print" onclick="navEquipment()">View All</button></div><div id="d-equip"></div></div>
+        <div class="card"><div class="card-title">&#128203; Recent Activity</div><div id="d-activity"></div></div>
+        <div class="card"><div class="card-title">&#128197; Due Within 7 Days</div><div id="d-week"></div></div>
+      </div>
+    </div>
+
+    <!-- EQUIPMENT -->
+    <div class="page" id="page-equipment">
+      <div class="eq-search-row">
+        <input id="eq-search" placeholder="Search by name, type, or make..." oninput="renderEqList()">
+        <button class="btn btn-primary no-print" onclick="openAddEquip()">&#10133; Add Equipment</button>
+      </div>
+      <div id="eq-count" style="font-size:12px;color:var(--gr);margin-bottom:10px"></div>
+      <div class="eq-grid" id="eq-grid"></div>
+    </div>
+
+    <!-- DETAIL -->
+    <div class="page" id="page-detail">
+      <div style="margin-bottom:12px" class="no-print"><button class="btn btn-secondary btn-sm" onclick="navEquipment()">&#8592; Back to Equipment</button></div>
+      <div class="detail-hdr">
+        <div class="d-big-ico" id="d-icon">&#128668;</div>
+        <div style="flex:1;min-width:0">
+          <div class="d-title" id="d-name">-</div>
+          <div class="d-sub" id="d-sub">-</div>
+          <div class="d-actions no-print">
+            <button class="btn btn-secondary btn-sm" onclick="openEditEquip()">&#9999;&#65039; Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="delEquip()">&#128465;&#65039; Delete</button>
+            <button class="btn btn-primary btn-sm" onclick="openLogSvc()">&#10133; Log Service</button>
+            <button class="btn btn-amber btn-sm" onclick="printSelectedWO()">&#128424;&#65039; Print WOs</button>
+          </div>
+        </div>
+      </div>
+      <div class="hrs-bar no-print">
+        <label>Hours:</label><input type="number" id="u-hrs" min="0"> <button class="btn btn-primary btn-sm" onclick="updHrs()">Save</button>
+        <div style="width:1px;height:18px;background:var(--gb);margin:0 4px"></div>
+        <label>Miles:</label><input type="number" id="u-mi" min="0"> <button class="btn btn-primary btn-sm" onclick="updMi()">Save</button>
+      </div>
+      <div class="dtabs no-print">
+        <div class="dtab active" onclick="dTabIntervals(this)">&#128295; Intervals</div>
+        <div class="dtab" onclick="dTabHistory(this)">&#128203; Service History</div>
+        <div class="dtab" onclick="dTabSpecs(this)">&#128208; Specs &amp; Cost</div>
+      </div>
+      <div id="dt-intervals"></div>
+      <div id="dt-history" style="display:none"></div>
+      <div id="dt-specs" style="display:none"></div>
+    </div>
+
+    <!-- WORK ORDERS -->
+    <div class="page" id="page-workorders">
+      <div class="no-print">
+        <div class="wo-filter-row">
+          <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+            <button class="btn btn-secondary btn-sm" id="wf-all" onclick="setWFAll(this)">All Outstanding</button>
+            <button class="btn btn-secondary btn-sm" id="wf-ov" onclick="setWFOverdue(this)">&#128308; Overdue</button>
+            <button class="btn btn-secondary btn-sm" id="wf-du" onclick="setWFDue(this)">&#128993; Due Soon</button>
+            <div style="width:1px;height:18px;background:var(--br);margin:0 2px"></div>
+            <button class="btn btn-secondary btn-sm" onclick="selAllTrue()">&#9745; Select All</button>
+            <button class="btn btn-secondary btn-sm" onclick="selAllFalse()">&#9744; Deselect All</button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="sel-count" style="font-size:12px;color:var(--gr)">None selected</span>
+            <button class="btn btn-primary btn-sm" onclick="printSelectedWO()">&#128424;&#65039; Print Selected</button>
+          </div>
+        </div>
+        <div class="wo-toolbar">
+          <div><label>Assigned Tech</label><input id="wo-tech" placeholder="Willie, William, Sandra..."></div>
+          <div><label>Work Order Date</label><input id="wo-date" type="date"></div>
+          <div><label>Priority Instructions for Tech</label><input id="wo-instr" placeholder="e.g. Focus on mowers first..."></div>
+        </div>
+      </div>
+      <div id="wo-count" style="font-size:12px;color:var(--gr);margin-bottom:10px"></div>
+      <div id="wo-list"></div>
+    </div>
+
+    <!-- CALENDAR -->
+    <div class="page" id="page-calendar">
+      <div class="cal-hdr">
+        <div class="cal-nav">
+          <button class="btn btn-secondary btn-sm" onclick="chMo(-1)">&#9664; Prev</button>
+          <div class="cal-month" id="cal-label">June 2026</div>
+          <button class="btn btn-secondary btn-sm" onclick="chMo(1)">Next &#9654;</button>
+        </div>
+        <div class="cal-legend">
+          <span><span class="cal-ldot" style="background:#ffcdd2"></span>Overdue</span>
+          <span><span class="cal-ldot" style="background:#ffe0b2"></span>Due Soon</span>
+          <span><span class="cal-ldot" style="background:var(--gl)"></span>Scheduled</span>
+        </div>
+      </div>
+      <div class="cal-grid" id="cal-grid"></div>
+      <div style="margin-top:12px;padding:10px 12px;background:var(--gl);border:1px solid var(--gb);border-radius:var(--ra);font-size:12px;color:var(--gr)"><b style="color:var(--gd)">Tip:</b> Only time-based intervals (monthly, quarterly, annual) appear on the calendar. Hour-based tasks appear in Work Orders.</div>
+    </div>
+
+    <!-- BULK HOURS -->
+    <div class="page" id="page-bulkhours">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div style="font-size:13px;color:var(--gr)">Enter current readings for all equipment. Recommended: every Monday morning. Changes highlight yellow until saved.</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-secondary btn-sm" onclick="bulkReset()">&#8617; Reset</button>
+          <button class="btn btn-primary" onclick="bulkSave()">&#128190; Save All Updates</button>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">&#9203; Engine Hours <span>mowers, trimmers, chainsaws, blowers, pressure washer</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:9px" id="bulk-hrs-grid"></div>
+      </div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">&#128664; Vehicle Mileage <span>Ford F250</span></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:9px" id="bulk-mi-grid"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">&#128276; Maintenance Status After Save <span>live preview as you type</span></div>
+        <div id="bulk-preview"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- MODAL: API SETUP -->
+<div class="modal-overlay" id="m-api" style="display:none">
+<div class="modal">
+  <div class="modal-hdr"><h2>&#9729;&#65039; Connect to Google Sheets</h2><button class="btn btn-secondary btn-sm" onclick="closeMApi()">&#10005; Close</button></div>
+  <div class="modal-body">
+    <div style="background:#e8f5e9;border:1px solid #c8e6c9;border-radius:8px;padding:12px 14px;font-size:12px;margin-bottom:14px;line-height:1.7">
+      <b style="color:#2d6a2f">Steps to connect:</b><br>
+      1. Open your Google Spreadsheet<br>
+      2. Click <b>Extensions &rarr; Apps Script</b><br>
+      3. Paste the Apps Script code (download below)<br>
+      4. Click <b>Deploy &rarr; New Deployment &rarr; Web App</b><br>
+      5. Set <b>Who has access</b> to <b>Anyone</b><br>
+      6. Click Deploy &rarr; copy the Web App URL<br>
+      7. Paste the URL below and click Save
+    </div>
+    <div class="fg">
+      <label>Google Apps Script Web App URL</label>
+      <input id="api-url-input" type="url" placeholder="https://script.google.com/macros/s/YOUR_ID/exec" style="font-size:12px">
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--gr)">
+      Once connected, all data syncs to your Google Sheet automatically. Any device with the portal URL will see the same live data.
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-secondary btn-sm" onclick="testApiConnection()">&#128269; Test Connection</button>
+      <span id="api-test-result" style="font-size:12px;padding:5px 0;color:var(--gr)"></span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeMApi()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveApiUrl()">&#128190; Save &amp; Connect</button>
+  </div>
+</div>
+</div>
+
+<!-- MODAL: ADD/EDIT EQUIPMENT -->
+<div class="modal-overlay" id="m-equip" style="display:none">
+<div class="modal">
+  <div class="modal-hdr"><h2 id="m-equip-title">Add Equipment</h2><button class="btn btn-secondary btn-sm" onclick="closeMEquip()">&#10005; Close</button></div>
+  <div class="modal-body">
+    <input type="hidden" id="edit-id">
+    <div class="fsec">Equipment Information</div>
+    <div class="fgrid">
+      <div class="fg full"><label>Equipment Name *</label><input id="f-name" placeholder="e.g. Toro Grandstand #1"></div>
+      <div class="fg"><label>Type</label><select id="f-type"><option>Stand-On Mower</option><option>Walk-Behind Mower</option><option>Zero-Turn Mower</option><option>Push Mower</option><option>Trimmer / Edger</option><option>Blower</option><option>Chainsaw</option><option>Pole Saw</option><option>Pressure Washer</option><option>Truck</option><option>Enclosed Trailer</option><option>Dump Trailer</option><option>Climbing Gear</option><option>Attachments / Other</option></select></div>
+      <div class="fg"><label>Make</label><input id="f-make" placeholder="Toro, Stihl, Ford..."></div>
+      <div class="fg"><label>Model</label><input id="f-model"></div>
+      <div class="fg"><label>Serial / VIN</label><input id="f-serial"></div>
+      <div class="fg"><label>Year</label><input id="f-year" type="number"></div>
+      <div class="fg"><label>Current Hours</label><input id="f-hrs" type="number" value="0" min="0"></div>
+      <div class="fg"><label>Current Miles</label><input id="f-mi" type="number" value="0" min="0"></div>
+      <div class="fg"><label>Date In Service</label><input id="f-pdate" type="date"></div>
+      <div class="fg"><label>Purchase Cost ($)</label><input id="f-cost" type="number" min="0"></div>
+      <div class="fg"><label>Est. Annual Hours</label><input id="f-annhrs" type="number" min="0"></div>
+      <div class="fg"><label>Cost / Hour ($)</label><input id="f-cph" type="number" step="0.01" min="0"></div>
+      <div class="fg full"><label>Notes</label><textarea id="f-notes" rows="2"></textarea></div>
+    </div>
+    <div class="fsec">Maintenance Intervals</div>
+    <div id="edit-int-list" style="margin-bottom:8px"></div>
+    <div class="iadd">
+      <input id="ii-task" placeholder="Task (e.g. Oil Change)">
+      <input id="ii-freq" type="number" placeholder="Every" style="width:65px;flex:none" min="1">
+      <select id="ii-unit" style="width:85px;flex:none"><option value="hours">Hours</option><option value="miles">Miles</option><option value="days">Days</option><option value="months">Months</option><option value="years">Years</option></select>
+      <button class="btn btn-primary btn-sm" onclick="addII()" style="flex:none">Add</button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeMEquip()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveEquip()">&#128190; Save Equipment</button>
+  </div>
+</div>
+</div>
+
+<!-- MODAL: LOG SERVICE -->
+<div class="modal-overlay" id="m-svc" style="display:none">
+<div class="modal">
+  <div class="modal-hdr"><h2>Log Service / Maintenance</h2><button class="btn btn-secondary btn-sm" onclick="closeMSvc()">&#10005; Close</button></div>
+  <div class="modal-body">
+    <div class="fgrid">
+      <div class="fg"><label>Date *</label><input id="sv-date" type="date"></div>
+      <div class="fg"><label>Performed By</label><input id="sv-by" placeholder="Willie, William, Sandra..."></div>
+      <div class="fg full"><label>Task *</label><input id="sv-task" placeholder="Oil change, blade sharpening..."></div>
+      <div class="fg"><label>Hours at Service</label><input id="sv-hrs" type="number" min="0"></div>
+      <div class="fg"><label>Miles at Service</label><input id="sv-mi" type="number" min="0"></div>
+      <div class="fg"><label>Parts Cost ($)</label><input id="sv-cost" type="number" step="0.01" min="0"></div>
+      <div class="fg"><label>Labor Cost ($)</label><input id="sv-labor" type="number" step="0.01" min="0"></div>
+      <div class="fg full"><label>Notes</label><textarea id="sv-notes" rows="2"></textarea></div>
+      <div class="fg full"><label>Mark Interval Complete</label><select id="sv-int"><option value="">- select if applicable -</option></select></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeMSvc()">Cancel</button>
+    <button class="btn btn-primary" onclick="saveSvc()">&#10004; Log Service</button>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var SK='ws_maint_v5';
+var S={equipment:[],activity:[]};
+var CID=null,CAL_M=new Date().getMonth(),CAL_Y=new Date().getFullYear(),EI=[];
+var WO_SEL={};
+var WO_NOTES={};
+var BULK_DRAFT={};
+var WF_FILTER='all';
+
+var FLEET=[
+  {id:'e01',name:'Toro Grandstand #1',type:'Stand-On Mower',make:'Toro',model:'Grandstand',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:10000,annualHrs:700,cph:12.43,notes:'Primary stand-on. Financed $10K @ 7% / 2yr.',history:[],
+   intervals:[{id:'i01a',task:'Engine Oil Change',freq:50,unit:'hours',lastDone:null,lastHours:0},{id:'i01b',task:'Air Filter Inspect/Replace',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i01c',task:'Blade Sharpen/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i01d',task:'Spark Plug',freq:200,unit:'hours',lastDone:null,lastHours:0},{id:'i01e',task:'Tire Pressure Check',freq:1,unit:'months',lastDone:null},{id:'i01f',task:'Belt Inspection',freq:3,unit:'months',lastDone:null},{id:'i01g',task:'Annual Full Service',freq:1,unit:'years',lastDone:null}]},
+  {id:'e02',name:'Toro Grandstand #2',type:'Stand-On Mower',make:'Toro',model:'Grandstand',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-09-10',cost:10000,annualHrs:600,cph:12.05,notes:'Secondary stand-on. Financed $10K @ 7% / 2.5yr.',history:[],
+   intervals:[{id:'i02a',task:'Engine Oil Change',freq:50,unit:'hours',lastDone:null,lastHours:0},{id:'i02b',task:'Air Filter Inspect/Replace',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i02c',task:'Blade Sharpen/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i02d',task:'Spark Plug',freq:200,unit:'hours',lastDone:null,lastHours:0},{id:'i02e',task:'Tire Pressure Check',freq:1,unit:'months',lastDone:null},{id:'i02f',task:'Annual Full Service',freq:1,unit:'years',lastDone:null}]},
+  {id:'e03',name:'Toro TimeMaster 30"',type:'Push Mower',make:'Toro',model:'TimeMaster 30',serial:'420767390',year:2026,hours:0,miles:0,purchaseDate:'2026-06-10',cost:1700,annualHrs:184,cph:3.39,notes:'Tight-space mower. New Jun 2026. 184 hrs/yr.',history:[],
+   intervals:[{id:'i03a',task:'Engine Oil Change',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i03b',task:'Blade Sharpen/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i03c',task:'Air Filter',freq:50,unit:'hours',lastDone:null,lastHours:0},{id:'i03d',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i03e',task:'Drive Belt Inspect',freq:100,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e04',name:'Toro Push Mower (Original)',type:'Push Mower',make:'Toro',model:'',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:600,annualHrs:150,cph:2.37,notes:'Gates & tight spots. 150 hrs/yr.',history:[],
+   intervals:[{id:'i04a',task:'Engine Oil Change',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i04b',task:'Blade Sharpen/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i04c',task:'Air Filter',freq:50,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e05',name:'2017 Ford F250',type:'Truck',make:'Ford',model:'F250',serial:'',year:2017,hours:0,miles:0,purchaseDate:'2025-07-01',cost:32000,annualHrs:1400,cph:11.80,notes:'Primary crew truck. Financed $29K @ 8% / 5yr.',history:[],
+   intervals:[{id:'i05a',task:'Oil & Filter Change',freq:5000,unit:'miles',lastDone:null,lastMiles:0},{id:'i05b',task:'Tire Rotation',freq:7500,unit:'miles',lastDone:null,lastMiles:0},{id:'i05c',task:'Air Filter',freq:15000,unit:'miles',lastDone:null,lastMiles:0},{id:'i05d',task:'Brake Inspection',freq:20000,unit:'miles',lastDone:null,lastMiles:0},{id:'i05e',task:'Annual Vehicle Inspection',freq:1,unit:'years',lastDone:'2025-07-01'},{id:'i05f',task:'Registration Renewal',freq:1,unit:'years',lastDone:'2025-07-01'}]},
+  {id:'e06',name:'Enclosed Trailer',type:'Enclosed Trailer',make:'',model:'',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:5400,annualHrs:1400,cph:1.41,notes:'Pulled daily with F250. Paid cash.',history:[],
+   intervals:[{id:'i06a',task:'Tire Pressure & Condition',freq:1,unit:'months',lastDone:null},{id:'i06b',task:'Lights & Wiring Check',freq:3,unit:'months',lastDone:null},{id:'i06c',task:'Hitch & Safety Chain Inspect',freq:3,unit:'months',lastDone:null},{id:'i06d',task:'Annual Registration',freq:1,unit:'years',lastDone:null}]},
+  {id:'e07',name:'Dump Trailer (2025)',type:'Dump Trailer',make:'Trailer One',model:'',serial:'',year:2025,hours:0,miles:0,purchaseDate:'2025-10-01',cost:12000,annualHrs:600,cph:9.00,notes:'Debris/cleanup jobs. Financed $10K @ 8% / 5yr.',history:[],
+   intervals:[{id:'i07a',task:'Hydraulic Fluid Check',freq:3,unit:'months',lastDone:null},{id:'i07b',task:'Tire Pressure & Condition',freq:1,unit:'months',lastDone:null},{id:'i07c',task:'Lights & Brake Check',freq:3,unit:'months',lastDone:null},{id:'i07d',task:'Annual Registration',freq:1,unit:'years',lastDone:null}]},
+  {id:'e08',name:'Stihl Trimmer FS131 #1',type:'Trimmer / Edger',make:'Stihl',model:'FS131',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:490,annualHrs:700,cph:1.77,notes:'Primary trimmer.',history:[],
+   intervals:[{id:'i08a',task:'Air Filter Clean/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i08b',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i08c',task:'Fuel Filter Replace',freq:50,unit:'hours',lastDone:null,lastHours:0},{id:'i08d',task:'Cutting Head Inspect',freq:25,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e09',name:'Stihl Trimmer km131 #2',type:'Trimmer / Edger',make:'Stihl',model:'km131',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:490,annualHrs:500,cph:2.07,notes:'Secondary trimmer.',history:[],
+   intervals:[{id:'i09a',task:'Air Filter Clean/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i09b',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i09c',task:'Fuel Filter Replace',freq:50,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e10',name:'Stihl Trimmer km131 #3',type:'Trimmer / Edger',make:'Stihl',model:'km131',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:490,annualHrs:400,cph:2.34,notes:'3rd trimmer.',history:[],
+   intervals:[{id:'i10a',task:'Air Filter Clean/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i10b',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e11',name:'Stihl Trimmer km131 #4',type:'Trimmer / Edger',make:'Stihl',model:'km131',serial:'',year:2025,hours:0,miles:0,purchaseDate:'2025-10-11',cost:540,annualHrs:300,cph:2.82,notes:'Backup trimmer.',history:[],
+   intervals:[{id:'i11a',task:'Air Filter Clean/Replace',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i11b',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e12',name:'Stihl Blower BR800',type:'Blower',make:'Stihl',model:'BR800',serial:'BR800',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:700,annualHrs:500,cph:1.68,notes:'Primary blower.',history:[],
+   intervals:[{id:'i12a',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i12b',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i12c',task:'Fuel Filter',freq:50,unit:'hours',lastDone:null,lastHours:0},{id:'i12d',task:'Harness & Strap Check',freq:3,unit:'months',lastDone:null}]},
+  {id:'e13',name:'Stihl Blower BR700',type:'Blower',make:'Stihl',model:'BR700',serial:'BR700',year:2024,hours:0,miles:0,purchaseDate:'2024-10-01',cost:700,annualHrs:350,cph:1.81,notes:'Secondary blower.',history:[],
+   intervals:[{id:'i13a',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i13b',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i13c',task:'Fuel Filter',freq:50,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e14',name:'Stihl Pole Saw HT105',type:'Pole Saw',make:'Stihl',model:'HT105',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:600,annualHrs:100,cph:4.33,notes:'50-150 hrs/yr.',history:[],
+   intervals:[{id:'i14a',task:'Chain Sharpen/Replace',freq:10,unit:'hours',lastDone:null,lastHours:0},{id:'i14b',task:'Bar Oil Level Check',freq:5,unit:'hours',lastDone:null,lastHours:0},{id:'i14c',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e15',name:'MS 180 Stihl Chainsaw',type:'Chainsaw',make:'Stihl',model:'MS 180',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:240,annualHrs:75,cph:5.03,notes:'Light cleanup saw.',history:[],
+   intervals:[{id:'i15a',task:'Chain Sharpen/Replace',freq:8,unit:'hours',lastDone:null,lastHours:0},{id:'i15b',task:'Bar Oil Level Check',freq:4,unit:'hours',lastDone:null,lastHours:0},{id:'i15c',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e16',name:'MS 194t Stihl Chainsaw',type:'Chainsaw',make:'Stihl',model:'MS 194t',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:500,annualHrs:100,cph:4.49,notes:'Mid-range saw.',history:[],
+   intervals:[{id:'i16a',task:'Chain Sharpen/Replace',freq:10,unit:'hours',lastDone:null,lastHours:0},{id:'i16b',task:'Bar Oil Level Check',freq:5,unit:'hours',lastDone:null,lastHours:0},{id:'i16c',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e17',name:'MS 271 Stihl Chainsaw',type:'Chainsaw',make:'Stihl',model:'MS 271',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:550,annualHrs:125,cph:3.66,notes:'Heavy tree work saw.',history:[],
+   intervals:[{id:'i17a',task:'Chain Sharpen/Replace',freq:10,unit:'hours',lastDone:null,lastHours:0},{id:'i17b',task:'Bar Oil Level Check',freq:5,unit:'hours',lastDone:null,lastHours:0},{id:'i17c',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e18',name:'Echo Hedge Trimmer HCS-3810',type:'Trimmer / Edger',make:'Echo',model:'HCS-3810',serial:'',year:2026,hours:0,miles:0,purchaseDate:'2026-05-11',cost:640,annualHrs:300,cph:2.88,notes:'New May 2026.',history:[],
+   intervals:[{id:'i18a',task:'Blade Clean & Inspect',freq:10,unit:'hours',lastDone:null,lastHours:0},{id:'i18b',task:'Air Filter',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i18c',task:'Spark Plug',freq:100,unit:'hours',lastDone:null,lastHours:0},{id:'i18d',task:'Gear Head Grease',freq:25,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e19',name:'BE Pressure Washer 4000PSI',type:'Pressure Washer',make:'BE Professional',model:'4000 PSI',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-12',cost:2000,annualHrs:200,cph:8.98,notes:'Add-on service.',history:[],
+   intervals:[{id:'i19a',task:'Engine Oil Check',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i19b',task:'Nozzle & Wand Inspect',freq:10,unit:'hours',lastDone:null,lastHours:0},{id:'i19c',task:'Pump Oil Change',freq:100,unit:'hours',lastDone:null,lastHours:0}]},
+  {id:'e20',name:'Tree Climbing Gear',type:'Climbing Gear',make:'',model:'',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-06-04',cost:1500,annualHrs:150,cph:6.43,notes:'SAFETY: inspections mandatory.',history:[],
+   intervals:[{id:'i20a',task:'Harness Safety Inspection',freq:3,unit:'months',lastDone:null},{id:'i20b',task:'Rope & Rigging Inspect',freq:1,unit:'months',lastDone:null},{id:'i20c',task:'Annual Recertification Check',freq:1,unit:'years',lastDone:'2024-06-04'},{id:'i20d',task:'Hardware Inspect (carabiners)',freq:1,unit:'months',lastDone:null}]},
+  {id:'e21',name:'Stihl Kombi Attachments',type:'Attachments / Other',make:'Stihl',model:'KombiSystem',serial:'',year:2024,hours:0,miles:0,purchaseDate:'2024-03-01',cost:1359,annualHrs:300,cph:1.48,notes:'Hedge trimmers, power broom, edger, bed redefiner, brush cutter.',history:[],
+   intervals:[{id:'i21a',task:'Attachment Blades Inspect/Sharpen',freq:25,unit:'hours',lastDone:null,lastHours:0},{id:'i21b',task:'Connection Points Grease',freq:50,unit:'hours',lastDone:null,lastHours:0},{id:'i21c',task:'Annual Attachment Inventory',freq:1,unit:'years',lastDone:null}]}
+];
+
+/* ── API CONFIG ─────────────────────────────────────────────
+   Paste your Apps Script Web App URL below after deploying.
+   Leave blank to use localStorage (offline mode).
+────────────────────────────────────────────────────────── */
+var API_URL = 'https://script.google.com/macros/s/AKfycbw2nRqb1O0W1Q_GjcfaPRkDyKPKbst5H74mFPqM4sRjEsjSzdNSryGk-VLJtVS3LMxE/exec';
+
+var API_READY = false;
+var SYNC_PENDING = false;
+var SYNC_TIMER = null;
+
+/* All API calls use GET to avoid CORS preflight.
+   Data is JSON-encoded and passed as a URL parameter. */
+function apiGet(params, callback) {
+  if (!API_URL) { if (callback) callback(null); return; }
+  var url = API_URL + '?action=' + params.action;
+  if (params.id)   url += '&id='   + encodeURIComponent(params.id);
+  if (params.data) url += '&data=' + encodeURIComponent(JSON.stringify(params.data));
+  fetch(url, {method: 'GET', redirect: 'follow'})
+    .then(function(r) { return r.json(); })
+    .then(function(d) { if (callback) callback(d); })
+    .catch(function(err) { console.warn('API error:', err); if (callback) callback(null); });
+}
+
+/* Alias - all writes also go through GET */
+function apiPost(body, callback) {
+  if (!API_URL) { if (callback) callback(null); return; }
+  var action = body.action;
+  /* Map old POST actions to new GET actions */
+  var getAction = action;
+  if (action === 'saveAllEquipment') getAction = 'saveAll';
+  if (action === 'saveEquipment')    getAction = 'saveOne';
+  if (action === 'logActivity')      getAction = 'logActivity';
+  if (action === 'logService')       getAction = 'logService';
+  if (action === 'deleteEquipment')  getAction = 'deleteEquip';
+  var params = { action: getAction };
+  if (body.data) params.data = body.data;
+  if (body.id)   params.id   = body.id;
+  apiGet(params, callback);
+}
+
+function setApiStatus(status, msg) {
+  var el = document.getElementById('api-status');
+  if (!el) return;
+  if (status === 'ok')      { el.style.background='#e8f5e9'; el.style.color='#2d6a2f'; el.textContent='☁ ' + (msg||'Synced'); }
+  else if (status === 'syncing') { el.style.background='#fff3e0'; el.style.color='#e65100'; el.textContent='↻ ' + (msg||'Syncing...'); }
+  else if (status === 'local')   { el.style.background='#eceff1'; el.style.color='#546e7a'; el.textContent='⚠ Offline mode (localStorage only)'; }
+  else if (status === 'error')   { el.style.background='#ffebee'; el.style.color='#c62828'; el.textContent='✗ ' + (msg||'Sync error'); }
+}
+
+function load() {
+  /* Always load from localStorage first so the UI is instant */
+  try { var d = localStorage.getItem(SK); if(d) S = JSON.parse(d); } catch(e) {}
+  if (!S.equipment || !S.equipment.length) {
+    S.equipment = JSON.parse(JSON.stringify(FLEET));
+    S.activity  = [];
+  }
+  if (!S.activity) S.activity = [];
+
+  /* Then sync with Google Sheets */
+  if (API_URL) {
+    setApiStatus('syncing', 'Connecting to Google Sheets...');
+    bootstrapSheets();
+  } else {
+    setApiStatus('local');
+  }
+}
+
+function save() {
+  /* Always save to localStorage immediately */
+  try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
+  if (!API_URL) return;
+  /* Debounce — avoid hammering API on rapid changes */
+  if (SYNC_TIMER) clearTimeout(SYNC_TIMER);
+  SYNC_PENDING = true;
+  setApiStatus('syncing', 'Saving...');
+  SYNC_TIMER = setTimeout(function() { syncToSheets(); }, 1500);
+}
+
+/* Save one equipment record (e.g. after logging a service) */
+function saveOne(eq) {
+  try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
+  if (!API_URL) return;
+  setApiStatus('syncing', 'Saving ' + eq.name + '...');
+  apiGet({action:'saveOne', data: slimEq(eq)}, function(result) {
+    if (result && result.ok) {
+      setApiStatus('ok', eq.name + ' saved ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+    } else {
+      setApiStatus('error', 'Save failed for ' + eq.name);
+    }
+  });
+}
+
+function syncToSheets() {
+  if (!API_URL || !SYNC_PENDING) return;
+  SYNC_PENDING = false;
+  /* Send equipment one at a time to stay under URL length limits */
+  syncSequential(S.equipment, 0, 0, function(saved, failed) {
+    if (failed === 0) {
+      setApiStatus('ok', 'Saved ' + saved + ' pieces ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+    } else {
+      setApiStatus('error', saved + ' saved, ' + failed + ' failed');
+    }
+  });
+}
+
+/* Sync equipment in chunks of 5 to balance URL size vs request count.
+   5 records ~ 6KB encoded — well within the ~8KB URL limit.
+   21 pieces = 5 requests instead of 21 individual calls. */
+var CHUNK_SIZE = 5;
+
+function slimEq(eq) {
+  /* Strip history (logged in MAINT_ServiceLog) and null interval fields */
+  var out = {};
+  var keys = Object.keys(eq);
+  for (var k = 0; k < keys.length; k++) {
+    if (keys[k] === 'history') { out.history = []; continue; }
+    out[keys[k]] = eq[keys[k]];
+  }
+  return out;
+}
+
+function syncSequential(arr, chunkStart, failCount, done) {
+  if (chunkStart >= arr.length) {
+    if (done) done(arr.length - failCount, failCount);
+    return;
+  }
+  var chunk = [];
+  for (var i = chunkStart; i < arr.length && i < chunkStart + CHUNK_SIZE; i++) {
+    chunk.push(slimEq(arr[i]));
+  }
+  var chunkEnd = chunkStart + chunk.length;
+  setApiStatus('syncing', 'Saving ' + (chunkStart + 1) + '-' + chunkEnd + ' of ' + arr.length + '...');
+  apiGet({action:'saveChunk', data: chunk}, function(result) {
+    var failed = (!result || !result.ok) ? chunk.length : 0;
+    setTimeout(function() {
+      syncSequential(arr, chunkEnd, failCount + failed, done);
+    }, 500);
+  });
+}
+
+function logAct(eq, act) {
+  S.activity.push({equip:eq, action:act, date:new Date().toLocaleDateString('en-US')});
+  if (S.activity.length > 60) S.activity = S.activity.slice(-60);
+  /* Log to activity sheet */
+  if (API_URL) {
+    apiPost({action:'logActivity', data:{equip:eq, action:act, date:new Date().toLocaleDateString('en-US')}}, null);
+  }
+}
+function ge(id){for(var i=0;i<S.equipment.length;i++){if(S.equipment[i].id===id)return S.equipment[i];}return null;}
+function gid(){return 'id'+Date.now()+Math.floor(Math.random()*1000);}
+function td(){return new Date().toISOString().split('T')[0];}
+function toast(msg,dur){dur=dur||2500;var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},dur);}
+/* logAct is defined above with API sync */
+
+var TI={'Stand':'&#9889;','Walk':'&#128668;','Zero':'&#127919;','Push':'&#128099;','Trim':'&#9986;','Blow':'&#128168;','Chain':'&#129178;','Pole':'&#127794;','Press':'&#128167;','Truck':'&#128666;','Encl':'&#128230;','Dump':'&#128667;','Climb':'&#129495;','Attach':'&#128295;','Other':'&#128295;'};
+function eico(e){var keys=Object.keys(TI);for(var i=0;i<keys.length;i++){if(e.type&&e.type.indexOf(keys[i])===0)return TI[keys[i]];}return '&#128295;';}
+
+function iStat(e,i){
+  var now=new Date();
+  if(i.unit==='hours'){var due=(i.lastHours||0)+i.freq,rem=due-(e.hours||0);if(rem<=0)return{s:'overdue',lbl:Math.abs(Math.round(rem))+'hrs overdue'};if(rem<=i.freq*.2)return{s:'due',lbl:Math.round(rem)+'hrs left'};return{s:'ok',lbl:Math.round(rem)+'hrs left'};}
+  if(i.unit==='miles'){var due2=(i.lastMiles||0)+i.freq,rem2=due2-(e.miles||0);if(rem2<=0)return{s:'overdue',lbl:Math.abs(rem2).toLocaleString()+'mi overdue'};if(rem2<=i.freq*.2)return{s:'due',lbl:rem2.toLocaleString()+'mi left'};return{s:'ok',lbl:rem2.toLocaleString()+'mi left'};}
+  var ld=i.lastDone?new Date(i.lastDone):new Date(e.purchaseDate||'2024-01-01');var dd=new Date(ld);
+  if(i.unit==='days')dd.setDate(dd.getDate()+i.freq);
+  else if(i.unit==='months')dd.setMonth(dd.getMonth()+i.freq);
+  else if(i.unit==='years')dd.setFullYear(dd.getFullYear()+i.freq);
+  var diff=Math.round((dd-now)/864e5);
+  if(diff<0)return{s:'overdue',lbl:Math.abs(diff)+'d overdue',dd:dd};
+  if(diff<=30)return{s:'due',lbl:'Due in '+diff+'d',dd:dd};
+  return{s:'ok',lbl:'Due '+dd.toLocaleDateString('en-US',{month:'short',day:'numeric'}),dd:dd};}
+
+function eStatus(e){if(!e.intervals||!e.intervals.length)return 'ok';var ss=e.intervals.map(function(i){return iStat(e,i).s;});if(ss.indexOf('overdue')>=0)return 'overdue';if(ss.indexOf('due')>=0)return 'due';return 'ok';}
+
+function nav(id,el){
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  if(el)el.classList.add('active');
+  var t={dashboard:'Dashboard',equipment:'Equipment ('+S.equipment.length+')',detail:'Equipment Detail',workorders:'Work Orders',calendar:'Maintenance Calendar',bulkhours:'Update Hours & Miles'};
+  document.getElementById('ptitle').textContent=t[id]||id;
+  if(id==='dashboard')renderDash();
+  if(id==='equipment')renderEqList();
+  if(id==='workorders')renderWO();
+  if(id==='calendar')renderCal();
+  if(id==='bulkhours')renderBulk();}
+
+function renderDash(){
+  wfClear();
+  var ov=S.equipment.filter(function(e){return eStatus(e)==='overdue';}).length;
+  var du=S.equipment.filter(function(e){return eStatus(e)==='due';}).length;
+  var wo=0;S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){if(iStat(e,i).s!=='ok')wo++;});});
+  document.getElementById('k-total').textContent=S.equipment.length;
+  document.getElementById('k-ov').textContent=ov;
+  document.getElementById('k-du').textContent=du;
+  document.getElementById('k-wo').textContent=wo;
+  var alerts=[];
+  S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(r.s!=='ok')alerts.push({s:r.s,lbl:r.lbl,en:e.name,task:i.task,eid:e.id});});});
+  alerts.sort(function(a,b){return a.s==='overdue'?-1:1;});
+  var ae=document.getElementById('d-alerts');
+  if(!alerts.length){ae.innerHTML='<div class="alert-item a-ok"><div class="alert-dot dot-g"></div><div>All maintenance up to date</div></div>';return;}
+  var h='';alerts.slice(0,8).forEach(function(a){var _wk=wfReg(function(){openDetail(a.eid);});h+='<div class="alert-item a-'+a.s+'" onclick="WF('+_wk+')">';h+='<div class="alert-dot dot-'+(a.s==='overdue'?'r':'a')+'"></div>';h+='<div><div style="font-weight:600;font-size:12px">'+a.task+'</div><div style="font-size:10px;color:var(--gr)">'+a.en+' - '+a.lbl+'</div></div></div>';});
+  ae.innerHTML=h;
+  var eqh='';S.equipment.slice(0,10).forEach(function(e){var st=eStatus(e);var _wk=wfReg(function(){openDetail(e.id);});eqh+='<div class="eq-mini" onclick="WF('+_wk+')">';eqh+='<div class="mini-ico">'+eico(e)+'</div>';eqh+='<div class="mini-info"><div class="mini-name">'+e.name+'</div><div class="mini-det">'+e.type+' - '+(e.hours||0)+'hrs'+(e.miles?' / '+e.miles.toLocaleString()+'mi':'')+'</div></div>';eqh+='<span class="badge b-'+st+'">'+(st==='ok'?'OK':st==='due'?'Due':'OVR')+'</span></div>';});
+  document.getElementById('d-equip').innerHTML=eqh;
+  var act=[].concat(S.activity).reverse().slice(0,6);
+  var ach=act.length?act.map(function(a){return '<div style="font-size:11px;padding:5px 0;border-bottom:1px solid var(--br);color:var(--gr)"><b style="color:var(--gd)">'+a.equip+'</b> - '+a.action+'<span style="float:right">'+a.date+'</span></div>';}).join(''):'<div style="color:var(--gr);font-size:12px">No activity yet.</div>';
+  document.getElementById('d-activity').innerHTML=ach;
+  var now=new Date(),wk=new Date();wk.setDate(wk.getDate()+7);var uph='';
+  S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(r.dd&&r.dd>=now&&r.dd<=wk){var _wkd=wfReg(function(){openDetail(e.id);});uph+='<div class="alert-item a-du" onclick="WF('+_wkd+')"><div class="alert-dot dot-a"></div><div><div style="font-weight:600;font-size:12px">'+i.task+'</div><div style="font-size:10px;color:var(--gr)">'+e.name+' - '+r.lbl+'</div></div></div>';}});});
+  document.getElementById('d-week').innerHTML=uph||'<div style="color:var(--gr);font-size:12px">Nothing due this week.</div>';}
+
+function renderEqList(){
+  wfClear();
+  var q=(document.getElementById('eq-search')||{}).value||'';
+  var eq=S.equipment.filter(function(e){return !q||e.name.toLowerCase().indexOf(q.toLowerCase())>=0||(e.make||'').toLowerCase().indexOf(q.toLowerCase())>=0||(e.type||'').toLowerCase().indexOf(q.toLowerCase())>=0;});
+  document.getElementById('eq-count').textContent='Showing '+eq.length+' of '+S.equipment.length+' pieces';
+  var g=document.getElementById('eq-grid');
+  if(!eq.length){g.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="es-icon">&#128269;</div><div class="es-title">No equipment found</div></div>';return;}
+  var h='';eq.forEach(function(e){var st=eStatus(e);var oc=(e.intervals||[]).filter(function(i){return iStat(e,i).s==='overdue';}).length;var dc=(e.intervals||[]).filter(function(i){return iStat(e,i).s==='due';}).length;var _wk=wfReg(function(){openDetail(e.id);});h+='<div class="ec" onclick="WF('+_wk+')">';h+='<div class="ec-hdr"><div class="ec-ico">'+eico(e)+'</div><div style="flex:1;min-width:0">';h+='<div class="ec-title">'+e.name+'</div><div class="ec-sub">'+(e.make||'')+' '+(e.model||'')+(e.year?' - '+e.year:'')+'</div>';h+='<div style="margin-top:4px"><span class="badge b-'+st+'">'+(st==='ok'?'Good':st==='due'?dc+' Due':oc+' Overdue')+'</span></div></div></div>';h+='<div class="ec-stats"><div class="estat"><div class="estat-v">'+(e.hours||0).toLocaleString()+'</div><div class="estat-l">Hours</div></div>';h+='<div class="estat"><div class="estat-v">'+(e.cph?'$'+e.cph.toFixed(2):'-')+'</div><div class="estat-l">$/hr</div></div>';h+='<div class="estat"><div class="estat-v">'+((e.intervals||[]).length)+'</div><div class="estat-l">Intervals</div></div></div>';h+='<div class="ec-foot"><span>S/N: '+(e.serial||'-')+'</span><span>'+(e.purchaseDate||'')+'</span></div></div>';});
+  g.innerHTML=h;}
+
+function openDetail(id){CID=id;var e=ge(id);if(!e)return;
+  document.getElementById('d-name').textContent=e.name;
+  document.getElementById('d-sub').textContent=e.type+' - '+(e.make||'')+' '+(e.model||'')+' - '+(e.year||'')+' - $'+(e.cph?e.cph.toFixed(2):'?')+'/hr';
+  document.getElementById('d-icon').innerHTML=eico(e);
+  document.getElementById('u-hrs').value=e.hours||0;document.getElementById('u-mi').value=e.miles||0;
+  dTab('intervals',document.querySelector('.dtab'));nav('detail',null);renderDI();renderDH();renderDS();}
+
+function dTab(t,el){document.querySelectorAll('.dtab').forEach(function(x){x.classList.remove('active');});if(el)el.classList.add('active');document.getElementById('dt-intervals').style.display=t==='intervals'?'':'none';document.getElementById('dt-history').style.display=t==='history'?'':'none';document.getElementById('dt-specs').style.display=t==='specs'?'':'none';}
+
+function renderDI(){wfClear();var e=ge(CID);if(!e)return;var el=document.getElementById('dt-intervals');if(!e.intervals||!e.intervals.length){el.innerHTML='<div style="color:var(--gr);font-size:12px;padding:10px 0">No intervals set. Edit to add.</div>';return;}
+  var col={overdue:'var(--rd)',due:'#ef6c00',ok:'var(--gd)'};var h='<div class="ilist">';
+  e.intervals.forEach(function(i){var r=iStat(e,i);h+='<div class="iitem"><span style="font-size:18px">'+(r.s==='overdue'?'&#128308;':r.s==='due'?'&#128993;':'&#9989;')+'</span><div class="in">'+i.task+'</div><div class="ifreq">Every '+i.freq+' '+i.unit+'</div><div class="istat" style="color:'+col[r.s]+'">'+r.lbl+'</div>';h+='<button class="btn btn-primary btn-xs no-print" onclick="qDone(\''+i.id+'\')">Done</button>';h+='<button class="btn btn-danger btn-xs no-print" onclick="delInt(\''+i.id+'\')">&#10005;</button></div>';});
+  h+='</div><div style="font-size:11px;font-weight:700;color:var(--gd);margin:12px 0 5px">Add Interval</div>';h+='<div class="iadd"><input id="d-ii-task" placeholder="Task name"><input id="d-ii-freq" type="number" placeholder="Every" style="width:60px;flex:none" min="1"><select id="d-ii-unit" style="width:80px;flex:none"><option value="hours">Hours</option><option value="miles">Miles</option><option value="days">Days</option><option value="months">Months</option><option value="years">Years</option></select><button class="btn btn-primary btn-sm no-print" onclick="addIntDirect()">Add</button></div>';
+  el.innerHTML=h;}
+
+function qDone(iid){var e=ge(CID);if(!e)return;var i=null;for(var x=0;x<e.intervals.length;x++){if(e.intervals[x].id===iid){i=e.intervals[x];break;}}if(!i)return;i.lastDone=td();i.lastHours=e.hours||0;i.lastMiles=e.miles||0;i.lastDate=td();logAct(e.name,'Completed: '+i.task);save();renderDI();toast('Marked complete: '+i.task);}
+function delInt(iid){if(!confirm('Remove this interval?'))return;var e=ge(CID);if(!e)return;e.intervals=e.intervals.filter(function(x){return x.id!==iid;});save();renderDI();}
+function addIntDirect(){var e=ge(CID);if(!e)return;var t=document.getElementById('d-ii-task').value.trim();var f=parseInt(document.getElementById('d-ii-freq').value);var u=document.getElementById('d-ii-unit').value;if(!t||!f){alert('Enter task and frequency.');return;}if(!e.intervals)e.intervals=[];e.intervals.push({id:gid(),task:t,freq:f,unit:u,lastDone:null,lastHours:0});save();renderDI();document.getElementById('d-ii-task').value='';document.getElementById('d-ii-freq').value='';toast('Interval added');}
+
+function renderDH(){var e=ge(CID);if(!e)return;var h=[].concat(e.history||[]).reverse();var el=document.getElementById('dt-history');var tot=h.reduce(function(s,x){return s+(x.cost||0)+(x.labor||0);},0);var out='';if(h.length)out='<div style="font-size:11px;color:var(--gr);margin-bottom:8px;padding:7px;background:var(--gl);border-radius:var(--ra)">Total tracked: <b style="color:var(--gd)">$'+tot.toFixed(2)+'</b></div>';if(h.length){h.forEach(function(x){out+='<div class="hist-item"><div class="hist-date">'+x.date+'</div><div class="hist-task"><div class="hist-main">'+x.task+'</div><div class="hist-meta">'+(x.by?'By '+x.by+' - ':'')+(x.hAtSvc||0)+'hrs'+(x.notes?' - '+x.notes:'')+'</div></div><div class="hist-cost">$'+((x.cost||0)+(x.labor||0)).toFixed(2)+'</div></div>';});}else{out='<div style="color:var(--gr);font-size:12px;padding:10px 0">No service history yet.</div>';}el.innerHTML=out;}
+
+function renderDS(){var e=ge(CID);if(!e)return;var rows=[['Purchase Cost',e.cost?'$'+Number(e.cost).toLocaleString():'-'],['Cost / Hour',e.cph?'$'+e.cph.toFixed(2)+'/hr':'-'],['Annual Hours',e.annualHrs?e.annualHrs+' hrs/yr':'-'],['Annual Cost',e.annualHrs&&e.cph?'$'+(e.annualHrs*e.cph).toFixed(0)+'/yr':'-'],['Make',e.make||'-'],['Model',e.model||'-'],['Year',e.year||'-'],['Serial/VIN',e.serial||'-'],['In Service',e.purchaseDate||'-'],['Current Hours',(e.hours||0).toLocaleString()+' hrs'],['Current Miles',(e.miles||0).toLocaleString()+' mi'],['Type',e.type||'-'],['Notes',e.notes||'-']];var h='<div class="specs-grid">';rows.forEach(function(r){h+='<div class="spec-item"><div class="spec-label">'+r[0]+'</div><div class="spec-val">'+r[1]+'</div></div>';});h+='</div>';document.getElementById('dt-specs').innerHTML=h;}
+
+function updHrs(){var e=ge(CID);if(!e)return;e.hours=parseFloat(document.getElementById('u-hrs').value)||0;logAct(e.name,'Hours: '+e.hours);save();renderDI();toast('Hours updated');}
+function updMi(){var e=ge(CID);if(!e)return;e.miles=parseFloat(document.getElementById('u-mi').value)||0;logAct(e.name,'Miles: '+e.miles);save();renderDI();toast('Miles updated');}
+
+function openAddEquip(){EI=[];document.getElementById('m-equip-title').textContent='Add New Equipment';document.getElementById('edit-id').value='';['f-name','f-make','f-model','f-serial','f-year','f-hrs','f-mi','f-cost','f-annhrs','f-cph','f-notes'].forEach(function(id){var el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-hrs').value='0';document.getElementById('f-mi').value='0';document.getElementById('f-pdate').value=td();renderEIList();document.getElementById('m-equip').style.display='flex';}
+function openEditEquip(){var e=ge(CID);if(!e)return;EI=JSON.parse(JSON.stringify(e.intervals||[]));document.getElementById('m-equip-title').textContent='Edit: '+e.name;document.getElementById('edit-id').value=e.id;document.getElementById('f-name').value=e.name||'';document.getElementById('f-type').value=e.type||'Attachments / Other';document.getElementById('f-make').value=e.make||'';document.getElementById('f-model').value=e.model||'';document.getElementById('f-serial').value=e.serial||'';document.getElementById('f-year').value=e.year||'';document.getElementById('f-hrs').value=e.hours||0;document.getElementById('f-mi').value=e.miles||0;document.getElementById('f-pdate').value=e.purchaseDate||'';document.getElementById('f-cost').value=e.cost||0;document.getElementById('f-annhrs').value=e.annualHrs||0;document.getElementById('f-cph').value=e.cph||0;document.getElementById('f-notes').value=e.notes||'';renderEIList();document.getElementById('m-equip').style.display='flex';}
+
+function renderEIList(){var h=EI.length?'<div class="ilist">'+EI.map(function(i,x){return '<div class="iitem"><div class="in">'+i.task+'</div><div class="ifreq">Every '+i.freq+' '+i.unit+'</div><button class="btn btn-danger btn-xs" onclick="WF('+wfReg(function(){var _xi=x;EI.splice(_xi,1);renderEIList();})+')">&#10005;</button></div>';}).join('')+'</div>':'<div style="color:var(--gr);font-size:12px;padding:5px 0">No intervals yet.</div>';document.getElementById('edit-int-list').innerHTML=h;}
+function addII(){var t=document.getElementById('ii-task').value.trim();var f=parseInt(document.getElementById('ii-freq').value);var u=document.getElementById('ii-unit').value;if(!t||!f){alert('Enter task and frequency.');return;}EI.push({id:gid(),task:t,freq:f,unit:u,lastDone:null,lastHours:0});document.getElementById('ii-task').value='';document.getElementById('ii-freq').value='';renderEIList();}
+function saveEquip(){var name=document.getElementById('f-name').value.trim();if(!name){alert('Name required.');return;}var eid=document.getElementById('edit-id').value;var data={name:name,type:document.getElementById('f-type').value,make:document.getElementById('f-make').value,model:document.getElementById('f-model').value,serial:document.getElementById('f-serial').value,year:document.getElementById('f-year').value,hours:parseFloat(document.getElementById('f-hrs').value)||0,miles:parseFloat(document.getElementById('f-mi').value)||0,purchaseDate:document.getElementById('f-pdate').value,cost:parseFloat(document.getElementById('f-cost').value)||0,annualHrs:parseFloat(document.getElementById('f-annhrs').value)||0,cph:parseFloat(document.getElementById('f-cph').value)||0,notes:document.getElementById('f-notes').value,intervals:EI};if(eid){var e=ge(eid);Object.keys(data).forEach(function(k){e[k]=data[k];});logAct(name,'Updated');}else{var ne=JSON.parse(JSON.stringify(data));ne.id=gid();ne.history=[];S.equipment.push(ne);logAct(name,'Added');}save();closeM('m-equip');toast(name+' saved');if(eid)openDetail(eid);else{nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}}
+function delEquip(){var e=ge(CID);if(!e)return;if(!confirm('Delete "'+e.name+'" and all history?'))return;S.equipment=S.equipment.filter(function(x){return x.id!==CID;});save();toast('Deleted');nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}
+
+function openLogSvc(){var e=ge(CID);if(!e)return;document.getElementById('sv-date').value=td();document.getElementById('sv-by').value='';document.getElementById('sv-task').value='';document.getElementById('sv-hrs').value=e.hours||0;document.getElementById('sv-mi').value=e.miles||0;document.getElementById('sv-cost').value='';document.getElementById('sv-labor').value='';document.getElementById('sv-notes').value='';var sel=document.getElementById('sv-int');sel.innerHTML='<option value="">- select if applicable -</option>';(e.intervals||[]).forEach(function(i){sel.innerHTML+='<option value="'+i.id+'">'+i.task+' (every '+i.freq+' '+i.unit+')</option>';});document.getElementById('m-svc').style.display='flex';}
+function saveSvc(){var e=ge(CID);if(!e)return;var task=document.getElementById('sv-task').value.trim();if(!task){alert('Task required.');return;}var rec={id:gid(),date:document.getElementById('sv-date').value,task:task,by:document.getElementById('sv-by').value,hAtSvc:parseFloat(document.getElementById('sv-hrs').value)||0,miAtSvc:parseFloat(document.getElementById('sv-mi').value)||0,cost:parseFloat(document.getElementById('sv-cost').value)||0,labor:parseFloat(document.getElementById('sv-labor').value)||0,notes:document.getElementById('sv-notes').value};if(!e.history)e.history=[];e.history.push(rec);var si=document.getElementById('sv-int').value;if(si){for(var x=0;x<e.intervals.length;x++){if(e.intervals[x].id===si){e.intervals[x].lastDone=rec.date;e.intervals[x].lastHours=rec.hAtSvc;e.intervals[x].lastMiles=rec.miAtSvc;e.intervals[x].lastDate=rec.date;break;}}}logAct(e.name,'Service: '+task);save();closeM('m-svc');toast('Service logged');renderDH();renderDI();}
+
+function setWF(f,el){WF_FILTER=f;['wf-all','wf-ov','wf-du'].forEach(function(id){var b=document.getElementById(id);if(b){b.style.background='';b.style.color='';}});el.style.background='var(--gl)';el.style.color='var(--gd)';WO_SEL={};renderWO();}
+function getWOGroups(){var groups=[];S.equipment.forEach(function(e){var tasks=[];(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(WF_FILTER==='overdue'&&r.s!=='overdue')return;if(WF_FILTER==='due'&&r.s==='ok')return;if(WF_FILTER==='all'&&r.s==='ok')return;tasks.push({i:i,r:r,key:e.id+'-'+i.id});});if(tasks.length){tasks.sort(function(a,b){return a.r.s==='overdue'?-1:1;});var hasOv=tasks.some(function(t){return t.r.s==='overdue';});groups.push({e:e,tasks:tasks,status:hasOv?'overdue':'due'});}});groups.sort(function(a,b){return a.status==='overdue'?-1:1;});return groups;}
+function getWOItems(){var items=[];getWOGroups().forEach(function(g){g.tasks.forEach(function(t){items.push({e:g.e,i:t.i,r:t.r,key:t.key});});});return items;}
+function renderWO(){
+  wfClear();
+  var groups=getWOGroups();var totalTasks=0;groups.forEach(function(g){totalTasks+=g.tasks.length;});
+  document.getElementById('wo-count').textContent=groups.length+' equipment group'+(groups.length!==1?'s':'')+', '+totalTasks+' task'+(totalTasks!==1?'s':'')+' - check tasks to select for printing';
+  var el=document.getElementById('wo-list');
+  if(!groups.length){el.innerHTML='<div class="empty-state"><div class="es-icon">&#9989;</div><div class="es-title">No outstanding work orders</div></div>';updateSelCount();return;}
+  var woNum=0;var h='';
+  groups.forEach(function(g){
+    var e=g.e;
+    var ovCount=g.tasks.filter(function(t){return t.r.s==='overdue';}).length;
+    var duCount=g.tasks.filter(function(t){return t.r.s==='due';}).length;
+    var allSel=g.tasks.every(function(t){return !!WO_SEL[t.key];});
+    var grpNoteKey='grp-'+e.id;
+    h+='<div class="wo-group" id="grp-'+e.id+'">';
+    h+='<div class="wo-group-hdr">';
+    h+='<div class="wo-group-ico">'+eico(e)+'</div>';
+    h+='<div class="wo-group-info"><div class="wo-group-name">'+e.name+'</div>';
+    h+='<div class="wo-group-meta">'+e.type+' &#183; '+(e.make||'')+' '+(e.model||'')+' &#183; S/N: '+(e.serial||'-')+'</div>';
+    h+='<div class="wo-group-meta">Current: '+(e.hours||0)+'hrs'+(e.miles?' / '+e.miles.toLocaleString()+'mi':'')+' &#183; $'+(e.cph?e.cph.toFixed(2):'-')+'/hr</div></div>';
+    h+='<div class="wo-group-right">';
+    h+='<div class="wo-group-badges">';
+    if(ovCount)h+='<span class="badge b-overdue">&#128308; '+ovCount+' Overdue</span> ';
+    if(duCount)h+='<span class="badge b-due">&#128993; '+duCount+' Due</span>';
+    h+='</div>';
+    h+='<div class="wo-group-actions no-print">';
+    (function(){var _eid=e.id,_v=!allSel;var _wk=wfReg(function(){selGroup(_eid,_v);});h+='<button class="btn btn-secondary btn-sm" onclick="WF('+_wk+')">&#9745; '+(allSel?'Deselect All':'Select All')+'</button> ';})();
+    (function(){var _eid=e.id;var _wk=wfReg(function(){CID=_eid;openLogSvc();});h+='<button class="btn btn-primary btn-sm" onclick="WF('+_wk+')">&#10004; Log Service</button> ';})();
+    (function(){var _eid=e.id;var _wk=wfReg(function(){openDetail(_eid);});h+='<button class="btn btn-secondary btn-sm" onclick="WF('+_wk+')">View</button>';})();
+    h+='</div></div></div>';
+    h+='<div class="mgr-note-box no-print" style="margin:0 14px 10px 14px">';
+    h+='<div class="mgr-note-lbl">&#128203; Manager Notes for Tech - '+e.name+'</div>';
+    h+='<textarea id="mn-'+e.id+'" data-key="'+grpNoteKey+'" oninput="handleMgrNote(this)" placeholder="e.g. Use Mobil 10W-30, note mower timer hours, check belt tension...">'+(WO_NOTES[grpNoteKey]||'')+'</textarea>';
+    h+='</div>';
+    h+='<div class="wo-task-list">';
+    g.tasks.forEach(function(t){
+      var i=t.i,r=t.r,key=t.key;woNum++;
+      var sel=!!WO_SEL[key];
+      h+='<div class="wo-task-row'+(sel?' sel-task':'')+'" id="woi-'+key+'">';
+      (function(){var _k=key;var _wk=wfReg(function(){toggleWO(_k);});h+='<div class="wo-cb'+(sel?' on':'')+'" onclick="WF('+_wk+')">'+(sel?'&#10003;':'')+'</div>';})();
+      h+='<div style="flex:1;min-width:0">';
+      h+='<div class="wo-task-top">';
+      h+='<div><div class="wo-num">#'+String(woNum).padStart(3,'0')+' &nbsp;&#183;&nbsp; Every '+i.freq+' '+i.unit+'</div>';
+      h+='<div class="wo-title" style="font-size:13px">'+i.task+'</div>';
+      h+='<div class="wo-urg" style="color:'+(r.s==='overdue'?'var(--rd)':'#ef6c00')+'">'+r.lbl+'</div></div>';
+      h+='<span class="badge b-'+(r.s==='overdue'?'overdue':'due')+'">'+(r.s==='overdue'?'OVERDUE':'Due')+'</span>';
+      h+='</div></div></div>';
+    });
+    h+='</div></div>';
+  });
+  el.innerHTML=h;
+  var dateEl=document.getElementById('wo-date');if(dateEl&&!dateEl.value)dateEl.value=td();
+  updateSelCount();}
+function toggleWO(key){if(WO_SEL[key]){delete WO_SEL[key];}else{WO_SEL[key]=true;}var row=document.getElementById('woi-'+key);if(row){var on=!!WO_SEL[key];row.classList.toggle('sel-task',on);var cb=row.querySelector('.wo-cb');if(cb){cb.classList.toggle('on',on);cb.innerHTML=on?'&#10003;':'';}};updateSelCount();}
+function selGroup(eid,selectVal){var g=null;getWOGroups().forEach(function(gr){if(gr.e.id===eid)g=gr;});if(!g)return;g.tasks.forEach(function(t){if(selectVal)WO_SEL[t.key]=true;else delete WO_SEL[t.key];});renderWO();}
+function selAll(v){var items=getWOItems();items.forEach(function(item){if(v)WO_SEL[item.key]=true;else delete WO_SEL[item.key];});renderWO();}
+function updateSelCount(){var n=Object.keys(WO_SEL).length;var el=document.getElementById('sel-count');if(el){el.textContent=n===0?'None selected':n+' selected';el.style.color=n>0?'var(--gd)':'var(--gr)';el.style.fontWeight=n>0?'700':'400';}}
+
+function printSelectedWO(){
+  var items=[];var allItems=getWOItems();
+  var selKeys=Object.keys(WO_SEL);
+  if(selKeys.length===0){alert('No work orders selected.\n\nCheck the boxes next to the items you want to print, then click Print Selected.');return;}
+  allItems.forEach(function(item){if(WO_SEL[item.key])items.push(item);});
+  items.sort(function(a,b){return a.r.s==='overdue'?-1:1;});
+  var tech=(document.getElementById('wo-tech')||{}).value||'';
+  var woDate=(document.getElementById('wo-date')||{}).value||td();
+  var instr=(document.getElementById('wo-instr')||{}).value||'';
+  var dateStr=new Date(woDate+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  var css='*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;padding:22px;max-width:820px;margin:0 auto;color:#1a1a1a;font-size:13px}.phdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #2d6a2f;padding-bottom:12px;margin-bottom:18px}.coname{font-size:20px;font-weight:700;color:#2d6a2f}.cosub{font-size:11px;color:#555;margin-top:3px;line-height:1.6}.coinfo{font-size:11px;text-align:right;color:#555;line-height:1.8}.sumbar{background:#f0f7f0;border:1px solid #c8e6c9;border-radius:7px;padding:10px 13px;margin-bottom:16px;font-size:12px;display:flex;gap:20px;flex-wrap:wrap}.sumbar b{color:#2d6a2f}.wo{border:1px solid #bbb;border-radius:8px;padding:15px;margin-bottom:18px;page-break-inside:avoid}.wo-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;gap:10px}.wo-n{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}.wo-t{font-size:15px;font-weight:700;color:#2d6a2f;margin-bottom:3px}.wo-m{font-size:11px;color:#555;line-height:1.7}.badge{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;text-align:center}.bov{background:#ffebee;color:#c62828}.bdu{background:#fff3e0;color:#e65100}.mgr{background:#fffde7;border-left:3px solid #f59e0b;padding:7px 9px;border-radius:4px;margin:9px 0;font-size:11px}.mgr b{color:#92400e;font-size:10px;text-transform:uppercase;display:block;margin-bottom:2px}table{width:100%;border-collapse:collapse;font-size:12px;margin-top:9px}th{background:#f0f7f0;padding:5px 7px;text-align:left;border:1px solid #ddd;font-size:10px;text-transform:uppercase}td{padding:6px 7px;border:1px solid #ddd;vertical-align:top}.ret{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px;padding:9px;background:#f9fafb;border:1px solid #ddd;border-radius:6px}.retf{border-bottom:1px solid #999;padding-bottom:2px}.retl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}.notes-sec{margin-top:12px;border:1px solid #ddd;border-radius:6px;overflow:hidden}.notes-hdr{background:#f5f5f5;padding:6px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#444;display:flex;gap:0}.notes-hdr span{flex:1;padding:0 5px}.notes-hdr span:first-child{border-right:1px solid #ddd}.notes-body{display:grid;grid-template-columns:1fr 1fr}.notes-col{padding:9px}.notes-col:first-child{border-right:1px solid #ddd}.nclbl{font-size:10px;font-weight:700;text-transform:uppercase;color:#2d6a2f;margin-bottom:5px}.nline{border-bottom:1px solid #ddd;height:21px;margin-bottom:5px}.nfine{font-size:9px;color:#aaa;margin-top:3px}.sign{display:flex;gap:16px;margin-top:10px;font-size:11px;color:#555;padding-top:8px;border-top:1px dashed #ddd}.sign span{flex:1;border-bottom:1px solid #999;padding-bottom:2px}.footer{margin-top:26px;text-align:center;font-size:10px;color:#999;border-top:1px solid #eee;padding-top:10px;line-height:2}.eq-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:2px solid #c8e6c9}.eq-name{font-size:17px;font-weight:700;color:#2d6a2f;margin-bottom:3px}';
+  /* Group selected items by equipment */
+  var printGroups=[];
+  var seenEq={};
+  items.forEach(function(item){
+    var eid=item.e.id;
+    if(!seenEq[eid]){seenEq[eid]=true;printGroups.push({e:item.e,tasks:[]});}
+    printGroups[printGroups.length-1].tasks.push(item);
+  });
+  /* Fix: group might push to wrong group if equipment not contiguous - rebuild properly */
+  var pgMap={};
+  items.forEach(function(item){if(!pgMap[item.e.id])pgMap[item.e.id]={e:item.e,tasks:[]};pgMap[item.e.id].tasks.push(item);});
+  printGroups=Object.values(pgMap);
+  printGroups.sort(function(a,b){var aOv=a.tasks.some(function(t){return t.r.s==='overdue';});var bOv=b.tasks.some(function(t){return t.r.s==='overdue';});return aOv&&!bOv?-1:!aOv&&bOv?1:0;});
+  var totalOv=items.filter(function(x){return x.r.s==='overdue';}).length;
+  var totalDu=items.filter(function(x){return x.r.s==='due';}).length;
+  var body='';
+  body+='<div class="phdr"><div><div class="coname">WS Lawn Care Services, LLC</div><div class="cosub">Equipment Maintenance Work Orders<br>'+dateStr+(tech?' - Assigned: <b>'+tech+'</b>':'')+'</div></div><div class="coinfo">321-209-0668<br>info@wslawncareservicesllc.com<br>wslawncareservicesllc.com<br>Titusville, FL</div></div>';
+  body+='<div class="sumbar"><div><b>Equipment:</b> '+printGroups.length+'</div><div><b>Tasks:</b> '+items.length+'</div><div><b>Overdue:</b> '+totalOv+'</div><div><b>Due Soon:</b> '+totalDu+'</div>'+(tech?'<div><b>Tech:</b> '+tech+'</div>':'')+(instr?'<div style="flex:1"><b>Priority:</b> '+instr+'</div>':'')+'</div>';
+  /* One section per equipment, all tasks inside */
+  printGroups.forEach(function(pg){
+    var e=pg.e;
+    var grpNoteKey='grp-'+e.id;
+    var mn=WO_NOTES[grpNoteKey]||'';
+    var pgOv=pg.tasks.filter(function(t){return t.r.s==='overdue';}).length;
+    var pgDu=pg.tasks.filter(function(t){return t.r.s==='due';}).length;
+    body+='<div class="wo">';
+    /* Equipment header */
+    body+='<div class="eq-hdr">';
+    body+='<div style="flex:1"><div class="eq-name">'+e.name+'</div>';
+    body+='<div class="wo-m">'+e.type+' &#183; '+(e.make||'')+' '+(e.model||'')+' &#183; S/N: '+(e.serial||'-')+'<br>';
+    body+='Current: '+(e.hours||0)+'hrs'+(e.miles?' / '+e.miles.toLocaleString()+'mi':'')+' &#183; $'+(e.cph?e.cph.toFixed(2):'-')+'/hr'+(tech?' &#183; Tech: '+tech:'')+'</div></div>';
+    body+='<div style="display:flex;gap:5px;flex-direction:column;align-items:flex-end">';
+    if(pgOv)body+='<span class="badge bov">'+pgOv+' Overdue</span>';
+    if(pgDu)body+='<span class="badge bdu">'+pgDu+' Due Soon</span>';
+    body+='</div></div>';
+    if(mn)body+='<div class="mgr"><b>Manager Notes</b>'+mn+'</div>';
+    /* Task checklist table */
+    body+='<table><tr><th style="width:30%">Task</th><th style="width:15%">Interval</th><th style="width:16%">Status</th><th style="width:55px">Done</th><th style="width:65px">Initial</th><th>Parts / Notes</th></tr>';
+    pg.tasks.forEach(function(t){
+      var i=t.i,r=t.r;
+      body+='<tr><td><b>'+i.task+'</b></td>';
+      body+='<td>Every '+i.freq+' '+i.unit+'</td>';
+      body+='<td style="color:'+(r.s==='overdue'?'#c62828':'#e65100')+';font-weight:600">'+r.lbl+'</td>';
+      body+='<td></td><td></td><td></td></tr>';
+    });
+    body+='</table>';
+    /* Return-to-office fields */
+    body+='<div class="ret"><div><div class="retl">Hours at Service</div><div class="retf">&nbsp;</div></div><div><div class="retl">Miles at Service</div><div class="retf">&nbsp;</div></div><div><div class="retl">Parts Cost $</div><div class="retf">&nbsp;</div></div><div><div class="retl">Labor Hours</div><div class="retf">&nbsp;</div></div></div>';
+    /* Tech notes section */
+    body+='<div class="notes-sec"><div class="notes-hdr"><span>Tech Notes - Findings &amp; What Was Done</span><span>Issues / Parts Needed / Follow-Up</span></div>';
+    body+='<div class="notes-body"><div class="notes-col"><div class="nclbl">General Notes</div><div class="nline"></div><div class="nline"></div><div class="nline"></div><div class="nfine">e.g. mower hours from timer, condition found, oil brand used</div></div>';
+    body+='<div class="notes-col"><div class="nclbl">Issues &amp; Follow-Up Items</div><div class="nline"></div><div class="nline"></div><div class="nline"></div><div class="nfine">e.g. belt worn, part ordered #_____, needs re-check</div></div></div></div>';
+    body+='<div class="sign"><span>Tech Signature &amp; Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span>Equipment Hours (mower timer): ___________</span></div>';
+    body+='</div>';
+  });
+  body+='<div class="footer">"Jesus First Before Profits" &nbsp;- "You Grow It, We Mow It!" &nbsp;- "Commitment Without Compromise"<br>WS Lawn Care Services, LLC - Titusville, FL - 321-209-0668 - wslawncareservicesllc.com</div>';
+  var w=window.open('','_blank','width=870,height=1050');
+  w.document.write('<!DOCTYPE html><html><head><title>WS Lawn Care Work Orders</title><style>'+css+'</style></head><body>'+body+'<script>window.onload=function(){window.print();}<\/script></body></html>');
+  w.document.close();}
+
+var CAL_MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function chMo(d){CAL_M+=d;if(CAL_M>11){CAL_M=0;CAL_Y++;}if(CAL_M<0){CAL_M=11;CAL_Y--;}renderCal();}
+function renderCal(){document.getElementById('cal-label').textContent=CAL_MONTHS[CAL_M]+' '+CAL_Y;var dows=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];var h=dows.map(function(d){return '<div class="cal-dow">'+d+'</div>';}).join('');var fd=new Date(CAL_Y,CAL_M,1).getDay();var dim=new Date(CAL_Y,CAL_M+1,0).getDate();var now=new Date();var em={};S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(r.dd){var k=r.dd.toISOString().split('T')[0];if(!em[k])em[k]=[];em[k].push({s:r.s,lbl:i.task,en:e.name});}});});for(var p=0;p<fd;p++)h+='<div class="cal-cell om"></div>';for(var d=1;d<=dim;d++){var it=now.getDate()===d&&now.getMonth()===CAL_M&&now.getFullYear()===CAL_Y;var dk=CAL_Y+'-'+String(CAL_M+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');var evs=em[dk]||[];h+='<div class="cal-cell'+(it?' today':'')+'"><div class="cal-dn">'+d+'</div>';evs.slice(0,3).forEach(function(ev){h+='<div class="cal-ev cev-'+ev.s+'" title="'+ev.en+'">'+ev.lbl+'</div>';});if(evs.length>3)h+='<div style="font-size:9px;color:var(--gr)">+'+( evs.length-3)+' more</div>';h+='</div>';}document.getElementById('cal-grid').innerHTML=h;}
+
+function renderBulk(){BULK_DRAFT={};var hrsEq=S.equipment.filter(function(e){var types=['Stand-On Mower','Walk-Behind Mower','Zero-Turn Mower','Push Mower','Trimmer / Edger','Blower','Chainsaw','Pole Saw','Pressure Washer','Attachments / Other','Climbing Gear'];return types.indexOf(e.type)>=0;});var miEq=S.equipment.filter(function(e){return e.type==='Truck';});var hh='';hrsEq.forEach(function(e){hh+=buildBulkCard(e,'hours');});document.getElementById('bulk-hrs-grid').innerHTML=hh;var mh='';miEq.forEach(function(e){mh+=buildBulkCard(e,'miles');});document.getElementById('bulk-mi-grid').innerHTML=mh;renderBulkPreview();}
+function buildBulkCard(e,mode){var cur=mode==='hours'?(e.hours||0):(e.miles||0);var unit=mode==='hours'?'hrs':'mi';var als=getBulkAlerts(e,cur,mode);return '<div class="bulk-card" id="bc-'+e.id+'"><div class="bulk-ico-row"><div class="bulk-ico">'+eico(e)+'</div><div><div class="bulk-name">'+e.name+'</div><div class="bulk-cur">Current: <b>'+cur.toLocaleString()+' '+unit+'</b></div></div></div><div class="bulk-inp-row"><input type="number" id="bulk-'+e.id+'" value="'+cur+'" min="'+cur+'" data-eid="'+e.id+'" data-mode="'+mode+'" oninput="handleBulkInput(this)" placeholder="'+cur+'"><span class="bulk-unit">'+unit+'</span><span class="bulk-delta same" id="bd-'+e.id+'">no change</span></div><div id="ba-'+e.id+'">'+als+'</div></div>';}
+function getBulkAlerts(e,curVal,mode){var rel=(e.intervals||[]).filter(function(i){return i.unit===mode;});if(!rel.length)return '<div class="bulk-alert ok">No '+mode+'-based intervals</div>';var h='';rel.forEach(function(i){var fakeE=JSON.parse(JSON.stringify(e));if(mode==='hours')fakeE.hours=curVal;else fakeE.miles=curVal;var r=iStat(fakeE,i);h+='<div class="bulk-alert '+r.s+'">'+(r.s==='overdue'?'&#128308;':r.s==='due'?'&#128993;':'&#9989;')+' '+i.task+': '+r.lbl+'</div>';});return h;}
+function bulkChange(eid,mode,rawVal){var val=parseFloat(rawVal)||0;var e=ge(eid);if(!e)return;var cur=mode==='hours'?(e.hours||0):(e.miles||0);BULK_DRAFT[eid]={mode:mode,val:val};var card=document.getElementById('bc-'+eid);var delta=document.getElementById('bd-'+eid);var alEl=document.getElementById('ba-'+eid);if(val!==cur){if(card)card.classList.add('changed');var diff=val-cur;if(delta){delta.textContent=(diff>0?'+':'')+diff.toLocaleString()+(mode==='hours'?' hrs':' mi');delta.className='bulk-delta '+(diff>0?'pos':'same');}var fakeE=JSON.parse(JSON.stringify(e));if(mode==='hours')fakeE.hours=val;else fakeE.miles=val;if(alEl)alEl.innerHTML=getBulkAlerts(fakeE,val,mode);}else{if(card)card.classList.remove('changed');if(delta){delta.textContent='no change';delta.className='bulk-delta same';}}renderBulkPreview();}
+function renderBulkPreview(){var el=document.getElementById('bulk-preview');var newAlerts=[];S.equipment.forEach(function(e){var draft=BULK_DRAFT[e.id];var fakeE=draft?JSON.parse(JSON.stringify(e)):e;if(draft){if(draft.mode==='hours')fakeE.hours=draft.val;else fakeE.miles=draft.val;}(e.intervals||[]).forEach(function(i){var r=iStat(fakeE,i);if(r.s!=='ok')newAlerts.push({s:r.s,lbl:r.lbl,en:e.name,task:i.task});});});newAlerts.sort(function(a,b){return a.s==='overdue'?-1:1;});if(!newAlerts.length){el.innerHTML='<div class="alert-item a-ok"><div class="alert-dot dot-g"></div><div>All maintenance up to date after save!</div></div>';return;}var h='<div style="font-size:11px;color:var(--gr);margin-bottom:7px">'+newAlerts.length+' outstanding task'+(newAlerts.length!==1?'s':'')+' after updates</div>';newAlerts.slice(0,12).forEach(function(a){h+='<div class="alert-item a-'+a.s+'"><div class="alert-dot dot-'+(a.s==='overdue'?'r':'a')+'"></div><div><div style="font-weight:600;font-size:12px">'+a.task+'</div><div style="font-size:10px;color:var(--gr)">'+a.en+' - '+a.lbl+'</div></div></div>';});el.innerHTML=h;}
+function bulkSave(){var count=0;Object.keys(BULK_DRAFT).forEach(function(eid){var d=BULK_DRAFT[eid];var e=ge(eid);if(!e)return;var cur=d.mode==='hours'?(e.hours||0):(e.miles||0);if(d.val===cur)return;if(d.mode==='hours'){logAct(e.name,'Hours: '+cur+' to '+d.val);e.hours=d.val;}else{logAct(e.name,'Miles: '+cur.toLocaleString()+' to '+d.val.toLocaleString());e.miles=d.val;}count++;});save();BULK_DRAFT={};toast(count+' piece'+(count!==1?'s':'')+' updated');renderBulk();renderDash();}
+function bulkReset(){BULK_DRAFT={};renderBulk();toast('Changes reset');}
+
+function closeM(id){document.getElementById(id).style.display='none';}
+document.querySelectorAll('.modal-overlay').forEach(function(o){o.addEventListener('click',function(e){if(e.target===this)closeM(this.id);});});
+
+initApiUrl();
+load();
+renderDash();
+var wfBtn=document.getElementById('wf-all');if(wfBtn){wfBtn.style.background='var(--gl)';wfBtn.style.color='var(--gd)';}
+renderWO();
+var woDate=document.getElementById('wo-date');if(woDate)woDate.value=td();
+addCloudNavItem();
+
+/* ---- NAV WRAPPER FUNCTIONS (Wix-safe - no args in onclick) ---- */
+function navDashboard(){var n=document.querySelectorAll('.nav-item');nav('dashboard',n[0]);}
+function navEquipment(){var n=document.querySelectorAll('.nav-item');nav('equipment',n[1]);}
+function navWorkorders(){var n=document.querySelectorAll('.nav-item');nav('workorders',n[2]);}
+function navCalendar(){var n=document.querySelectorAll('.nav-item');nav('calendar',n[3]);}
+function navBulkhours(){var n=document.querySelectorAll('.nav-item');nav('bulkhours',n[4]);}
+function dTabIntervals(el){dTab('intervals',el);}
+function dTabHistory(el){dTab('history',el);}
+function dTabSpecs(el){dTab('specs',el);}
+function setWFAll(el){setWF('all',el);}
+function setWFOverdue(el){setWF('overdue',el);}
+function setWFDue(el){setWF('due',el);}
+function selAllTrue(){selAll(true);}
+function selAllFalse(){selAll(false);}
+function closeMEquip(){closeM('m-equip');}
+function closeMSvc(){closeM('m-svc');}
+function closeMApi(){closeM('m-api');}
+
+/* ---- DYNAMIC ACTION REGISTRY --------------------------------
+   WF(n) dispatches to a registered function by integer key.
+   Used instead of onclick with string args (Wix-safe).
+   Registry is rebuilt whenever dynamic HTML is regenerated.
+---------------------------------------------------------------- */
+var _WFR = {};
+var _WFC = 0;
+function wfReg(fn) {
+  var k = _WFC++;
+  _WFR[k] = fn;
+  return k;
+}
+function WF(k) {
+  if (_WFR[k]) _WFR[k]();
+}
+function wfClear() {
+  _WFR = {};
+  _WFC = 0;
+}
+/* Expose on window so Wix iframe onclick attributes can reach it */
+window.WF = WF;
+window.wfReg = wfReg;
+window.wfClear = wfClear;
+
+/* Helpers for inline event handlers on dynamically built elements */
+function handleMgrNote(el) {
+  var key = el.getAttribute('data-key');
+  if (key) WO_NOTES[key] = el.value;
+}
+function handleBulkInput(el) {
+  var eid = el.getAttribute('data-eid');
+  var mode = el.getAttribute('data-mode');
+  if (eid && mode) bulkChange(eid, mode, el.value);
+}
+
+
+/* ── API SETUP & CONNECTION ────────────────────────────────── */
+var API_STORAGE_KEY = 'ws_api_url_v1';
+
+function initApiUrl() {
+  /* API_URL is hardcoded above — check if user has overridden with a newer URL */
+  var saved = localStorage.getItem(API_STORAGE_KEY);
+  if (saved && saved.indexOf('script.google.com') >= 0) {
+    API_URL = saved; /* use override if set */
+  }
+  /* Hide setup notice since we have a built-in URL */
+  var notice = document.getElementById('api-setup-notice');
+  if (notice) notice.style.display = 'none';
+}
+
+function openApiSetup() {
+  var input = document.getElementById('api-url-input');
+  if (input) input.value = API_URL || '';
+  var result = document.getElementById('api-test-result');
+  if (result) result.textContent = '';
+  closeM('m-api'); /* close if already open */
+  document.getElementById('m-api').style.display = 'flex';
+}
+
+function saveApiUrl() {
+  var input = document.getElementById('api-url-input');
+  if (!input) return;
+  var url = input.value.trim();
+  if (!url) {
+    alert('Please enter your Apps Script Web App URL.');
+    return;
+  }
+  if (url.indexOf('script.google.com') < 0) {
+    alert('That does not look like a Google Apps Script URL. It should start with https://script.google.com/macros/s/...');
+    return;
+  }
+  API_URL = url;
+  localStorage.setItem(API_STORAGE_KEY, url);
+  closeM('m-api');
+  var notice = document.getElementById('api-setup-notice');
+  if (notice) notice.style.display = 'none';
+  /* Test connection then push data */
+  setApiStatus('syncing', 'Connecting to Google Sheets...');
+  apiGet({action:'ping'}, function(result) {
+    if (result && result.ok) {
+      /* Connection works — push fleet one piece at a time */
+      setApiStatus('syncing', 'Saving fleet to Google Sheets...');
+      syncSequential(S.equipment, 0, 0, function(saved, failed) {
+        if (failed === 0) {
+          setApiStatus('ok', 'Connected! ' + saved + ' pieces synced');
+          toast('Connected to Google Sheets');
+          load();
+        } else {
+          setApiStatus('error', saved + ' saved, ' + failed + ' failed');
+          toast('Some saves failed - check Apps Script');
+        }
+      });
+    } else {
+      setApiStatus('error', 'Connection failed - check your URL');
+      toast('Connection failed - check your URL');
+    }
+  });
+}
+
+function testApiConnection() {
+  var input = document.getElementById('api-url-input');
+  var result = document.getElementById('api-test-result');
+  if (!input || !result) return;
+  var url = input.value.trim();
+  if (!url) { result.textContent = 'Enter a URL first'; return; }
+  result.textContent = 'Testing...';
+  result.style.color = 'var(--am)';
+  fetch(url + '?action=ping')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d && d.ok) {
+        result.textContent = 'Connection successful!';
+        result.style.color = 'var(--gd)';
+      } else {
+        result.textContent = 'Connected but unexpected response';
+        result.style.color = 'var(--am)';
+      }
+    })
+    .catch(function(err) {
+      result.textContent = 'Failed: ' + err.message;
+      result.style.color = 'var(--rd)';
+    });
+}
+
+/* Add "Cloud Settings" to the sidebar */
+function addCloudNavItem() {
+  var navSection = document.querySelector('.sidebar > div');
+  if (!navSection) return;
+  var div = document.createElement('div');
+  div.className = 'nav-item';
+  div.title = 'Cloud / Google Sheets Settings';
+  div.onclick = openApiSetup;
+  div.innerHTML = '<span class="ni">&#9729;&#65039;</span> <span>Cloud Settings</span>';
+  navSection.appendChild(div);
+}
+
+
+/* ── FORCE SYNC FUNCTIONS ───────────────────────────────────── */
+function forceSync() {
+  setApiStatus('syncing', 'Checking Google Sheets...');
+  apiGet({action:'getAll'}, function(data) {
+    if (data && data.ok) {
+      var sheetCount = data.equipment ? data.equipment.length : 0;
+      var localCount = S.equipment ? S.equipment.length : 0;
+      if (sheetCount < localCount) {
+        /* Sheets are missing records - push all from local */
+        setApiStatus('syncing', 'Sheets has ' + sheetCount + ' of ' + localCount + ' - resyncing...');
+        toast('Resyncing missing equipment...');
+        syncSequential(S.equipment, 0, 0, function(saved, failed) {
+          if (failed === 0) {
+            setApiStatus('ok', 'All ' + saved + ' pieces synced ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+            toast('All ' + saved + ' pieces synced to Google Sheets');
+          } else {
+            setApiStatus('error', saved + ' synced, ' + failed + ' failed');
+          }
+        });
+      } else if (sheetCount > 0) {
+        /* Sheets has same or more — load from sheets */
+        S.equipment = data.equipment;
+        S.activity  = data.activity || [];
+        try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
+        setApiStatus('ok', 'Refreshed ' + sheetCount + ' pieces ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
+        toast('Refreshed from Google Sheets');
+        var active = document.querySelector('.page.active');
+        if (active) {
+          var pid = active.id.replace('page-','');
+          if (pid === 'dashboard')  renderDash();
+          if (pid === 'equipment')  renderEqList();
+          if (pid === 'workorders') renderWO();
+          if (pid === 'calendar')   renderCal();
+          if (pid === 'bulkhours')  renderBulk();
+        }
+      } else {
+        setApiStatus('error', 'Refresh failed - using local data');
+        toast('Could not reach Google Sheets');
+      }
+    } else {
+      setApiStatus('error', 'Refresh failed - using local data');
+      toast('Could not reach Google Sheets');
+    }
+  });
+}
+
+/* ── FIRST-TIME SHEET BOOTSTRAP ─────────────────────────────── */
+function bootstrapSheets() {
+  if (!API_URL) return;
+  apiGet({action:'getAll'}, function(data) {
+    if (data && data.ok) {
+      if (!data.equipment || data.equipment.length === 0) {
+        /* Sheets are empty - push fleet one piece at a time */
+        setApiStatus('syncing', 'First-time setup: saving fleet to Google Sheets...');
+        syncSequential(S.equipment, 0, 0, function(saved, failed) {
+          if (failed === 0) {
+            setApiStatus('ok', 'Google Sheets ready! ' + saved + ' pieces saved.');
+            toast('Fleet saved to Google Sheets');
+          } else {
+            setApiStatus('error', saved + ' saved, ' + failed + ' failed — check Apps Script');
+          }
+        });
+      } else {
+        /* Sheets have data - load it */
+        S.equipment = data.equipment;
+        S.activity  = data.activity || [];
+        try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
+        setApiStatus('ok', 'Loaded ' + S.equipment.length + ' pieces from Google Sheets');
+        renderDash();
+        renderWO();
+      }
+    } else {
+      setApiStatus('error', 'Cannot reach Google Sheets — using local data');
+    }
+  });
+}
+
+
+/* Expose all onclick-called functions on window for Wix iframe compatibility */
+window.navDashboard = navDashboard;
+window.navEquipment = navEquipment;
+window.navWorkorders = navWorkorders;
+window.navCalendar = navCalendar;
+window.navBulkhours = navBulkhours;
+window.openAddEquip = openAddEquip;
+window.printSelectedWO = printSelectedWO;
+window.navWorkorders = navWorkorders;
+window.updHrs = updHrs;
+window.updMi = updMi;
+window.dTabIntervals = dTabIntervals;
+window.dTabHistory = dTabHistory;
+window.dTabSpecs = dTabSpecs;
+window.setWFAll = setWFAll;
+window.setWFOverdue = setWFOverdue;
+window.setWFDue = setWFDue;
+window.selAllTrue = selAllTrue;
+window.selAllFalse = selAllFalse;
+window.chMo = chMo;
+window.bulkReset = bulkReset;
+window.bulkSave = bulkSave;
+window.closeMEquip = closeMEquip;
+window.addII = addII;
+window.saveEquip = saveEquip;
+window.closeMSvc = closeMSvc;
+window.saveSvc = saveSvc;
+window.closeMApi = closeMApi;
+window.openEditEquip = openEditEquip;
+window.delEquip = delEquip;
+window.openLogSvc = openLogSvc;
+window.forceSync = forceSync;
+window.openApiSetup = openApiSetup;
+window.saveApiUrl = saveApiUrl;
+window.testApiConnection = testApiConnection;
+window.handleMgrNote = handleMgrNote;
+window.handleBulkInput = handleBulkInput;
+
+</script>
+</body>
+</html>
