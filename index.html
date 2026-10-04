@@ -49,6 +49,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 .dot-r{background:var(--rd)}.dot-a{background:#ef6c00}.dot-g{background:var(--gm)}
 .eq-mini{display:flex;align-items:center;gap:8px;padding:7px;border-radius:var(--ra);border:1px solid var(--br);margin-bottom:5px;cursor:pointer}
 .eq-mini:hover{border-color:var(--gm);background:var(--gl)}
+#d-equip{max-height:360px;overflow-y:auto;padding-right:4px}
 .mini-ico{width:32px;height:32px;background:var(--gl);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
 .mini-info{flex:1;min-width:0}
 .mini-name{font-weight:600;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -592,8 +593,10 @@ function saveOne(eq) {
   try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
   if (!API_URL) return;
   setApiStatus('syncing', 'Saving ' + eq.name + '...');
+  var _s = sig(eq);
   apiGet({action:'saveOne', data: slimEq(eq)}, function(result) {
     if (result && result.ok) {
+      BASE[eq.id] = _s; saveBase();
       setApiStatus('ok', eq.name + ' saved ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
     } else {
       setApiStatus('error', 'Save failed for ' + eq.name);
@@ -601,17 +604,82 @@ function saveOne(eq) {
   });
 }
 
+/* ---- RELIABLE SYNC (v7) -----------------------------------
+   BASE tracks what Google Sheets has confirmed for each piece.
+   Only changed pieces are sent, one at a time. Failed saves retry
+   automatically and are never overwritten by stale sheet data.
+   DEL_Q holds deletes that still need to reach the sheet.
+---------------------------------------------------------------- */
+var BASE_KEY='ws_synced_v1', BASE={};
+var DEL_KEY='ws_pending_del_v1', DEL_Q=[];
+var SYNC_BUSY=false, SYNC_AGAIN=false;
+try{BASE=JSON.parse(localStorage.getItem(BASE_KEY)||'{}');}catch(e){BASE={};}
+try{DEL_Q=JSON.parse(localStorage.getItem(DEL_KEY)||'[]');}catch(e){DEL_Q=[];}
+function sig(e){var o=slimEq(e);delete o.updatedAt;return JSON.stringify(o);}
+function saveBase(){try{localStorage.setItem(BASE_KEY,JSON.stringify(BASE));}catch(e){}}
+function saveDelQ(){try{localStorage.setItem(DEL_KEY,JSON.stringify(DEL_Q));}catch(e){}}
+function dirtyEq(){return S.equipment.filter(function(e){return BASE[e.id]!==sig(e);});}
+function queueDelete(id){if(DEL_Q.indexOf(id)<0)DEL_Q.push(id);saveDelQ();delete BASE[id];saveBase();}
+function nowTime(){return new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});}
+
 function syncToSheets() {
-  if (!API_URL || !SYNC_PENDING) return;
-  SYNC_PENDING = false;
-  /* Send equipment one at a time to stay under URL length limits */
-  syncSequential(S.equipment, 0, 0, function(saved, failed) {
-    if (failed === 0) {
-      setApiStatus('ok', 'Saved ' + saved + ' pieces ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
-    } else {
-      setApiStatus('error', saved + ' saved, ' + failed + ' failed');
+  if (!API_URL) return;
+  if (SYNC_BUSY) { SYNC_AGAIN = true; return; }
+  var tasks = DEL_Q.map(function(id){return {del:id};})
+    .concat(dirtyEq().map(function(eq){return {eq:eq, s:sig(eq)};}));
+  if (!tasks.length) { setApiStatus('ok', 'All saved'); return; }
+  SYNC_BUSY = true;
+  (function next(i, fail) {
+    if (i >= tasks.length) {
+      SYNC_BUSY = false;
+      if (fail) {
+        setApiStatus('error', fail + ' not saved - retrying in 30s');
+        setTimeout(syncToSheets, 30000);
+      } else {
+        setApiStatus('ok', 'Saved ' + nowTime());
+      }
+      if (SYNC_AGAIN) { SYNC_AGAIN = false; syncToSheets(); }
+      return;
     }
+    var t = tasks[i];
+    setApiStatus('syncing', 'Saving ' + (i + 1) + ' of ' + tasks.length + '...');
+    if (t.del) {
+      apiGet({action:'deleteEquip', id:t.del}, function(r) {
+        if (r && (r.ok || (r.error && String(r.error).indexOf('Not found') === 0))) {
+          DEL_Q = DEL_Q.filter(function(x){return x !== t.del;}); saveDelQ();
+          next(i + 1, fail);
+        } else next(i + 1, fail + 1);
+      });
+    } else {
+      apiGet({action:'saveOne', data: slimEq(t.eq)}, function(r) {
+        if (r && r.ok) { BASE[t.eq.id] = t.s; saveBase(); next(i + 1, fail); }
+        else next(i + 1, fail + 1);
+      });
+    }
+  })(0, 0);
+}
+
+/* Merge sheet data into local without overwriting unsaved local edits */
+function mergeFromSheet(data) {
+  var dirty = {};
+  dirtyEq().forEach(function(e){dirty[e.id] = e;});
+  var out = [];
+  (data.equipment || []).forEach(function(e) {
+    if (DEL_Q.indexOf(e.id) >= 0) return;      /* deleted here, delete still pending */
+    BASE[e.id] = sig(e);
+    out.push(dirty[e.id] || e);
   });
+  Object.keys(dirty).forEach(function(id) {   /* local-only pieces not on the sheet yet */
+    if (!out.some(function(e){return e.id === id;})) out.push(dirty[id]);
+  });
+  S.equipment = out;
+  S.activity = data.activity || S.activity || [];
+  saveBase();
+  try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
+}
+function afterMerge(msg) {
+  if (dirtyEq().length || DEL_Q.length) syncToSheets();
+  else setApiStatus('ok', msg + ' ' + nowTime());
 }
 
 /* Sync equipment in chunks of 5 to balance URL size vs request count.
@@ -710,7 +778,7 @@ function renderDash(){
   if(!alerts.length){ae.innerHTML='<div class="alert-item a-ok"><div class="alert-dot dot-g"></div><div>All maintenance up to date</div></div>';return;}
   var h='';alerts.slice(0,8).forEach(function(a){var _wk=wfReg(function(){openDetail(a.eid);});h+='<div class="alert-item a-'+a.s+'" onclick="WF('+_wk+')">';h+='<div class="alert-dot dot-'+(a.s==='overdue'?'r':'a')+'"></div>';h+='<div><div style="font-weight:600;font-size:12px">'+a.task+'</div><div style="font-size:10px;color:var(--gr)">'+a.en+' - '+a.lbl+'</div></div></div>';});
   ae.innerHTML=h;
-  var eqh='';S.equipment.slice(0,10).forEach(function(e){var st=eStatus(e);var _wk=wfReg(function(){openDetail(e.id);});eqh+='<div class="eq-mini" onclick="WF('+_wk+')">';eqh+='<div class="mini-ico">'+eico(e)+'</div>';eqh+='<div class="mini-info"><div class="mini-name">'+e.name+'</div><div class="mini-det">'+e.type+' - '+(e.hours||0)+'hrs'+(e.miles?' / '+e.miles.toLocaleString()+'mi':'')+'</div></div>';eqh+='<span class="badge b-'+st+'">'+(st==='ok'?'OK':st==='due'?'Due':'OVR')+'</span></div>';});
+  var eqh='';S.equipment.forEach(function(e){var st=eStatus(e);var _wk=wfReg(function(){openDetail(e.id);});eqh+='<div class="eq-mini" onclick="WF('+_wk+')">';eqh+='<div class="mini-ico">'+eico(e)+'</div>';eqh+='<div class="mini-info"><div class="mini-name">'+e.name+'</div><div class="mini-det">'+e.type+' - '+(e.hours||0)+'hrs'+(e.miles?' / '+e.miles.toLocaleString()+'mi':'')+'</div></div>';eqh+='<span class="badge b-'+st+'">'+(st==='ok'?'OK':st==='due'?'Due':'OVR')+'</span></div>';});
   document.getElementById('d-equip').innerHTML=eqh;
   var act=[].concat(S.activity).reverse().slice(0,6);
   var ach=act.length?act.map(function(a){return '<div style="font-size:11px;padding:5px 0;border-bottom:1px solid var(--br);color:var(--gr)"><b style="color:var(--gd)">'+a.equip+'</b> - '+a.action+'<span style="float:right">'+a.date+'</span></div>';}).join(''):'<div style="color:var(--gr);font-size:12px">No activity yet.</div>';
@@ -761,7 +829,7 @@ function openEditEquip(){var e=ge(CID);if(!e)return;EI=JSON.parse(JSON.stringify
 function renderEIList(){var h=EI.length?'<div class="ilist">'+EI.map(function(i,x){return '<div class="iitem"><div class="in">'+i.task+'</div><div class="ifreq">Every '+i.freq+' '+i.unit+'</div><button class="btn btn-danger btn-xs" onclick="WF('+wfReg(function(){var _xi=x;EI.splice(_xi,1);renderEIList();})+')">&#10005;</button></div>';}).join('')+'</div>':'<div style="color:var(--gr);font-size:12px;padding:5px 0">No intervals yet.</div>';document.getElementById('edit-int-list').innerHTML=h;}
 function addII(){var t=document.getElementById('ii-task').value.trim();var f=parseInt(document.getElementById('ii-freq').value);var u=document.getElementById('ii-unit').value;if(!t||!f){alert('Enter task and frequency.');return;}EI.push({id:gid(),task:t,freq:f,unit:u,lastDone:null,lastHours:0});document.getElementById('ii-task').value='';document.getElementById('ii-freq').value='';renderEIList();}
 function saveEquip(){var name=document.getElementById('f-name').value.trim();if(!name){alert('Name required.');return;}var eid=document.getElementById('edit-id').value;var data={name:name,type:document.getElementById('f-type').value,make:document.getElementById('f-make').value,model:document.getElementById('f-model').value,serial:document.getElementById('f-serial').value,year:document.getElementById('f-year').value,hours:parseFloat(document.getElementById('f-hrs').value)||0,miles:parseFloat(document.getElementById('f-mi').value)||0,purchaseDate:document.getElementById('f-pdate').value,cost:parseFloat(document.getElementById('f-cost').value)||0,annualHrs:parseFloat(document.getElementById('f-annhrs').value)||0,cph:parseFloat(document.getElementById('f-cph').value)||0,notes:document.getElementById('f-notes').value,intervals:EI};if(eid){var e=ge(eid);Object.keys(data).forEach(function(k){e[k]=data[k];});logAct(name,'Updated');}else{var ne=JSON.parse(JSON.stringify(data));ne.id=gid();ne.history=[];S.equipment.push(ne);logAct(name,'Added');}save();closeM('m-equip');toast(name+' saved');if(eid)openDetail(eid);else{nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}}
-function delEquip(){var e=ge(CID);if(!e)return;if(!confirm('Delete "'+e.name+'" and all history?'))return;S.equipment=S.equipment.filter(function(x){return x.id!==CID;});save();toast('Deleted');nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}
+function delEquip(){var e=ge(CID);if(!e)return;if(!confirm('Delete "'+e.name+'" and all history?'))return;var _did=CID;S.equipment=S.equipment.filter(function(x){return x.id!==_did;});queueDelete(_did);save();toast('Deleted');nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}
 
 function openLogSvc(){var e=ge(CID);if(!e)return;document.getElementById('sv-date').value=td();document.getElementById('sv-by').value='';document.getElementById('sv-task').value='';document.getElementById('sv-hrs').value=e.hours||0;document.getElementById('sv-mi').value=e.miles||0;document.getElementById('sv-cost').value='';document.getElementById('sv-labor').value='';document.getElementById('sv-notes').value='';var sel=document.getElementById('sv-int');sel.innerHTML='<option value="">- select if applicable -</option>';(e.intervals||[]).forEach(function(i){sel.innerHTML+='<option value="'+i.id+'">'+i.task+' (every '+i.freq+' '+i.unit+')</option>';});document.getElementById('m-svc').style.display='flex';}
 function saveSvc(){var e=ge(CID);if(!e)return;var task=document.getElementById('sv-task').value.trim();if(!task){alert('Task required.');return;}var rec={id:gid(),date:document.getElementById('sv-date').value,task:task,by:document.getElementById('sv-by').value,hAtSvc:parseFloat(document.getElementById('sv-hrs').value)||0,miAtSvc:parseFloat(document.getElementById('sv-mi').value)||0,cost:parseFloat(document.getElementById('sv-cost').value)||0,labor:parseFloat(document.getElementById('sv-labor').value)||0,notes:document.getElementById('sv-notes').value};if(!e.history)e.history=[];e.history.push(rec);var si=document.getElementById('sv-int').value;if(si){for(var x=0;x<e.intervals.length;x++){if(e.intervals[x].id===si){e.intervals[x].lastDone=rec.date;e.intervals[x].lastHours=rec.hAtSvc;e.intervals[x].lastMiles=rec.miAtSvc;e.intervals[x].lastDate=rec.date;break;}}}logAct(e.name,'Service: '+task);save();closeM('m-svc');toast('Service logged');renderDH();renderDI();}
@@ -1076,44 +1144,25 @@ function addCloudNavItem() {
 
 
 /* ── FORCE SYNC FUNCTIONS ───────────────────────────────────── */
+function rerenderActive() {
+  var active = document.querySelector('.page.active');
+  if (!active) return;
+  var pid = active.id.replace('page-','');
+  if (pid === 'dashboard')  renderDash();
+  if (pid === 'equipment')  renderEqList();
+  if (pid === 'workorders') renderWO();
+  if (pid === 'calendar')   renderCal();
+  if (pid === 'bulkhours')  renderBulk();
+}
+
 function forceSync() {
   setApiStatus('syncing', 'Checking Google Sheets...');
   apiGet({action:'getAll'}, function(data) {
     if (data && data.ok) {
-      var sheetCount = data.equipment ? data.equipment.length : 0;
-      var localCount = S.equipment ? S.equipment.length : 0;
-      if (sheetCount < localCount) {
-        /* Sheets are missing records - push all from local */
-        setApiStatus('syncing', 'Sheets has ' + sheetCount + ' of ' + localCount + ' - resyncing...');
-        toast('Resyncing missing equipment...');
-        syncSequential(S.equipment, 0, 0, function(saved, failed) {
-          if (failed === 0) {
-            setApiStatus('ok', 'All ' + saved + ' pieces synced ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
-            toast('All ' + saved + ' pieces synced to Google Sheets');
-          } else {
-            setApiStatus('error', saved + ' synced, ' + failed + ' failed');
-          }
-        });
-      } else if (sheetCount > 0) {
-        /* Sheets has same or more — load from sheets */
-        S.equipment = data.equipment;
-        S.activity  = data.activity || [];
-        try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
-        setApiStatus('ok', 'Refreshed ' + sheetCount + ' pieces ' + new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}));
-        toast('Refreshed from Google Sheets');
-        var active = document.querySelector('.page.active');
-        if (active) {
-          var pid = active.id.replace('page-','');
-          if (pid === 'dashboard')  renderDash();
-          if (pid === 'equipment')  renderEqList();
-          if (pid === 'workorders') renderWO();
-          if (pid === 'calendar')   renderCal();
-          if (pid === 'bulkhours')  renderBulk();
-        }
-      } else {
-        setApiStatus('error', 'Refresh failed - using local data');
-        toast('Could not reach Google Sheets');
-      }
+      mergeFromSheet(data);
+      afterMerge('Synced ' + S.equipment.length + ' pieces');
+      toast('Synced with Google Sheets');
+      rerenderActive();
     } else {
       setApiStatus('error', 'Refresh failed - using local data');
       toast('Could not reach Google Sheets');
@@ -1126,26 +1175,10 @@ function bootstrapSheets() {
   if (!API_URL) return;
   apiGet({action:'getAll'}, function(data) {
     if (data && data.ok) {
-      if (!data.equipment || data.equipment.length === 0) {
-        /* Sheets are empty - push fleet one piece at a time */
-        setApiStatus('syncing', 'First-time setup: saving fleet to Google Sheets...');
-        syncSequential(S.equipment, 0, 0, function(saved, failed) {
-          if (failed === 0) {
-            setApiStatus('ok', 'Google Sheets ready! ' + saved + ' pieces saved.');
-            toast('Fleet saved to Google Sheets');
-          } else {
-            setApiStatus('error', saved + ' saved, ' + failed + ' failed — check Apps Script');
-          }
-        });
-      } else {
-        /* Sheets have data - load it */
-        S.equipment = data.equipment;
-        S.activity  = data.activity || [];
-        try { localStorage.setItem(SK, JSON.stringify(S)); } catch(e) {}
-        setApiStatus('ok', 'Loaded ' + S.equipment.length + ' pieces from Google Sheets');
-        renderDash();
-        renderWO();
-      }
+      mergeFromSheet(data);
+      afterMerge('Loaded ' + S.equipment.length + ' pieces');
+      renderDash();
+      renderWO();
     } else {
       setApiStatus('error', 'Cannot reach Google Sheets — using local data');
     }
