@@ -18,6 +18,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 .nav-item:hover{background:rgba(255,255,255,.1);opacity:1}
 .nav-item.active{background:rgba(255,255,255,.14);opacity:1;border-left-color:rgba(255,255,255,.7)}
 .sidebar-bottom{margin-top:auto;padding:14px 18px;font-size:10px;opacity:.45;border-top:1px solid rgba(255,255,255,.1);line-height:1.7}
+.sidebar{transition:width .2s ease}
+.sidebar-logo{position:relative}
+.sb-toggle{position:absolute;top:10px;right:10px;width:26px;height:26px;border:none;border-radius:6px;background:rgba(255,255,255,.14);color:#fff;font-size:17px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.sb-toggle:hover{background:rgba(255,255,255,.28)}
+.sidebar.collapsed{width:60px}
+.sidebar.collapsed .sidebar-logo{padding:44px 0 8px;border-bottom:1px solid rgba(255,255,255,.15)}
+.sidebar.collapsed .sb-toggle{right:17px}
+.sidebar.collapsed .s-brand,.sidebar.collapsed .s-tagline,.sidebar.collapsed .nav-label,.sidebar.collapsed .sidebar-bottom{display:none}
+.sidebar.collapsed .nav-item{padding:11px 0;justify-content:center;gap:0}
+.sidebar.collapsed .nav-item span:not(.ni){display:none}
+.sidebar.collapsed .nav-item .ni{font-size:17px}
 .main{flex:1;overflow-y:auto;display:flex;flex-direction:column;min-width:0}
 .topbar{background:var(--wh);border-bottom:1px solid var(--br);padding:12px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:var(--sh)}
 .topbar-title{font-size:17px;font-weight:700;color:var(--gd)}
@@ -188,6 +199,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 .toast{position:fixed;bottom:20px;right:20px;background:var(--gd);color:#fff;padding:10px 16px;border-radius:var(--ra);font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{opacity:1}
 @media print{.sidebar,.topbar,.no-print,.modal-overlay,.toast{display:none!important}body,html{height:auto;overflow:visible}.app,.main{display:block;height:auto;overflow:visible}.content{padding:0}.page{display:block!important}.page:not(#page-workorders){display:none!important}#page-workorders{display:block!important}.wo-item{page-break-inside:avoid}}
+@media(max-width:700px){.sb-toggle{display:none}}
 @media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:1fr}.eq-grid{grid-template-columns:1fr}.sidebar{width:56px}.s-brand,.s-tagline,.nav-label,.sidebar-bottom{display:none}.nav-item span:not(.ni){display:none}.fgrid{grid-template-columns:1fr}.fgrid .full{grid-column:1}}
 </style>
 </head>
@@ -195,16 +207,17 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 <div class="app">
 <div class="sidebar">
   <div class="sidebar-logo">
+    <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" title="Collapse menu">&#171;</button>
     <div class="s-brand">&#127807; WS Lawn Care</div>
     <div class="s-tagline">Equipment Maintenance Portal</div>
   </div>
   <div style="padding:8px 0">
     <div class="nav-label">Main</div>
-    <div class="nav-item active" onclick="navDashboard()" title="Dashboard"><span class="ni">&#128202;</span> <span>Dashboard</span></div>
-    <div class="nav-item" onclick="navEquipment()" title="Equipment"><span class="ni">&#128668;</span> <span>Equipment</span></div>
-    <div class="nav-item" onclick="navWorkorders()" title="Work Orders"><span class="ni">&#128295;</span> <span>Work Orders</span></div>
-    <div class="nav-item" onclick="navCalendar()" title="Calendar"><span class="ni">&#128197;</span> <span>Calendar</span></div>
-    <div class="nav-item" onclick="navBulkhours()" title="Update Hours"><span class="ni">&#9203;</span> <span>Update Hours</span></div>
+    <div class="nav-item active" data-nav="dashboard" onclick="navDashboard()" title="Dashboard"><span class="ni">&#128202;</span> <span>Dashboard</span></div>
+    <div class="nav-item" data-nav="equipment" onclick="navEquipment()" title="Equipment"><span class="ni">&#128668;</span> <span>Equipment</span></div>
+    <div class="nav-item" data-nav="workorders" onclick="navWorkorders()" title="Work Orders"><span class="ni">&#128295;</span> <span>Work Orders</span></div>
+    <div class="nav-item" data-nav="calendar" onclick="navCalendar()" title="Calendar"><span class="ni">&#128197;</span> <span>Calendar</span></div>
+    <div class="nav-item" data-nav="bulkhours" onclick="navBulkhours()" title="Update Hours"><span class="ni">&#9203;</span> <span>Update Hours</span></div>
     <div class="nav-label" style="margin-top:8px">Quick Actions</div>
     <div class="nav-item" onclick="openAddEquip()" title="Add Equipment"><span class="ni">&#10133;</span> <span>Add Equipment</span></div>
     <div class="nav-item" onclick="printSelectedWO()" title="Print Work Orders"><span class="ni">&#128424;</span> <span>Print Work Orders</span></div>
@@ -753,7 +766,9 @@ function nav(id,el){
   document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
-  if(el)el.classList.add('active');
+  /* Highlight by name, not by position, so extra sidebar items (Cloud Settings) cannot shift it */
+  var navTarget=document.querySelector('.nav-item[data-nav="'+(id==='detail'?'equipment':id)+'"]');
+  if(navTarget)navTarget.classList.add('active');
   var t={dashboard:'Dashboard',equipment:'Equipment ('+S.equipment.length+')',detail:'Equipment Detail',workorders:'Work Orders',calendar:'Maintenance Calendar',bulkhours:'Update Hours & Miles'};
   document.getElementById('ptitle').textContent=t[id]||id;
   if(id==='dashboard')renderDash();
@@ -987,6 +1002,19 @@ var wfBtn=document.getElementById('wf-all');if(wfBtn){wfBtn.style.background='va
 renderWO();
 var woDate=document.getElementById('wo-date');if(woDate)woDate.value=td();
 addCloudNavItem();
+
+/* ---- COLLAPSIBLE SIDEBAR ---- */
+var SB_KEY='ws_sidebar_collapsed';
+function setSidebar(c){
+  var sb=document.querySelector('.sidebar');if(!sb)return;
+  if(c)sb.classList.add('collapsed');else sb.classList.remove('collapsed');
+  var b=document.getElementById('sb-toggle');
+  if(b){b.innerHTML=c?'&#187;':'&#171;';b.title=c?'Expand menu':'Collapse menu';}
+  try{localStorage.setItem(SB_KEY,c?'1':'0');}catch(e){}
+}
+function toggleSidebar(){var sb=document.querySelector('.sidebar');setSidebar(!(sb&&sb.classList.contains('collapsed')));}
+try{setSidebar(localStorage.getItem(SB_KEY)==='1');}catch(e){}
+window.toggleSidebar = toggleSidebar;
 
 /* ---- NAV WRAPPER FUNCTIONS (Wix-safe - no args in onclick) ---- */
 function navDashboard(){var n=document.querySelectorAll('.nav-item');nav('dashboard',n[0]);}
