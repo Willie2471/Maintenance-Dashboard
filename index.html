@@ -572,12 +572,14 @@ function setApiStatus(status, msg) {
   else if (status === 'error')   { el.style.background='#ffebee'; el.style.color='#c62828'; el.textContent='✗ ' + (msg||'Sync error'); }
 }
 
+var FRESH_LOCAL = false;
 function load() {
   /* Always load from localStorage first so the UI is instant */
   try { var d = localStorage.getItem(SK); if(d) S = JSON.parse(d); } catch(e) {}
   if (!S.equipment || !S.equipment.length) {
     S.equipment = JSON.parse(JSON.stringify(FLEET));
     S.activity  = [];
+    FRESH_LOCAL = true;   /* these are only starter defaults, NOT edits - the sheet must win */
   }
   if (!S.activity) S.activity = [];
 
@@ -675,7 +677,14 @@ function syncToSheets() {
 /* Merge sheet data into local without overwriting unsaved local edits */
 function mergeFromSheet(data) {
   var dirty = {};
-  dirtyEq().forEach(function(e){dirty[e.id] = e;});
+  /* A browser with no saved data starts from the built-in default fleet (hours 0).
+     If the sheet already has equipment, those defaults must NOT be treated as unsaved
+     edits, or they overwrite the real hours/miles on the sheet. */
+  var sheetHasData = (data.equipment || []).length > 0;
+  if (!(FRESH_LOCAL && sheetHasData)) {
+    dirtyEq().forEach(function(e){dirty[e.id] = e;});
+  }
+  FRESH_LOCAL = false;
   var out = [];
   (data.equipment || []).forEach(function(e) {
     if (DEL_Q.indexOf(e.id) >= 0) return;      /* deleted here, delete still pending */
