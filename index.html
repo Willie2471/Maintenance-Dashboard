@@ -176,6 +176,36 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 .fsec{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gd);margin:14px 0 7px;padding-bottom:3px;border-bottom:2px solid var(--gb)}
 .fsec:first-child{margin-top:0}
 
+/* ---- REPAIR REQUESTS ---- */
+.rep-layout{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:14px;align-items:start}
+.rep-form{position:sticky;top:70px}
+.rep-urg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rep-urg button{border:2px solid var(--br);background:var(--wh);border-radius:var(--ra);padding:9px 6px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--gr);transition:all .15s}
+.rep-urg .ub-low.on{background:var(--gl);border-color:var(--gm);color:var(--gd)}
+.rep-urg .ub-med.on{background:#e3f2fd;border-color:var(--bl);color:var(--bl)}
+.rep-urg .ub-high.on{background:var(--al);border-color:#ef6c00;color:var(--am)}
+.rep-urg .ub-crit.on{background:var(--rl);border-color:var(--rd);color:var(--rd)}
+.rep-hint{font-size:11px;color:var(--gr);margin-top:4px}
+.rep-filter{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+.rep-filter .btn.on{background:var(--gl);color:var(--gd);border-color:var(--gm)}
+.rep-card{background:var(--wh);border:1px solid var(--br);border-left-width:5px;border-radius:var(--rlg);padding:13px;margin-bottom:10px;box-shadow:var(--sh)}
+.rep-card.u-low{border-left-color:var(--gm)}.rep-card.u-med{border-left-color:var(--bl)}.rep-card.u-high{border-left-color:#ef6c00}.rep-card.u-crit{border-left-color:var(--rd)}
+.rep-card.is-done{opacity:.72}
+.rep-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.rep-eq{font-size:15px;font-weight:700;color:var(--gd)}
+.rep-meta{font-size:11px;color:var(--gr);margin-top:2px}
+.rep-badges{display:flex;gap:6px;flex-wrap:wrap}
+.rep-desc{margin-top:9px;font-size:13px;line-height:1.5;color:#222;word-break:break-word}
+.rep-done-line{margin-top:6px;font-size:11px;color:var(--gd);font-weight:600}
+.rep-actions{margin-top:10px;display:flex;gap:6px;flex-wrap:wrap}
+.rb-low{background:var(--gl);color:var(--gd)}.rb-med{background:#e3f2fd;color:var(--bl)}.rb-high{background:var(--al);color:var(--am)}.rb-crit{background:var(--rl);color:var(--rd)}
+.rs-open{background:var(--grl);color:var(--gr)}.rs-prog{background:#fff8e1;color:#8d6e00}.rs-done{background:var(--gl);color:var(--gd)}
+#nav-rep-badge{display:none}
+#nav-rep-badge.show{display:inline-block;margin-left:auto}
+.sidebar.collapsed #nav-rep-badge{display:none}
+@media(max-width:900px){.rep-layout{grid-template-columns:1fr}.rep-form{position:static}.rep-form input,.rep-form select,.rep-form textarea{font-size:16px}}
+@media(max-width:700px){#nav-rep-badge.show{display:none}}
+
 /* ---- GROUPED WORK ORDERS ---- */
 .wo-group{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);margin-bottom:16px;box-shadow:var(--sh);overflow:hidden}
 .wo-group-hdr{display:flex;align-items:flex-start;gap:12px;padding:14px;background:linear-gradient(135deg,#f0f7f0 0%,var(--wh) 100%);border-bottom:1px solid var(--br);flex-wrap:wrap}
@@ -218,6 +248,7 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
     <div class="nav-item" data-nav="workorders" onclick="navWorkorders()" title="Work Orders"><span class="ni">&#128295;</span> <span>Work Orders</span></div>
     <div class="nav-item" data-nav="calendar" onclick="navCalendar()" title="Calendar"><span class="ni">&#128197;</span> <span>Calendar</span></div>
     <div class="nav-item" data-nav="bulkhours" onclick="navBulkhours()" title="Update Hours"><span class="ni">&#9203;</span> <span>Update Hours</span></div>
+    <div class="nav-item" data-nav="repairs" onclick="navRepairs()" title="Repair Requests"><span class="ni">&#129520;</span> <span>Repair Requests</span><span class="badge b-overdue" id="nav-rep-badge">0</span></div>
     <div class="nav-label" style="margin-top:8px">Quick Actions</div>
     <div class="nav-item" onclick="openAddEquip()" title="Add Equipment"><span class="ni">&#10133;</span> <span>Add Equipment</span></div>
     <div class="nav-item" onclick="printSelectedWO()" title="Print Work Orders"><span class="ni">&#128424;</span> <span>Print Work Orders</span></div>
@@ -324,6 +355,42 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
       </div>
       <div id="wo-count" style="font-size:12px;color:var(--gr);margin-bottom:10px"></div>
       <div id="wo-list"></div>
+    </div>
+
+    <!-- REPAIR REQUESTS -->
+    <div class="page" id="page-repairs">
+      <div class="rep-layout">
+        <div class="card rep-form">
+          <div class="card-title">&#128221; New Repair Request <span>crew: fill this out</span></div>
+          <div class="fgrid">
+            <div class="fg"><label>Tech Name *</label><input id="rp-tech" list="rp-tech-list" placeholder="Your name" autocomplete="off"><datalist id="rp-tech-list"><option value="Willie"><option value="William"><option value="Sandra"></datalist></div>
+            <div class="fg"><label>Date *</label><input id="rp-date" type="date"></div>
+            <div class="fg full"><label>Equipment *</label><select id="rp-equip"></select></div>
+            <div class="fg full"><label>Urgency of Repair *</label>
+              <div class="rep-urg" id="rp-urg">
+                <button type="button" class="ub-low" data-urg="Low">Low</button>
+                <button type="button" class="ub-med on" data-urg="Medium">Medium</button>
+                <button type="button" class="ub-high" data-urg="High">High</button>
+                <button type="button" class="ub-crit" data-urg="Critical">Critical</button>
+              </div>
+              <div class="rep-hint" id="rp-urg-hint"></div>
+            </div>
+            <div class="fg full"><label>Description of Repair Needed *</label><textarea id="rp-desc" rows="4" maxlength="1000" placeholder="What is wrong? What did you notice? Any noise, leak, or damage?"></textarea></div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:12px;width:100%;justify-content:center;padding:10px" onclick="submitRepair()">&#10004; Submit Repair Request</button>
+        </div>
+        <div>
+          <div class="rep-filter" id="rep-filter">
+            <button class="btn btn-secondary btn-sm on" data-rfilter="open">Open</button>
+            <button class="btn btn-secondary btn-sm" data-rfilter="done">Completed</button>
+            <button class="btn btn-secondary btn-sm" data-rfilter="all">All</button>
+            <span id="rep-count" style="font-size:12px;color:var(--gr);margin-left:6px"></span>
+            <button class="btn btn-secondary btn-sm no-print" style="margin-left:auto" onclick="repRefresh()">&#8635; Refresh</button>
+          </div>
+          <div id="rep-sync-note" style="font-size:11px;margin-bottom:10px;color:var(--gr)"></div>
+          <div id="rep-list"></div>
+        </div>
+      </div>
     </div>
 
     <!-- CALENDAR -->
@@ -778,13 +845,13 @@ function nav(id,el){
   /* Highlight by name, not by position, so extra sidebar items (Cloud Settings) cannot shift it */
   var navTarget=document.querySelector('.nav-item[data-nav="'+(id==='detail'?'equipment':id)+'"]');
   if(navTarget)navTarget.classList.add('active');
-  var t={dashboard:'Dashboard',equipment:'Equipment ('+S.equipment.length+')',detail:'Equipment Detail',workorders:'Work Orders',calendar:'Maintenance Calendar',bulkhours:'Update Hours & Miles'};
+  var t={dashboard:'Dashboard',equipment:'Equipment ('+S.equipment.length+')',detail:'Equipment Detail',workorders:'Work Orders',calendar:'Maintenance Calendar',bulkhours:'Update Hours & Miles',repairs:'Repair Requests'};
   document.getElementById('ptitle').textContent=t[id]||id;
   if(id==='dashboard')renderDash();
   if(id==='equipment')renderEqList();
   if(id==='workorders')renderWO();
   if(id==='calendar')renderCal();
-  if(id==='bulkhours')renderBulk();}
+  if(id==='bulkhours')renderBulk();if(id==='repairs')renderRepairs();}
 
 function renderDash(){
   wfClear();
@@ -1190,6 +1257,7 @@ function rerenderActive() {
   if (pid === 'workorders') renderWO();
   if (pid === 'calendar')   renderCal();
   if (pid === 'bulkhours')  renderBulk();
+  if (pid === 'repairs')    renderRepairs();
 }
 
 function forceSync() {
@@ -1198,7 +1266,7 @@ function forceSync() {
     if (data && data.ok) {
       mergeFromSheet(data);
       afterMerge('Synced ' + S.equipment.length + ' pieces');
-      toast('Synced with Google Sheets');
+      toast('Synced with Google Sheets');pullRepairs();
       rerenderActive();
     } else {
       setApiStatus('error', 'Refresh failed - using local data');
@@ -1222,6 +1290,234 @@ function bootstrapSheets() {
   });
 }
 
+
+/* ================= REPAIR REQUESTS =================
+   Crew submit requests; managers triage them here.
+   Stored in S.repairs (localStorage) and synced to a separate
+   Google Sheet tab through saveRepair / getRepairs / deleteRepair.
+   Unsynced changes are queued and retried, never lost.
+===================================================== */
+var REP_Q_KEY='ws_rep_pending_v1', REP_DQ_KEY='ws_rep_pending_del_v1', REP_TECH_KEY='ws_rep_tech_v1';
+var REP_Q=[], REP_DQ=[], REP_BUSY=false, REP_AGAIN=false, REP_FILTER='open', REP_URG='Medium', REP_LAST_PULL=0;
+try{REP_Q=JSON.parse(localStorage.getItem(REP_Q_KEY)||'[]');}catch(e){REP_Q=[];}
+try{REP_DQ=JSON.parse(localStorage.getItem(REP_DQ_KEY)||'[]');}catch(e){REP_DQ=[];}
+var URG_INFO={
+  Low:{rank:0,cls:'low',hint:'Can wait - cosmetic or minor'},
+  Medium:{rank:1,cls:'med',hint:'Fix within the week'},
+  High:{rank:2,cls:'high',hint:'Fix before next use'},
+  Critical:{rank:3,cls:'crit',hint:'Unsafe or down - stop using it'}
+};
+var REP_STATUS={open:'Open',prog:'In Progress',done:'Completed'};
+
+function repEsc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function repAll(){if(!S.repairs)S.repairs=[];return S.repairs;}
+function repFind(id){var a=repAll();for(var i=0;i<a.length;i++){if(a[i].id===id)return a[i];}return null;}
+function repFmtDate(d){if(!d)return '';var s=String(d).slice(0,10);var x=new Date(s+'T12:00:00');return isNaN(x.getTime())?s:x.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+function repNorm(x){
+  var r={};['id','tech','date','urgency','equipId','equipName','desc','status','completedDate','created','updatedAt'].forEach(function(k){r[k]=(x[k]==null)?'':String(x[k]);});
+  if(!URG_INFO[r.urgency])r.urgency='Medium';
+  if(!REP_STATUS[r.status])r.status='open';
+  return r;
+}
+function repPersist(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
+function repSaveQ(){try{localStorage.setItem(REP_Q_KEY,JSON.stringify(REP_Q));}catch(e){}}
+function repSaveDQ(){try{localStorage.setItem(REP_DQ_KEY,JSON.stringify(REP_DQ));}catch(e){}}
+function repMarkDirty(id){if(REP_Q.indexOf(id)<0)REP_Q.push(id);repSaveQ();repPersist();syncRepairs();}
+
+function repNote(state){
+  var el=document.getElementById('rep-sync-note');if(!el)return;
+  var pend=REP_Q.length+REP_DQ.length,m='',c='var(--gr)';
+  if(!API_URL){m='Cloud sync is off - requests are saved on this device only.';}
+  else if(state==='ok'&&!pend){m='Synced with Google Sheets at '+nowTime()+'.';c='var(--gd)';}
+  else if(pend){m=pend+' change'+(pend>1?'s are':' is')+' saved on this device but not in Google Sheets yet. Make sure the repair-request code is added to your Apps Script, then tap Refresh.';c='var(--am)';}
+  else if(state==='unreachable'){m='Could not load repair requests from Google Sheets - showing what is saved on this device. If this is new, the Apps Script needs the repair-request update.';c='var(--am)';}
+  el.textContent=m;el.style.color=c;
+}
+
+function repBadge(){
+  var n=repAll().filter(function(r){return r.status!=='done';}).length;
+  var b=document.getElementById('nav-rep-badge');if(!b)return;
+  b.textContent=n;if(n>0)b.classList.add('show');else b.classList.remove('show');
+}
+
+/* push queued saves/deletes to the sheet, one at a time */
+function syncRepairs(){
+  if(!API_URL)return;
+  if(REP_BUSY){REP_AGAIN=true;return;}
+  var tasks=REP_DQ.map(function(id){return {del:id};}).concat(REP_Q.map(function(id){return {id:id};}));
+  if(!tasks.length){return;}
+  REP_BUSY=true;
+  (function next(i,fail){
+    if(i>=tasks.length){
+      REP_BUSY=false;repNote(fail?'fail':'ok');
+      if(REP_AGAIN){REP_AGAIN=false;syncRepairs();}
+      return;
+    }
+    var t=tasks[i];
+    if(t.del){
+      apiGet({action:'deleteRepair',id:t.del},function(r){
+        if(r&&(r.ok||(r.error&&String(r.error).indexOf('Not found')===0))){REP_DQ=REP_DQ.filter(function(x){return x!==t.del;});repSaveDQ();next(i+1,fail);}
+        else next(i+1,fail+1);
+      });
+    }else{
+      var rep=repFind(t.id);
+      if(!rep){REP_Q=REP_Q.filter(function(x){return x!==t.id;});repSaveQ();next(i+1,fail);return;}
+      var snap=rep.updatedAt;
+      apiGet({action:'saveRepair',data:rep},function(r){
+        if(r&&r.ok){if(rep.updatedAt===snap){REP_Q=REP_Q.filter(function(x){return x!==t.id;});repSaveQ();}next(i+1,fail);}
+        else next(i+1,fail+1);
+      });
+    }
+  })(0,0);
+}
+
+/* pull the shared list; unsynced local changes always win until they are saved */
+function pullRepairs(){
+  if(!API_URL)return;
+  REP_LAST_PULL=Date.now();
+  apiGet({action:'getRepairs'},function(r){
+    if(r&&r.ok&&Array.isArray(r.repairs)){
+      var out=[];
+      r.repairs.forEach(function(x){
+        if(!x||!x.id||REP_DQ.indexOf(String(x.id))>=0)return;
+        var loc=repFind(String(x.id));
+        if(loc&&REP_Q.indexOf(loc.id)>=0)out.push(loc);else out.push(repNorm(x));
+      });
+      REP_Q.forEach(function(id){var l=repFind(id);if(l&&!out.some(function(o){return o.id===id;}))out.push(l);});
+      S.repairs=out;repPersist();
+      if(REP_Q.length||REP_DQ.length)syncRepairs();else repNote('ok');
+    }else{
+      repNote(REP_Q.length||REP_DQ.length?'fail':'unreachable');
+      if(REP_Q.length||REP_DQ.length)syncRepairs();
+    }
+    repBadge();
+    var pg=document.getElementById('page-repairs');
+    if(pg&&pg.classList.contains('active'))repRenderList();
+  });
+}
+function repRefresh(){toast('Refreshing...');if(API_URL)pullRepairs();else repRenderList();}
+
+function repBuildEquip(){
+  var sel=document.getElementById('rp-equip');if(!sel)return;
+  var cur=sel.value;
+  var list=S.equipment.slice().sort(function(a,b){return String(a.name).localeCompare(String(b.name));});
+  var h='<option value="">- select equipment -</option>';
+  list.forEach(function(e){h+='<option value="'+repEsc(e.id)+'">'+repEsc(e.name)+'</option>';});
+  h+='<option value="__other">Other / Not Listed</option>';
+  sel.innerHTML=h;if(cur)sel.value=cur;
+}
+function repSetUrg(u){
+  if(!URG_INFO[u])return;REP_URG=u;
+  var btns=document.querySelectorAll('#rp-urg button');
+  for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-urg')===u)btns[i].classList.add('on');else btns[i].classList.remove('on');}
+  var h=document.getElementById('rp-urg-hint');if(h)h.textContent=URG_INFO[u].hint;
+}
+
+function renderRepairs(){
+  repBuildEquip();repSetUrg(REP_URG);
+  var d=document.getElementById('rp-date');if(d&&!d.value)d.value=td();
+  var t=document.getElementById('rp-tech');
+  if(t&&!t.value){try{t.value=localStorage.getItem(REP_TECH_KEY)||'';}catch(e){}}
+  repRenderList();repNote(API_URL?'':'');
+  if(API_URL&&Date.now()-REP_LAST_PULL>15000)pullRepairs();
+}
+
+function repRenderList(){
+  var all=repAll().map(function(r){return r;});
+  var open=all.filter(function(r){return r.status!=='done';});
+  var done=all.filter(function(r){return r.status==='done';});
+  open.sort(function(a,b){var d=URG_INFO[b.urgency].rank-URG_INFO[a.urgency].rank;if(d)return d;return String(a.date).localeCompare(String(b.date));});
+  done.sort(function(a,b){return String(b.completedDate||b.date).localeCompare(String(a.completedDate||a.date));});
+  var shown=REP_FILTER==='open'?open:REP_FILTER==='done'?done:open.concat(done);
+  var btns=document.querySelectorAll('#rep-filter [data-rfilter]');
+  for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-rfilter')===REP_FILTER)btns[i].classList.add('on');else btns[i].classList.remove('on');}
+  document.getElementById('rep-count').textContent=open.length+' open, '+done.length+' completed';
+  var el=document.getElementById('rep-list');
+  if(!shown.length){
+    el.innerHTML='<div class="empty-state"><div class="es-icon">'+(REP_FILTER==='done'?'&#128203;':'&#9989;')+'</div><div class="es-title">'+(REP_FILTER==='done'?'No completed repairs yet':'No open repair requests')+'</div><div class="es-sub">'+(REP_FILTER==='done'?'Finished repairs will show up here.':'New requests from the crew will appear here.')+'</div></div>';
+    repBadge();return;
+  }
+  var h='';
+  shown.forEach(function(r){
+    var u=URG_INFO[r.urgency];
+    h+='<div class="rep-card u-'+u.cls+(r.status==='done'?' is-done':'')+'">';
+    h+='<div class="rep-top"><div style="min-width:0"><div class="rep-eq">'+repEsc(r.equipName||'Unknown equipment')+'</div>';
+    h+='<div class="rep-meta">Reported by <b>'+repEsc(r.tech)+'</b> &#183; '+repEsc(repFmtDate(r.date))+'</div></div>';
+    h+='<div class="rep-badges"><span class="badge rb-'+u.cls+'">'+repEsc(r.urgency)+'</span><span class="badge rs-'+r.status+'">'+REP_STATUS[r.status]+'</span></div></div>';
+    h+='<div class="rep-desc">'+repEsc(r.desc).replace(/\n/g,'<br>')+'</div>';
+    if(r.status==='done'&&r.completedDate)h+='<div class="rep-done-line">&#10004; Completed '+repEsc(repFmtDate(r.completedDate))+'</div>';
+    h+='<div class="rep-actions no-print">';
+    if(r.status==='open')h+='<button class="btn btn-amber btn-sm" data-ract="prog" data-id="'+repEsc(r.id)+'">&#9654; Start Work</button>';
+    if(r.status!=='done')h+='<button class="btn btn-primary btn-sm" data-ract="done" data-id="'+repEsc(r.id)+'">&#10004; Mark Complete</button>';
+    if(r.status!=='open')h+='<button class="btn btn-secondary btn-sm" data-ract="open" data-id="'+repEsc(r.id)+'">&#8617; '+(r.status==='done'?'Reopen':'Back to Open')+'</button>';
+    if(r.equipId&&ge(r.equipId))h+='<button class="btn btn-secondary btn-sm" data-ract="view" data-id="'+repEsc(r.id)+'">View Equipment</button>';
+    h+='<button class="btn btn-danger btn-sm" data-ract="del" data-id="'+repEsc(r.id)+'">&#128465;&#65039; Delete</button>';
+    h+='</div></div>';
+  });
+  el.innerHTML=h;repBadge();
+}
+
+function submitRepair(){
+  var tech=document.getElementById('rp-tech').value.trim();
+  var date=document.getElementById('rp-date').value;
+  var eid=document.getElementById('rp-equip').value;
+  var desc=document.getElementById('rp-desc').value.trim();
+  if(!tech){alert('Please enter your name.');return;}
+  if(!date){alert('Please pick a date.');return;}
+  if(!eid){alert('Please select the equipment.');return;}
+  if(!desc){alert('Please describe the repair needed.');return;}
+  var eq=eid==='__other'?null:ge(eid);
+  var now=new Date().toISOString();
+  var rep={id:'rr'+Date.now()+Math.floor(Math.random()*1000),tech:tech,date:date,urgency:REP_URG,equipId:eq?eq.id:'',equipName:eq?eq.name:'Other / Not Listed',desc:desc,status:'open',completedDate:'',created:now,updatedAt:now};
+  repAll().push(rep);
+  try{localStorage.setItem(REP_TECH_KEY,tech);}catch(e){}
+  logAct(rep.equipName,'Repair requested ('+rep.urgency+'): '+(desc.length>60?desc.slice(0,57)+'...':desc));
+  repMarkDirty(rep.id);
+  document.getElementById('rp-desc').value='';
+  document.getElementById('rp-equip').value='';
+  REP_FILTER='open';
+  repRenderList();
+  toast('Repair request submitted');
+  if(!API_URL)repNote('');
+}
+
+function repSetStatus(id,st){
+  var r=repFind(id);if(!r)return;
+  r.status=st;r.completedDate=st==='done'?td():'';r.updatedAt=new Date().toISOString();
+  logAct(r.equipName,'Repair '+(st==='done'?'completed':st==='prog'?'started':'reopened')+': '+(r.desc.length>50?r.desc.slice(0,47)+'...':r.desc));
+  repMarkDirty(id);repRenderList();
+}
+function repDelete(id){
+  var r=repFind(id);if(!r)return;
+  if(!confirm('Delete this repair request for "'+r.equipName+'"?'))return;
+  S.repairs=repAll().filter(function(x){return x.id!==id;});
+  REP_Q=REP_Q.filter(function(x){return x!==id;});repSaveQ();
+  if(REP_DQ.indexOf(id)<0)REP_DQ.push(id);repSaveDQ();
+  repPersist();syncRepairs();repRenderList();toast('Request deleted');
+}
+function navRepairs(){var n=document.querySelectorAll('.nav-item');nav('repairs',n[5]);}
+
+function initRepairs(){
+  var ul=document.getElementById('rep-list');
+  if(ul)ul.addEventListener('click',function(ev){
+    var b=ev.target.closest?ev.target.closest('[data-ract]'):null;if(!b)return;
+    var act=b.getAttribute('data-ract'),id=b.getAttribute('data-id');
+    if(act==='view'){var r=repFind(id);if(r&&r.equipId)openDetail(r.equipId);}
+    else if(act==='del')repDelete(id);
+    else repSetStatus(id,act);
+  });
+  var uf=document.getElementById('rep-filter');
+  if(uf)uf.addEventListener('click',function(ev){var b=ev.target.closest?ev.target.closest('[data-rfilter]'):null;if(!b)return;REP_FILTER=b.getAttribute('data-rfilter');repRenderList();});
+  var uu=document.getElementById('rp-urg');
+  if(uu)uu.addEventListener('click',function(ev){var b=ev.target.closest?ev.target.closest('[data-urg]'):null;if(!b)return;repSetUrg(b.getAttribute('data-urg'));});
+  S.repairs=repAll().map(repNorm);
+  repBadge();repSetUrg(REP_URG);
+  if(API_URL)pullRepairs();
+}
+window.navRepairs=navRepairs;
+window.submitRepair=submitRepair;
+window.repRefresh=repRefresh;
+initRepairs();
 
 /* Expose all onclick-called functions on window for Wix iframe compatibility */
 window.navDashboard = navDashboard;
