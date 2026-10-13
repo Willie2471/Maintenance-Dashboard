@@ -2,7 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2d6a2f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WS Maintenance">
 <title>WS Lawn Care - Equipment Maintenance Portal</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -228,12 +233,102 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 .es-sub{font-size:12px;margin-bottom:14px}
 .toast{position:fixed;bottom:20px;right:20px;background:var(--gd);color:#fff;padding:10px 16px;border-radius:var(--ra);font-size:13px;font-weight:500;z-index:999;opacity:0;transition:opacity .3s;box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .toast.show{opacity:1}
-@media print{.sidebar,.topbar,.no-print,.modal-overlay,.toast{display:none!important}body,html{height:auto;overflow:visible}.app,.main{display:block;height:auto;overflow:visible}.content{padding:0}.page{display:block!important}.page:not(#page-workorders){display:none!important}#page-workorders{display:block!important}.wo-item{page-break-inside:avoid}}
+@media print{.sidebar,.topbar,.tabbar,.more-sheet,.more-back,.no-print,.modal-overlay,.toast{display:none!important}body,html{height:auto;overflow:visible}.app,.main{display:block;height:auto;overflow:visible}.content{padding:0}.page{display:block!important}.page:not(#page-workorders){display:none!important}#page-workorders{display:block!important}.wo-item{page-break-inside:avoid}}
 @media(max-width:700px){.sb-toggle{display:none}}
 @media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr}.dash-grid{grid-template-columns:1fr}.eq-grid{grid-template-columns:1fr}.sidebar{width:56px}.s-brand,.s-tagline,.nav-label,.sidebar-bottom{display:none}.nav-item span:not(.ni){display:none}.fgrid{grid-template-columns:1fr}.fgrid .full{grid-column:1}}
+/* ---- PHONE / APP LAYOUT (<=700px): bottom tab bar, compact header, sheet-style modals ---- */
+.tabbar,.more-sheet,.more-back{display:none}
+@media(max-width:700px){
+html,body{height:100%}
+body{height:100vh;height:100dvh;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+.app{height:100vh;height:100dvh;display:block}
+.sidebar{display:none}
+.main{height:100vh;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+.topbar{padding:calc(9px + env(safe-area-inset-top)) 14px 9px;gap:8px;background:var(--gd);border-bottom:0;flex-wrap:nowrap}
+.topbar>div:first-child{min-width:0;flex:1}
+.topbar-title{font-size:18px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.topbar-sub,.tb-desk{display:none!important}
+.topbar>div:last-child{flex-wrap:nowrap!important;gap:6px!important;flex-shrink:0}
+#api-status{font-size:0!important;width:32px;height:32px;padding:0!important;border-radius:50%!important;display:inline-flex;align-items:center;justify-content:center}
+#api-status::before{content:'\25CF';font-size:16px;line-height:1;color:#78909c}
+#api-status[data-s="ok"]::before{color:#2d6a2f}
+#api-status[data-s="syncing"]::before{color:#e65100}
+#api-status[data-s="error"]::before{color:#c62828}
+.topbar .btn-secondary{background:rgba(255,255,255,.2);color:#fff;min-height:32px;padding:4px 10px}
+.content{padding:12px 12px 18px}
+.card{padding:14px}
+.kpi-grid{gap:8px;margin-bottom:12px}.kpi{padding:12px 11px}.kpi-val{font-size:26px}
+.eq-grid{grid-template-columns:1fr}
+#bulk-hrs-grid,#bulk-mi-grid{grid-template-columns:minmax(0,1fr)!important}
+.bulk-card{min-width:0}
+.bulk-inp-row{min-width:0}
+.bulk-inp-row input{min-width:0;width:100%}
+.eq-grid{grid-template-columns:minmax(0,1fr)}
+.cal-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+.wo-toolbar{grid-template-columns:1fr!important}
+.wo-filter-row{gap:8px}
+.wo-filter-row div[style*="width:1px"]{display:none}
+.eq-search-row{gap:8px}
+.eq-search-row .btn{white-space:nowrap;padding:8px 12px}
+.eq-search-row input{min-width:0}
+.cal-hdr{gap:6px}
+input,select,textarea{font-size:16px!important}
+.btn{min-height:42px;padding:8px 14px}
+.btn-sm{min-height:38px;padding:6px 12px;font-size:13px}
+.btn-xs{min-height:34px;padding:4px 11px;font-size:12px}
+.bulk-inp-row input{min-height:46px;font-size:18px!important}
+.rep-urg button{min-height:48px;font-size:14px}
+.rep-form input,.rep-form select{min-height:46px}
+.cal-month{min-width:0}.cal-cell{min-height:54px;padding:3px 2px}.cal-ev{font-size:8px}
+.toast{left:14px;right:14px;bottom:calc(76px + env(safe-area-inset-bottom));text-align:center}
+.modal-overlay{padding:0!important;align-items:flex-end!important}
+.modal{max-width:none;border-radius:18px 18px 0 0;max-height:94vh;max-height:94dvh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.modal-hdr{position:sticky;top:0;z-index:2;background:var(--wh);padding:12px 14px}
+.modal-footer{position:sticky;bottom:0;z-index:2;background:var(--wh);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.modal-body{padding:14px}
+.tabbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:120;background:var(--wh);border-top:1px solid var(--br);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -2px 10px rgba(0,0,0,.08)}
+.tb-item{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:58px;padding:7px 2px 6px;border:0;background:none;font-family:inherit;font-size:10px;font-weight:600;color:var(--gr);cursor:pointer;position:relative}
+.tb-ico{font-size:21px;line-height:1;opacity:.7;filter:grayscale(.5)}
+.tb-item.on{color:var(--gd)}
+.tb-item.on .tb-ico{opacity:1;filter:none}
+.tb-item.on::before{content:'';position:absolute;top:0;left:24%;right:24%;height:3px;border-radius:0 0 3px 3px;background:var(--gd)}
+.tb-badge{display:none;position:absolute;top:4px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--rd);color:#fff;font-size:10px;font-weight:700;line-height:17px;text-align:center}
+.tb-badge.show{display:block}
+.more-back{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:130}
+.more-back.open{display:block}
+.more-sheet{display:block;position:fixed;left:0;right:0;bottom:0;z-index:140;background:var(--wh);border-radius:18px 18px 0 0;padding:8px 14px calc(14px + env(safe-area-inset-bottom));box-shadow:0 -6px 24px rgba(0,0,0,.2);transform:translateY(105%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s}
+.more-sheet.open{transform:none;visibility:visible;transition:transform .22s ease,visibility 0s}
+.more-grip{width:40px;height:4px;border-radius:2px;background:var(--br);margin:4px auto 12px}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.more-btn{display:flex;align-items:center;gap:10px;min-height:58px;padding:12px;border:1px solid var(--br);border-radius:12px;background:var(--wh);font:inherit;font-size:14px;font-weight:600;color:var(--gd);text-align:left;cursor:pointer}
+.more-btn:active{background:var(--gl)}
+.more-btn .ni{font-size:22px}
+.more-foot{margin-top:12px;text-align:center;font-size:11px;color:var(--gr);line-height:1.6}
+}
+@media print{.main{height:auto!important;overflow:visible!important;padding:0!important}.app{height:auto!important}}
 </style>
 </head>
 <body>
+<nav class="tabbar no-print" id="tabbar" aria-label="Main">
+  <button class="tb-item on" data-tb="dashboard" data-fn="navDashboard"><span class="tb-ico">&#128202;</span><span>Home</span></button>
+  <button class="tb-item" data-tb="equipment" data-fn="navEquipment"><span class="tb-ico">&#128668;</span><span>Equipment</span></button>
+  <button class="tb-item" data-tb="bulkhours" data-fn="navBulkhours"><span class="tb-ico">&#9203;</span><span>Hours</span></button>
+  <button class="tb-item" data-tb="repairs" data-fn="navRepairs"><span class="tb-ico">&#129520;</span><span>Repairs</span><span class="tb-badge" id="tb-rep-badge">0</span></button>
+  <button class="tb-item" data-tb="more" data-fn="openMore"><span class="tb-ico">&#8943;</span><span>More</span></button>
+</nav>
+<div class="more-back no-print" id="more-back"></div>
+<div class="more-sheet no-print" id="more-sheet" role="dialog" aria-label="More">
+  <div class="more-grip"></div>
+  <div class="more-grid">
+    <button class="more-btn" data-fn="navWorkorders"><span class="ni">&#128295;</span><span>Work Orders</span></button>
+    <button class="more-btn" data-fn="navCalendar"><span class="ni">&#128197;</span><span>Calendar</span></button>
+    <button class="more-btn" data-fn="openAddEquip"><span class="ni">&#10133;</span><span>Add Equipment</span></button>
+    <button class="more-btn" data-fn="printSelectedWO"><span class="ni">&#128424;</span><span>Print Work Orders</span></button>
+    <button class="more-btn" data-fn="forceSync"><span class="ni">&#8635;</span><span>Sync Now</span></button>
+    <button class="more-btn" data-fn="openApiSetup"><span class="ni">&#9729;&#65039;</span><span>Cloud Settings</span></button>
+  </div>
+  <div class="more-foot">WS Lawn Care Services, LLC &#183; Titusville, FL<br>321-209-0668</div>
+</div>
 <div class="app">
 <div class="sidebar">
   <div class="sidebar-logo">
@@ -262,8 +357,8 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap" class="no-print">
       <span id="api-status" style="font-size:11px;padding:3px 9px;border-radius:12px;font-weight:500;background:#eceff1;color:#546e7a">&#9679; Loading...</span>
       <button class="btn btn-secondary btn-sm" onclick="forceSync()" title="Refresh from Google Sheets">&#8635; Sync</button>
-      <button class="btn btn-secondary btn-sm" onclick="navWorkorders()">&#128295; Work Orders</button>
-      <button class="btn btn-primary btn-sm" onclick="openAddEquip()">&#10133; Add Equipment</button>
+      <button class="btn btn-secondary btn-sm tb-desk" onclick="navWorkorders()">&#128295; Work Orders</button>
+      <button class="btn btn-primary btn-sm tb-desk" onclick="openAddEquip()">&#10133; Add Equipment</button>
     </div>
   </div>
 
@@ -637,6 +732,7 @@ function setApiStatus(status, msg) {
   else if (status === 'syncing') { el.style.background='#fff3e0'; el.style.color='#e65100'; el.textContent='↻ ' + (msg||'Syncing...'); }
   else if (status === 'local')   { el.style.background='#eceff1'; el.style.color='#546e7a'; el.textContent='⚠ Offline mode (localStorage only)'; }
   else if (status === 'error')   { el.style.background='#ffebee'; el.style.color='#c62828'; el.textContent='✗ ' + (msg||'Sync error'); }
+  el.setAttribute('data-s', status); el.title = el.textContent;
 }
 
 var FRESH_LOCAL = false;
@@ -845,6 +941,7 @@ function nav(id,el){
   /* Highlight by name, not by position, so extra sidebar items (Cloud Settings) cannot shift it */
   var navTarget=document.querySelector('.nav-item[data-nav="'+(id==='detail'?'equipment':id)+'"]');
   if(navTarget)navTarget.classList.add('active');
+  if(window.tbSync)tbSync(id);
   var t={dashboard:'Dashboard',equipment:'Equipment ('+S.equipment.length+')',detail:'Equipment Detail',workorders:'Work Orders',calendar:'Maintenance Calendar',bulkhours:'Update Hours & Miles',repairs:'Repair Requests'};
   document.getElementById('ptitle').textContent=t[id]||id;
   if(id==='dashboard')renderDash();
@@ -1338,6 +1435,7 @@ function repBadge(){
   var n=repAll().filter(function(r){return r.status!=='done';}).length;
   var b=document.getElementById('nav-rep-badge');if(!b)return;
   b.textContent=n;if(n>0)b.classList.add('show');else b.classList.remove('show');
+  var tbb=document.getElementById('tb-rep-badge');if(tbb){tbb.textContent=n;if(n>0)tbb.classList.add('show');else tbb.classList.remove('show');}
 }
 
 /* push queued saves/deletes to the sheet, one at a time */
@@ -1518,6 +1616,33 @@ window.navRepairs=navRepairs;
 window.submitRepair=submitRepair;
 window.repRefresh=repRefresh;
 initRepairs();
+
+/* ================= PHONE APP SHELL =================
+   Bottom tab bar + "More" sheet. Only visible at <=700px (CSS).
+   Buttons use data-fn so there are no arguments in onclick (Wix-safe). */
+var TB_MAP={dashboard:'dashboard',equipment:'equipment',detail:'equipment',bulkhours:'bulkhours',repairs:'repairs'};
+function tbSync(id){
+  var want=TB_MAP[id]||'more';
+  var items=document.querySelectorAll('.tb-item');
+  for(var i=0;i<items.length;i++){if(items[i].getAttribute('data-tb')===want)items[i].classList.add('on');else items[i].classList.remove('on');}
+  if(window.innerWidth<=700){var m=document.querySelector('.main');if(m)m.scrollTop=0;}
+}
+function openMore(){document.getElementById('more-sheet').classList.add('open');document.getElementById('more-back').classList.add('open');}
+function closeMore(){document.getElementById('more-sheet').classList.remove('open');document.getElementById('more-back').classList.remove('open');}
+(function(){
+  function run(ev){
+    var b=ev.target.closest?ev.target.closest('[data-fn]'):null;if(!b)return;
+    var fn=b.getAttribute('data-fn');
+    if(fn!=='openMore')closeMore();
+    if(typeof window[fn]==='function')window[fn]();
+  }
+  var tb=document.getElementById('tabbar'),sh=document.getElementById('more-sheet'),bk=document.getElementById('more-back');
+  if(tb)tb.addEventListener('click',run);
+  if(sh)sh.addEventListener('click',run);
+  if(bk)bk.addEventListener('click',closeMore);
+  window.addEventListener('resize',function(){if(window.innerWidth>700)closeMore();});
+})();
+window.openMore=openMore;window.closeMore=closeMore;
 
 /* Expose all onclick-called functions on window for Wix iframe compatibility */
 window.navDashboard = navDashboard;
