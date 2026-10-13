@@ -9,6 +9,13 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="WS Maintenance">
 <title>WS Lawn Care - Equipment Maintenance Portal</title>
+<script>
+/* Phone menu position: embedded in another page (e.g. Wix) -> menu on top, where it can always be reached.
+   Opened directly -> menu on the bottom. Add ?nav=top or ?nav=bottom to the address to force either. */
+(function(){var q=(location.search||'').match(/[?&]nav=(top|bottom)/),emb;
+try{emb=window.self!==window.top;}catch(e){emb=true;}
+if(q?q[1]==='top':emb)document.documentElement.classList.add('navtop');})();
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a2e1a;font-size:14px;height:100vh;overflow:hidden}
@@ -239,11 +246,11 @@ body{font-family:system-ui,-apple-system,sans-serif;background:#f4f7f4;color:#1a
 /* ---- PHONE / APP LAYOUT (<=700px): bottom tab bar, compact header, sheet-style modals ---- */
 .tabbar,.more-sheet,.more-back{display:none}
 @media(max-width:700px){
-html,body{height:100%}
-body{height:100vh;height:100dvh;overscroll-behavior:none;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
-.app{height:100vh;height:100dvh;display:block}
+html,body{height:auto}
+body{height:auto;min-height:100vh;overflow:visible;-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+.app{height:auto;overflow:visible;display:block}
 .sidebar{display:none}
-.main{height:100vh;height:100dvh;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
+.main{height:auto;min-height:100vh;overflow:visible;padding-bottom:calc(68px + env(safe-area-inset-bottom))}
 .topbar{padding:calc(9px + env(safe-area-inset-top)) 14px 9px;gap:8px;background:var(--gd);border-bottom:0;flex-wrap:nowrap}
 .topbar>div:first-child{min-width:0;flex:1}
 .topbar-title{font-size:18px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -304,6 +311,19 @@ input,select,textarea{font-size:16px!important}
 .more-btn:active{background:var(--gl)}
 .more-btn .ni{font-size:22px}
 .more-foot{margin-top:12px;text-align:center;font-size:11px;color:var(--gr);line-height:1.6}
+:root{--tbh:56px}
+html.navtop body{padding-top:var(--tbh)}
+html.navtop .tabbar{top:0;bottom:auto;padding-bottom:0;border-top:0;border-bottom:1px solid var(--br);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+html.navtop .tb-item{min-height:var(--tbh)}
+html.navtop .tb-item.on::before{top:auto;bottom:0;border-radius:3px 3px 0 0}
+html.navtop .topbar{top:var(--tbh)}
+html.navtop .main{padding-bottom:18px}
+html.navtop .more-sheet{top:var(--tbh);bottom:auto;border-radius:0 0 18px 18px;padding:14px;transform:translateY(-110%);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+html.navtop .more-sheet.open{transform:none}
+html.navtop .more-grip{display:none}
+html.navtop .modal-overlay{align-items:flex-start!important}
+html.navtop .modal{border-radius:0 0 18px 18px;max-height:100vh}
+html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 }
 @media print{.main{height:auto!important;overflow:visible!important;padding:0!important}.app{height:auto!important}}
 </style>
@@ -1625,7 +1645,7 @@ function tbSync(id){
   var want=TB_MAP[id]||'more';
   var items=document.querySelectorAll('.tb-item');
   for(var i=0;i<items.length;i++){if(items[i].getAttribute('data-tb')===want)items[i].classList.add('on');else items[i].classList.remove('on');}
-  if(window.innerWidth<=700){var m=document.querySelector('.main');if(m)m.scrollTop=0;}
+  if(window.innerWidth<=700){try{window.scrollTo(0,0);}catch(e){}var m=document.querySelector('.main');if(m)m.scrollTop=0;}
 }
 function openMore(){document.getElementById('more-sheet').classList.add('open');document.getElementById('more-back').classList.add('open');}
 function closeMore(){document.getElementById('more-sheet').classList.remove('open');document.getElementById('more-back').classList.remove('open');}
