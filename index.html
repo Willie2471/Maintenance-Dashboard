@@ -326,34 +326,49 @@ html.navtop .modal{border-radius:0 0 18px 18px;max-height:100vh}
 html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 }
 /* ---- SUPPLIES & REORDERS ---- */
-.sup-layout{display:grid;grid-template-columns:minmax(300px,380px) 1fr;gap:14px;align-items:start}
-.sup-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:14px}
-.sup-form{position:static}
+.sup-layout{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:16px;align-items:start}
+.sup-side,.sup-main{min-width:0}
+#page-supplies .card{min-width:0}
+#page-supplies .fgrid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 10px}
+#page-supplies .fg{min-width:0}
+#page-supplies .fg.full{grid-column:1/-1}
+#page-supplies .fg input,#page-supplies .fg select,#page-supplies .fg textarea{width:100%;min-width:0}
+#page-supplies .card-title{font-size:15px;margin-bottom:14px}
+.sup-opt{font-weight:400;text-transform:none;letter-spacing:0;color:var(--gr)}
+.sup-inline{display:grid;grid-template-columns:84px minmax(0,1fr);gap:8px}
+.sup-chkl{display:flex!important;align-items:center;gap:8px;text-transform:none!important;font-size:13px!important;font-weight:500!important;color:#1a2e1a!important;cursor:pointer}
+.sup-chkl input{width:18px!important;height:18px}
 .sup-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.sup-sel{padding:7px 9px;border:1px solid var(--br);border-radius:var(--ra);font-size:13px;font-family:inherit;background:var(--wh);outline:none}
 .sup-det{margin-top:12px}
-.sup-det summary{cursor:pointer;font-weight:700;font-size:13px;color:var(--gd)}
-.sup-gh{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:var(--gl);border-left:5px solid var(--gm);padding:8px 12px;border-radius:var(--ra);margin:14px 0 8px;font-weight:700;font-size:14px;color:var(--gd)}
-.sup-gh small{font-weight:400;color:var(--gr)}
-.sup-item{background:var(--wh);border:1px solid var(--br);border-left:5px solid var(--bl);border-radius:var(--rlg);padding:12px;margin-bottom:8px;box-shadow:var(--sh);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start}
-.sup-item.st-ordered{border-left-color:#ef6c00}.sup-item.st-picked{border-left-color:var(--gm);opacity:.75;background:#f7fbf7}
-.sup-item.urgent{border-color:var(--rd);border-left-color:var(--rd)}
-.sup-info{flex:1;min-width:200px}
-.sup-title{font-size:14px;font-weight:700;color:#1a2e1a;word-break:break-word}
+.sup-det summary{cursor:pointer;font-weight:600;font-size:13px;color:var(--gd);padding:4px 0}
+.sup-foot{margin-top:14px;padding:0 4px}
+.sup-bar2{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+#sp-count{font-size:12px;color:var(--gr);margin-left:6px}
+.sup-email{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.sup-email input{flex:1;min-width:180px;padding:7px 9px;border:1px solid var(--br);border-radius:var(--ra);font-size:13px;font-family:inherit}
+#sp-sync-note{font-size:11px;color:var(--gr);margin-top:14px;text-align:center}
+.sup-gh{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:2px 2px 8px;margin:18px 0 8px;border-bottom:2px solid var(--gb);font-weight:700;font-size:14px;color:var(--gd)}
+.sup-gh:first-child{margin-top:0}
+.sup-gh small{font-weight:400;color:var(--gr);margin-left:6px}
+.sup-item{background:var(--wh);border:1px solid var(--br);border-radius:var(--rlg);padding:12px 14px;margin-bottom:8px;box-shadow:var(--sh);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.sup-item.st-ordered{background:#fffaf0}
+.sup-item.st-picked{opacity:.6}
+.sup-item.urgent{border-color:var(--rd)}
+.sup-info{flex:1;min-width:180px}
+.sup-title{font-size:14px;font-weight:600;color:#1a2e1a;word-break:break-word}
 .sup-item.st-picked .sup-title{text-decoration:line-through}
-.sup-qty{font-weight:500;color:var(--gd);margin-left:6px}
-.sup-meta{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;align-items:center}
-.sup-tag{font-size:11px;background:var(--grl);color:#2c3e2c;padding:2px 8px;border-radius:10px;word-break:break-word}
-.sup-tag.bad{background:var(--rl);color:var(--rd);font-weight:700}.sup-tag.warn{background:var(--al);color:var(--am);font-weight:700}.sup-tag.soon{background:#fff8e1;color:#8d6e00}.sup-tag.on{background:#e3f2fd;color:var(--bl)}
-.sup-tag a{color:inherit}
-.sup-note{font-size:12px;color:var(--am);font-style:italic;margin-top:5px;white-space:pre-wrap;word-break:break-word}
-.sup-act{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.sup-qty{font-weight:400;color:var(--gr);margin-left:6px}
+.sup-meta{display:flex;flex-wrap:wrap;gap:4px 10px;margin-top:4px;font-size:12px;color:var(--gr);align-items:center}
+.sup-meta a{color:var(--bl)}
+.sup-meta .bad{color:var(--rd);font-weight:700}.sup-meta .warn{color:var(--am);font-weight:700}
+.sup-note{font-size:12px;color:var(--gr);font-style:italic;margin-top:4px;white-space:pre-wrap;word-break:break-word}
+.sup-act{display:flex;gap:6px;align-items:center}
 .sup-act select{padding:5px 7px;border:1px solid var(--br);border-radius:var(--ra);font-size:12px;font-family:inherit;background:var(--wh)}
-.sup-st{display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:8px 10px;border:1px solid var(--br);border-radius:var(--ra);margin-bottom:6px}
-.sup-st input[type=checkbox]{width:18px;height:18px;flex-shrink:0}
-.sup-st .sup-info{min-width:150px}
-.sup-repbox{background:var(--gl);border:1px solid var(--gb);border-radius:var(--ra);padding:8px 10px}
-@media(max-width:900px){.sup-layout{grid-template-columns:1fr}.sup-kpis{grid-template-columns:repeat(2,1fr)}.sup-form input,.sup-form select,.sup-form textarea,#page-supplies .sup-sel,#page-supplies .fg input,#page-supplies .fg select{font-size:16px}}
+.sup-st{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--grl)}
+.sup-st:last-of-type{border-bottom:0}
+.sup-st .sup-info{min-width:0}
+.sup-empty{background:var(--wh);border:1px dashed var(--br);border-radius:var(--rlg);padding:28px 16px;text-align:center;color:var(--gr);font-size:13px}
+@media(max-width:900px){.sup-layout{grid-template-columns:minmax(0,1fr)}.sup-main{order:-1}#page-supplies .fg input,#page-supplies .fg select,#page-supplies .fg textarea,.sup-email input{font-size:16px}}
 #nav-sup-badge{display:none}
 #nav-sup-badge.show{display:inline-block;margin-left:auto}
 .sidebar.collapsed #nav-sup-badge{display:none}
@@ -545,116 +560,92 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 
     <!-- SUPPLIES & REORDERS -->
     <div class="page" id="page-supplies">
-      <div class="sup-kpis" id="sup-kpis"></div>
       <div class="sup-layout">
         <div class="sup-side">
-          <div class="card sup-form">
-            <div class="card-title"><span id="sp-form-title" style="font-weight:700;color:var(--gd);font-size:13px">&#10133; Add Supply Item</span><span>anything to buy or pick up</span></div>
+          <div class="card">
+            <div class="card-title"><span id="sp-form-title">Add to list</span></div>
             <div class="fgrid">
-              <div class="fg full"><label>Item *</label><input id="sp-name" placeholder="e.g. String trimmer line .095, mix fuel, 2x4 lumber" autocomplete="off"></div>
+              <div class="fg full"><label>Item</label><input id="sp-name" placeholder="e.g. String trimmer line, mix fuel" autocomplete="off"></div>
               <div class="fg"><label>Qty</label><input id="sp-qty" type="number" inputmode="decimal" step="any" value="1"></div>
-              <div class="fg"><label>Unit</label><input id="sp-unit" list="sp-unit-list" placeholder="ea, gal, box..." autocomplete="off"></div>
-              <div class="fg full"><label>Category</label><select id="sp-cat"></select></div>
-              <div class="fg"><label>Buy / pick up at</label><input id="sp-store" list="sp-store-list" placeholder="Home Depot" autocomplete="off"></div>
-              <div class="fg"><label>Branch / pickup spot</label><input id="sp-loc" placeholder="e.g. Pro Desk" autocomplete="off"></div>
-              <div class="fg"><label>Pick up / order by</label><input id="sp-due" type="date"></div>
-              <div class="fg"><label>Priority</label><select id="sp-pri"><option value="normal">Normal</option><option value="urgent">&#128293; Urgent</option></select></div>
-              <div class="fg"><label>Order # (if ordered online)</label><input id="sp-order" placeholder="Optional" autocomplete="off"></div>
-              <div class="fg"><label>Est. cost ($)</label><input id="sp-cost" type="number" inputmode="decimal" step="0.01" placeholder="0.00"></div>
-              <div class="fg"><label>How to get it</label><select id="sp-method"><option value="pickup">Pick up at store</option><option value="order">Order online</option></select></div>
-              <div class="fg"><label>Order link (optional)</label><input id="sp-url" placeholder="https://amazon.com/..." autocomplete="off"></div>
-              <div class="fg full sup-repbox"><label>&#128257; Repeat reminder (optional)</label>
-                <div class="sup-row"><span style="font-size:12px">Remind me every</span><input id="sp-rep" type="number" min="0" step="1" placeholder="0" style="width:70px"><select id="sp-repu" style="flex:1"><option value="days">days</option><option value="weeks">weeks</option><option value="months" selected>months</option></select></div>
-                <div class="rep-hint">After you mark it Ordered or Picked up, the next reminder is set automatically and a new item appears on the list when it is due.</div></div>
-              <div class="fg full"><label>For equipment (optional)</label><select id="sp-equip"></select></div>
-              <div class="fg full"><label>Requested by</label><input id="sp-by" list="rp-tech-list" placeholder="Your name" autocomplete="off"></div>
-              <div class="fg full"><label>Notes</label><textarea id="sp-notes" rows="2" placeholder="Size, brand, SKU, who needs it, etc."></textarea></div>
+              <div class="fg"><label>Unit</label><input id="sp-unit" list="sp-unit-list" placeholder="gal, box..." autocomplete="off"></div>
+              <div class="fg"><label>Store</label><input id="sp-store" list="sp-store-list" placeholder="Home Depot" autocomplete="off"></div>
+              <div class="fg"><label>How</label><select id="sp-method"><option value="pickup">Pick up</option><option value="order">Order online</option></select></div>
+              <div class="fg full"><label>Pick up / order by</label><input id="sp-due" type="date"></div>
+              <div class="fg full"><label>Repeat every <span class="sup-opt">(optional)</span></label>
+                <div class="sup-inline"><input id="sp-rep" type="number" min="0" step="1" placeholder="0"><select id="sp-repu"><option value="days">days</option><option value="weeks">weeks</option><option value="months" selected>months</option></select></div></div>
             </div>
-            <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-              <button class="btn btn-primary" id="sp-submit" style="flex:1;justify-content:center;padding:10px" data-sact="submit">&#10133; Add to List</button>
-              <button class="btn btn-secondary" id="sp-cancel" style="display:none" data-sact="cancel">Cancel edit</button>
+            <details class="sup-det"><summary>More details</summary>
+              <div class="fgrid" style="margin-top:10px">
+                <div class="fg full"><label>Pickup spot / branch</label><input id="sp-loc" placeholder="e.g. Pro Desk" autocomplete="off"></div>
+                <div class="fg full"><label>Order link</label><input id="sp-url" placeholder="https://amazon.com/..." autocomplete="off"></div>
+                <div class="fg full"><label>Order #</label><input id="sp-order" autocomplete="off"></div>
+                <div class="fg full"><label>Notes</label><textarea id="sp-notes" rows="2"></textarea></div>
+                <div class="fg full"><label class="sup-chkl"><input type="checkbox" id="sp-urgent"> &#128293; Mark urgent</label></div>
+              </div>
+            </details>
+            <div class="sup-row" style="margin-top:14px">
+              <button class="btn btn-primary" id="sp-submit" style="flex:1;justify-content:center" data-sact="submit">Add to list</button>
+              <button class="btn btn-secondary" id="sp-cancel" style="display:none" data-sact="cancel">Cancel</button>
             </div>
             <datalist id="sp-store-list"></datalist>
-            <datalist id="sp-unit-list"><option value="ea"><option value="box"><option value="gal"><option value="qt"><option value="bag"><option value="roll"><option value="spool"><option value="case"><option value="pack"><option value="pair"><option value="ft"></datalist>
+            <datalist id="sp-unit-list"><option value="ea"><option value="box"><option value="gal"><option value="qt"><option value="bag"><option value="roll"><option value="spool"><option value="case"><option value="pack"></datalist>
           </div>
 
           <div class="card" style="margin-top:14px">
-            <div class="card-title">&#11088; Standing Supplies <span>things you reorder again and again</span></div>
-            <div style="font-size:12px;color:var(--gr);margin-bottom:8px">Check what you need and tap <b>Add checked</b>, or tap <b>+ Add</b> on one item.</div>
+            <div class="card-title"><span>Repeat orders</span></div>
             <div id="sp-staples"></div>
-            <div class="sup-row" style="margin-top:10px">
-              <div class="fg" style="flex:1;min-width:140px"><label>Pick up by (for items added)</label><input id="sp-st-due" type="date"></div>
-            </div>
-            <div class="sup-row" style="margin-top:8px">
-              <button class="btn btn-primary btn-sm" data-sact="addchecked">+ Add checked</button>
-              <button class="btn btn-secondary btn-sm" data-sact="checkall">Check all</button>
-              <button class="btn btn-secondary btn-sm" data-sact="uncheckall">Uncheck</button>
-            </div>
-            <details class="sup-det" id="sp-st-det"><summary id="sp-st-sum">&#10133; Add / edit a standing item</summary>
+            <details class="sup-det" id="sp-st-det"><summary id="sp-st-sum">+ New repeat order</summary>
               <div class="fgrid" style="margin-top:10px">
-                <div class="fg full"><label>Item *</label><input id="spt-name" placeholder="e.g. Mixed fuel (ethanol-free)" autocomplete="off"></div>
-                <div class="fg"><label>Usual qty</label><input id="spt-qty" type="number" inputmode="decimal" step="any" value="1"></div>
+                <div class="fg full"><label>Item</label><input id="spt-name" placeholder="e.g. 2-cycle mix fuel" autocomplete="off"></div>
+                <div class="fg"><label>Qty</label><input id="spt-qty" type="number" inputmode="decimal" step="any" value="1"></div>
                 <div class="fg"><label>Unit</label><input id="spt-unit" list="sp-unit-list" autocomplete="off"></div>
-                <div class="fg full"><label>Category</label><select id="spt-cat"></select></div>
-                <div class="fg"><label>Usual store</label><input id="spt-store" list="sp-store-list" autocomplete="off"></div>
-                <div class="fg"><label>Est. cost ($)</label><input id="spt-cost" type="number" inputmode="decimal" step="0.01"></div>
-                <div class="fg"><label>How to get it</label><select id="spt-method"><option value="pickup">Pick up at store</option><option value="order">Order online</option></select></div>
-                <div class="fg"><label>Order link (optional)</label><input id="spt-url" placeholder="https://amazon.com/..." autocomplete="off"></div>
-                <div class="fg full sup-repbox"><label>&#128257; Repeat reminder</label>
-                  <div class="sup-row"><span style="font-size:12px">Every</span><input id="spt-rep" type="number" min="0" step="1" placeholder="0" style="width:70px"><select id="spt-repu" style="flex:1"><option value="days">days</option><option value="weeks">weeks</option><option value="months" selected>months</option></select></div>
-                  <div class="fg" style="margin-top:6px"><label>Next reminder date</label><input id="spt-next" type="date"></div>
-                  <div class="rep-hint">Leave the date blank to start counting from today. Set 0 to turn repeating off.</div></div>
-                <div class="fg full"><label>For equipment (optional)</label><select id="spt-equip"></select></div>
-                <div class="fg full"><label>Notes (size / SKU)</label><input id="spt-notes" autocomplete="off"></div>
+                <div class="fg"><label>Store</label><input id="spt-store" list="sp-store-list" autocomplete="off"></div>
+                <div class="fg"><label>How</label><select id="spt-method"><option value="pickup">Pick up</option><option value="order">Order online</option></select></div>
+                <div class="fg full"><label>Order link</label><input id="spt-url" placeholder="https://amazon.com/..." autocomplete="off"></div>
+                <div class="fg full"><label>Remind me every</label>
+                  <div class="sup-inline"><input id="spt-rep" type="number" min="0" step="1" placeholder="1"><select id="spt-repu"><option value="days">days</option><option value="weeks">weeks</option><option value="months" selected>months</option></select></div></div>
+                <div class="fg full"><label>Next reminder <span class="sup-opt">(blank = from today)</span></label><input id="spt-next" type="date"></div>
               </div>
-              <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-                <button class="btn btn-primary btn-sm" id="spt-submit" data-sact="st-submit">&#128190; Save standing item</button>
-                <button class="btn btn-secondary btn-sm" id="spt-cancel" style="display:none" data-sact="st-cancel">Cancel edit</button>
+              <div class="sup-row" style="margin-top:12px">
+                <button class="btn btn-primary btn-sm" id="spt-submit" data-sact="st-submit">Save</button>
+                <button class="btn btn-secondary btn-sm" id="spt-cancel" style="display:none" data-sact="st-cancel">Cancel</button>
+                <button class="btn btn-danger btn-sm" id="spt-del" style="display:none;margin-left:auto" data-sact="st-del">Delete</button>
               </div>
             </details>
           </div>
 
-          <div class="card" style="margin-top:14px">
-            <details class="sup-det" style="margin-top:0"><summary>&#127980; Stores &amp; pickup locations</summary>
-              <div style="font-size:12px;color:var(--gr);margin:8px 0">Add the address of the store you usually use so every item gets a map link.</div>
-              <div id="sp-stores"></div>
-              <button class="btn btn-secondary btn-sm" style="margin-top:6px" data-sact="addstore">&#10133; Add store</button>
-            </details>
-            <details class="sup-det"><summary>&#128190; Backup / restore</summary>
-              <div style="font-size:12px;color:var(--gr);margin:8px 0">Everything is also saved on this device. Download a backup file or restore one here.</div>
-              <div class="sup-row">
-                <button class="btn btn-secondary btn-sm" data-sact="export">&#11015; Download backup</button>
-                <label class="btn btn-secondary btn-sm" style="cursor:pointer">&#11014; Restore backup<input type="file" id="sp-import" accept=".json,application/json" style="display:none"></label>
-              </div>
-            </details>
-          </div>
+          <details class="sup-det sup-foot"><summary>Stores &amp; backup</summary>
+            <div style="font-size:12px;color:var(--gr);margin:8px 0">Add a store address to get a map link on each item.</div>
+            <div id="sp-stores"></div>
+            <div class="sup-row" style="margin-top:6px">
+              <button class="btn btn-secondary btn-sm" data-sact="addstore">+ Add store</button>
+              <button class="btn btn-secondary btn-sm" data-sact="export">Download backup</button>
+              <label class="btn btn-secondary btn-sm" style="cursor:pointer">Restore backup<input type="file" id="sp-import" accept=".json,application/json" style="display:none"></label>
+            </div>
+          </details>
         </div>
 
         <div class="sup-main">
-          <div class="rep-filter" id="sp-filter">
-            <button class="btn btn-secondary btn-sm on" data-sact="filter" data-id="open">Open</button>
-            <button class="btn btn-secondary btn-sm" data-sact="filter" data-id="picked">Picked up</button>
-            <button class="btn btn-secondary btn-sm" data-sact="filter" data-id="all">All</button>
-            <span id="sp-count" style="font-size:12px;color:var(--gr);margin-left:6px"></span>
-            <button class="btn btn-secondary btn-sm no-print" style="margin-left:auto" data-sact="refresh">&#8635; Refresh</button>
+          <div class="sup-bar2">
+            <div class="rep-filter" id="sp-filter" style="margin:0">
+              <button class="btn btn-secondary btn-sm on" data-sact="filter" data-id="open">To get</button>
+              <button class="btn btn-secondary btn-sm" data-sact="filter" data-id="picked">Done</button>
+              <span id="sp-count"></span>
+            </div>
+            <div class="sup-row no-print">
+              <button class="btn btn-secondary btn-sm" data-sact="print">Print</button>
+              <button class="btn btn-secondary btn-sm" data-sact="copy">Copy</button>
+              <button class="btn btn-secondary btn-sm" data-sact="emailtoggle">Email</button>
+              <button class="btn btn-secondary btn-sm" id="sp-clear" style="display:none" data-sact="clearpicked">Clear done</button>
+            </div>
           </div>
-          <div class="sup-row no-print" style="margin-bottom:10px">
-            <select id="sp-group" class="sup-sel"><option value="store">Group by store</option><option value="due">Group by pickup date</option><option value="cat">Group by category</option><option value="equip">Group by equipment</option></select>
-            <input id="sp-search" class="sup-sel" style="flex:1;min-width:140px" placeholder="&#128269; Search" autocomplete="off">
-          </div>
-          <div class="sup-row no-print" style="margin-bottom:6px">
-            <button class="btn btn-secondary btn-sm" data-sact="print">&#128424; Print pickup list</button>
-            <button class="btn btn-secondary btn-sm" data-sact="copy">&#128203; Copy list</button>
-            <button class="btn btn-secondary btn-sm" data-sact="clearpicked">&#129529; Clear picked-up</button>
-          </div>
-          <div class="sup-row no-print" style="margin-bottom:6px">
-            <input id="sp-email" class="sup-sel" style="flex:1;min-width:180px" placeholder="Email(s) for the pickup list, comma separated" autocomplete="off">
-            <button class="btn btn-secondary btn-sm" data-sact="email-gmail">&#9993; Gmail</button>
+          <div class="sup-email no-print" id="sp-email-row" style="display:none">
+            <input id="sp-email" placeholder="Email address(es), comma separated" autocomplete="off">
+            <button class="btn btn-primary btn-sm" data-sact="email-gmail">Gmail</button>
             <button class="btn btn-secondary btn-sm" data-sact="email-mailto">Mail app</button>
           </div>
-          <div style="font-size:11px;color:var(--gr);margin-bottom:6px">Printed, copied and emailed lists show open items only, grouped by store, with no prices.</div>
-          <div id="sp-sync-note" style="font-size:11px;margin-bottom:10px;color:var(--gr)"></div>
           <div id="sp-list"></div>
+          <div id="sp-sync-note"></div>
         </div>
       </div>
     </div>
@@ -1789,14 +1780,12 @@ window.repRefresh=repRefresh;
 initRepairs();
 
 /* ================= SUPPLIES & REORDERS =================
-   Shopping / pickup list + standing (repeat) supplies + stores.
-   Saved on this device right away and synced to a separate Google Sheet
-   tab through saveSupply / getSupplies / deleteSupply (see
-   supplies-apps-script.gs). Unsynced changes are queued and retried.
-   Without that Apps Script update everything still works on this device.
+   Shopping / pickup list + repeat orders + stores.
+   Saved on this device right away and synced to the MAINT_Supplies tab
+   (getSupplies / saveSupply / deleteSupply in the Apps Script).
+   Unsynced changes are queued and retried, never lost.
 ========================================================= */
 var SUP_KEY='ws_supplies_v1', SUP_Q_KEY='ws_sup_pending_v1', SUP_DQ_KEY='ws_sup_pending_del_v1', SUP_SEED_KEY='ws_sup_seeded_v1', SUP_MAIL_KEY='ws_sup_email_v1';
-var SUP_CATS=['Fuel & Oil','Trimmer & Edger','Mower & Blades','Hand Tools','Fertilizer & Chemicals','Hardware & Irrigation','Safety & PPE','Truck & Trailer','Office & Other'];
 var SUP=[], SUP_Q=[], SUP_DQ=[], SUP_BUSY=false, SUP_AGAIN=false, SUP_FILTER='open', SUP_EDIT=null, SUP_EDIT_ST=null, SUP_GROUP_IDS=[];
 try{SUP=JSON.parse(localStorage.getItem(SUP_KEY)||'[]');if(!Array.isArray(SUP))SUP=[];}catch(e){SUP=[];}
 try{SUP_Q=JSON.parse(localStorage.getItem(SUP_Q_KEY)||'[]');}catch(e){SUP_Q=[];}
@@ -1813,16 +1802,16 @@ function supKind(k){return SUP.filter(function(x){return x.kind===k;});}
 function supToday(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function supDays(due){if(!due)return null;return Math.round((new Date(due+'T12:00:00')-new Date(supToday()+'T12:00:00'))/864e5);}
 function supFmtDate(d){if(!d)return '';var x=new Date(String(d).slice(0,10)+'T12:00:00');return isNaN(x.getTime())?String(d):x.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});}
-function supMoney(n){return '$'+(Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
 function supNorm(x){
   var r={};for(var k in x){if(Object.prototype.hasOwnProperty.call(x,k))r[k]=x[k];}
   r.id=String(r.id);if(r.kind!=='staple'&&r.kind!=='store')r.kind='item';
   if(r.kind==='item'){if(['needed','ordered','picked'].indexOf(r.status)<0)r.status='needed';if(r.priority!=='urgent')r.priority='normal';}
-  r.cost=Number(r.cost)||0;
   return r;
 }
+function supCleanUrl(u){u=String(u||'').trim();if(!u)return '';return /^https?:\/\//i.test(u)?u:'https://'+u;}
+function supSafeUrl(u){u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'';}
 
-/* dirty tracking + sync */
+/* ---------- save / sync ---------- */
 function supTouch(rec){
   rec.updatedAt=new Date().toISOString();
   if(SUP_Q.indexOf(rec.id)<0)SUP_Q.push(rec.id);
@@ -1837,10 +1826,10 @@ function supRemove(id){
 function supNote(state){
   var el=supEl('sp-sync-note');if(!el)return;
   var pend=SUP_Q.length+SUP_DQ.length,m='',c='var(--gr)';
-  if(!API_URL){m='Cloud sync is off - supplies are saved on this device only.';}
-  else if(state==='ok'&&!pend){m='Synced with Google Sheets at '+nowTime()+'.';c='var(--gd)';}
-  else if(pend){m=pend+' change'+(pend>1?'s are':' is')+' saved on this device but not in Google Sheets yet. If this is new, add the supplies code to your Apps Script (supplies-apps-script.gs), then tap Refresh.';c='var(--am)';}
-  else if(state==='unreachable'){m='Could not load supplies from Google Sheets - showing what is saved on this device. If this is new, the Apps Script needs the supplies update.';c='var(--am)';}
+  if(!API_URL){m='Saved on this device only.';}
+  else if(state==='ok'&&!pend){m='Synced '+nowTime();c='var(--gd)';}
+  else if(pend){m=pend+' change'+(pend>1?'s':'')+' not synced yet - make sure the v9 Apps Script is deployed, then tap Sync.';c='var(--am)';}
+  else if(state==='unreachable'){m='Could not reach Google Sheets - showing what is saved on this device.';c='var(--am)';}
   el.textContent=m;el.style.color=c;
 }
 function supSync(){
@@ -1877,7 +1866,6 @@ function supPull(){
   apiGet({action:'getSupplies'},function(r){
     if(r&&r.ok&&Array.isArray(r.supplies)){
       if(!r.supplies.length&&!SUP_DQ.length){
-        /* brand-new sheet tab: upload everything saved on this device */
         SUP.forEach(function(x){if(SUP_Q.indexOf(x.id)<0)SUP_Q.push(x.id);});supSaveQ();
       }else{
         var out=[];
@@ -1899,13 +1887,14 @@ function supPull(){
   });
 }
 
-/* first run: starter standing items + stores (fixed ids so two devices never duplicate them) */
+/* first run: starter repeat-order items + stores (fixed ids so two devices never duplicate them) */
 function supSeed(){
   var done=false;try{done=localStorage.getItem(SUP_SEED_KEY)==='1';}catch(e){}
   if(done||SUP.length)return;
-  var st=[['trimmer_line','String trimmer line','spool','Trimmer & Edger'],['mix_fuel','Mixed fuel (2-cycle)','gal','Fuel & Oil'],['two_cycle_oil','2-cycle oil','ea','Fuel & Oil'],['bar_oil','Bar & chain oil','ea','Fuel & Oil'],['mower_blades','Mower blades','ea','Mower & Blades'],['trash_bags','Trash bags (contractor)','box','Office & Other']];
-  st.forEach(function(s){SUP.push({id:'seed_st_'+s[0],kind:'staple',name:s[1],qty:'1',unit:s[2],cat:s[3],store:'Home Depot',cost:0,equipId:'',equipName:'',notes:'',last:'',updatedAt:''});});
-  ['Home Depot',"Lowe's",'Sun Belt Rentals','Tractor Supply','Ace Hardware'].forEach(function(n){SUP.push({id:'seed_store_'+n.toLowerCase().replace(/[^a-z0-9]+/g,'_'),kind:'store',name:n,address:'',updatedAt:''});});
+  [['trimmer_line','String trimmer line','spool'],['mix_fuel','Mixed fuel (2-cycle)','gal'],['two_cycle_oil','2-cycle oil','ea'],['bar_oil','Bar & chain oil','ea'],['mower_blades','Mower blades','ea'],['trash_bags','Trash bags (contractor)','box']].forEach(function(s){
+    SUP.push({id:'seed_st_'+s[0],kind:'staple',name:s[1],qty:'1',unit:s[2],store:'Home Depot',method:'pickup',url:'',repeatEvery:'',repeatUnit:'months',nextDue:'',last:''});
+  });
+  ['Home Depot',"Lowe's",'Sun Belt Rentals','Tractor Supply','Ace Hardware'].forEach(function(n){SUP.push({id:'seed_store_'+n.toLowerCase().replace(/[^a-z0-9]+/g,'_'),kind:'store',name:n,address:''});});
   supPersist();try{localStorage.setItem(SUP_SEED_KEY,'1');}catch(e){}
 }
 function supStoreAddr(name){var n=String(name||'').toLowerCase();var s=supKind('store');for(var i=0;i<s.length;i++){if(String(s[i].name).toLowerCase()===n)return s[i].address||'';}return '';}
@@ -1925,29 +1914,9 @@ function supSortFn(a,b){
   if(da!==db)return da<db?-1:1;
   return String(a.name).toLowerCase()<String(b.name).toLowerCase()?-1:1;
 }
-function supPlace(it){return [it.store,it.location,supStoreAddr(it.store)].filter(Boolean).join(' ');}
-function supMapUrl(it){var q=supPlace(it);return q?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q):'';}
-function supCalUrl(it){
-  if(!it.due)return '';
-  var n=new Date(it.due+'T12:00:00');n.setDate(n.getDate()+1);
-  var e=n.getFullYear()+String(n.getMonth()+1).padStart(2,'0')+String(n.getDate()).padStart(2,'0');
-  return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent('Pick up: '+it.name+(it.store?' @ '+it.store:''))+'&dates='+it.due.replace(/-/g,'')+'/'+e+'&location='+encodeURIComponent(supPlace(it))+'&details='+encodeURIComponent((it.qty?'Qty: '+it.qty+' '+(it.unit||'')+'\n':'')+(it.orderNo?'Order #: '+it.orderNo+'\n':'')+(it.notes||''));
-}
-function supDueTag(it){
-  if(!it.due)return '';
-  if(it.status==='picked')return '<span class="sup-tag">'+supEsc(supFmtDate(it.due))+'</span>';
-  var n=supDays(it.due),cls='',txt=supFmtDate(it.due);
-  if(n<0){cls='bad';txt='Overdue '+(-n)+'d - '+txt;}
-  else if(n===0){cls='warn';txt='Due today';}
-  else if(n===1){cls='warn';txt='Due tomorrow';}
-  else if(n<=3){cls='soon';txt='Due in '+n+'d - '+txt;}
-  return '<span class="sup-tag '+cls+'">&#128197; '+supEsc(txt)+'</span>';
-}
-function supEquipName(id){var e=id&&id!=='__other'?ge(id):null;return e?e.name:'';}
-function supCleanUrl(u){u=String(u||'').trim();if(!u)return '';return /^https?:\/\//i.test(u)?u:'https://'+u;}
-function supSafeUrl(u){u=String(u||'').trim();return /^https?:\/\//i.test(u)?u:'';}
+function supMapUrl(it){var q=[it.store,it.location,supStoreAddr(it.store)].filter(Boolean).join(' ');return q?'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q):'';}
 
-/* ---------- repeating order reminders ---------- */
+/* ---------- repeat orders ---------- */
 function supAddInterval(from,n,unit){
   n=parseFloat(n)||0;var d=new Date((from||supToday())+'T12:00:00');
   if(unit==='days')d.setDate(d.getDate()+n);
@@ -1957,20 +1926,14 @@ function supAddInterval(from,n,unit){
 }
 function supIsRepeat(s){return !!s&&parseFloat(s.repeatEvery)>0;}
 function supRepLabel(s){var n=parseFloat(s.repeatEvery)||0;var u=s.repeatUnit||'months';return 'every '+n+' '+(n===1?u.replace(/s$/,''):u);}
-function supRepTag(s){
-  var h='';
-  if(s.method==='order')h+='<span class="sup-tag on">&#128722; Order online</span>';
-  if(supIsRepeat(s))h+='<span class="sup-tag on">&#128257; '+supEsc(supRepLabel(s))+(s.nextDue?' - next '+supEsc(supFmtDate(s.nextDue)):'')+'</span>';
-  return h;
-}
-/* when a repeating item is ordered / picked up, schedule the next reminder */
+/* ordered / picked up -> schedule the next reminder */
 function supAdvanceFor(it){
   if(!it.rep||it.advanced||it.status==='needed')return;
   var s=it.stapleId?supFind(it.stapleId):null;if(!supIsRepeat(s))return;
   s.nextDue=supAddInterval(supToday(),s.repeatEvery,s.repeatUnit);supTouch(s);it.advanced=1;
   toast('Next reminder for '+s.name+': '+supFmtDate(s.nextDue));
 }
-/* a repeating standing item whose reminder date has arrived puts itself on the list (same id on every device, so no duplicates) */
+/* when the reminder date arrives the item puts itself on the list (same id on every device, so no duplicates) */
 function supAutoRepeat(){
   var today=supToday(),made=0;
   supKind('staple').forEach(function(s){
@@ -1978,46 +1941,38 @@ function supAutoRepeat(){
     if(supOpen().some(function(i){return i.stapleId===s.id;}))return;
     var id='rep_'+s.id+'_'+s.nextDue;
     if(supFind(id)||SUP_DQ.indexOf(id)>=0)return;
-    var rec={id:id,kind:'item',name:s.name,qty:s.qty||'1',unit:s.unit||'',cat:s.cat||SUP_CATS[0],store:s.store||'',location:'',due:s.nextDue,priority:'normal',cost:s.cost||0,orderNo:'',equipId:s.equipId||'',equipName:s.equipName||'',by:'Repeat reminder',notes:s.notes||'',method:s.method||'pickup',url:s.url||'',status:'needed',stapleId:s.id,rep:1,created:new Date().toISOString()};
+    var rec={id:id,kind:'item',name:s.name,qty:s.qty||'1',unit:s.unit||'',store:s.store||'',location:'',due:s.nextDue,priority:'normal',orderNo:'',notes:'',method:s.method||'pickup',url:s.url||'',status:'needed',stapleId:s.id,rep:1,created:new Date().toISOString()};
     SUP.push(rec);supTouch(rec);made++;
   });
-  if(made)toast(made+' repeat reminder'+(made===1?'':'s')+' added to Supplies');
+  if(made)toast(made+' repeat order'+(made===1?'':'s')+' added to Supplies');
   return made;
 }
-/* item form: "remind me every N ..." creates / updates the linked standing item */
+/* "repeat every N ..." on the add form creates / updates the linked repeat order */
 function supApplyRepeat(rec){
   var n=parseFloat(supEl('sp-rep').value)||0,u=supEl('sp-repu').value;
   var s=rec.stapleId?supFind(rec.stapleId):null;
   if(!s){var ss=supKind('staple');for(var i=0;i<ss.length;i++){if(String(ss[i].name).toLowerCase()===String(rec.name).toLowerCase()){s=ss[i];break;}}}
   if(n>0){
-    if(!s){s={id:supUid(),kind:'staple',name:rec.name,qty:rec.qty,unit:rec.unit,cat:rec.cat,store:rec.store,cost:rec.cost||0,equipId:rec.equipId||'',equipName:rec.equipName||'',notes:rec.notes||'',last:'',nextDue:''};SUP.push(s);}
+    if(!s){s={id:supUid(),kind:'staple',name:rec.name,qty:rec.qty,unit:rec.unit,store:rec.store,last:'',nextDue:''};SUP.push(s);}
     s.method=rec.method;s.url=rec.url;s.repeatEvery=String(n);s.repeatUnit=u;
     rec.stapleId=s.id;rec.rep=1;supTouch(s);
     if(rec.status!=='needed'){rec.advanced=0;supAdvanceFor(rec);}
   }else if(s&&rec.rep){s.repeatEvery='';s.nextDue='';rec.rep=0;supTouch(s);}
 }
 
-/* ---------- forms ---------- */
-function supBuildSelects(){
-  var cats=SUP_CATS.map(function(c){return '<option>'+supEsc(c)+'</option>';}).join('');
-  ['sp-cat','spt-cat'].forEach(function(id){var s=supEl(id);if(s&&!s.options.length)s.innerHTML=cats;});
-  var list=S.equipment.slice().sort(function(a,b){return String(a.name).localeCompare(String(b.name));});
-  var h='<option value="">- none -</option>';list.forEach(function(e){h+='<option value="'+supEsc(e.id)+'">'+supEsc(e.name)+'</option>';});
-  ['sp-equip','spt-equip'].forEach(function(id){var s=supEl(id);if(!s)return;var cur=s.value;s.innerHTML=h;if(cur)s.value=cur;});
+/* ---------- add / edit an item ---------- */
+function supBuildLists(){
   var sl=supEl('sp-store-list');
   if(sl)sl.innerHTML=supKind('store').filter(function(s){return s.name;}).map(function(s){return '<option value="'+supEsc(s.name)+'">';}).join('');
 }
 function supClearForm(){
-  ['sp-name','sp-unit','sp-store','sp-loc','sp-due','sp-order','sp-cost','sp-notes','sp-url','sp-rep'].forEach(function(id){supEl(id).value='';});
-  supEl('sp-qty').value='1';supEl('sp-pri').value='normal';supEl('sp-cat').selectedIndex=0;supEl('sp-equip').value='';supEl('sp-method').value='pickup';supEl('sp-repu').value='months';
-  var by=supEl('sp-by');if(by){try{by.value=localStorage.getItem(REP_TECH_KEY)||'';}catch(e){by.value='';}}
+  ['sp-name','sp-unit','sp-store','sp-loc','sp-due','sp-order','sp-notes','sp-url','sp-rep'].forEach(function(id){supEl(id).value='';});
+  supEl('sp-qty').value='1';supEl('sp-method').value='pickup';supEl('sp-repu').value='months';supEl('sp-urgent').checked=false;
 }
 function supSubmit(){
   var name=supEl('sp-name').value.trim();
   if(!name){alert('Enter an item name.');supEl('sp-name').focus();return;}
-  var eqId=supEl('sp-equip').value;
-  var obj={name:name,qty:supEl('sp-qty').value.trim(),unit:supEl('sp-unit').value.trim(),cat:supEl('sp-cat').value,store:supEl('sp-store').value.trim(),location:supEl('sp-loc').value.trim(),due:supEl('sp-due').value,priority:supEl('sp-pri').value,cost:parseFloat(supEl('sp-cost').value)||0,orderNo:supEl('sp-order').value.trim(),equipId:eqId,equipName:supEquipName(eqId),by:supEl('sp-by').value.trim(),method:supEl('sp-method').value,url:supCleanUrl(supEl('sp-url').value),notes:supEl('sp-notes').value.trim()};
-  if(obj.by){try{localStorage.setItem(REP_TECH_KEY,obj.by);}catch(e){}}
+  var obj={name:name,qty:supEl('sp-qty').value.trim(),unit:supEl('sp-unit').value.trim(),store:supEl('sp-store').value.trim(),location:supEl('sp-loc').value.trim(),due:supEl('sp-due').value,priority:supEl('sp-urgent').checked?'urgent':'normal',orderNo:supEl('sp-order').value.trim(),method:supEl('sp-method').value,url:supCleanUrl(supEl('sp-url').value),notes:supEl('sp-notes').value.trim()};
   var rec=SUP_EDIT?supFind(SUP_EDIT):null;
   if(rec){for(var k in obj)rec[k]=obj[k];toast('Item updated');}
   else{obj.id=supUid();obj.kind='item';obj.status='needed';obj.created=new Date().toISOString();rec=obj;SUP.push(rec);toast('Added to list');}
@@ -2025,26 +1980,28 @@ function supSubmit(){
 }
 function supEdit(id){
   var it=supFind(id);if(!it)return;SUP_EDIT=id;
-  supEl('sp-name').value=it.name||'';supEl('sp-qty').value=it.qty||'';supEl('sp-unit').value=it.unit||'';supEl('sp-cat').value=it.cat||SUP_CATS[0];
-  supEl('sp-store').value=it.store||'';supEl('sp-loc').value=it.location||'';supEl('sp-due').value=it.due||'';supEl('sp-pri').value=it.priority||'normal';
-  supEl('sp-order').value=it.orderNo||'';supEl('sp-cost').value=it.cost||'';supEl('sp-method').value=it.method||'pickup';supEl('sp-url').value=it.url||'';
-  var _ls=it.stapleId?supFind(it.stapleId):null;supEl('sp-rep').value=(it.rep&&supIsRepeat(_ls))?_ls.repeatEvery:'';supEl('sp-repu').value=(_ls&&_ls.repeatUnit)||'months';supEl('sp-equip').value=it.equipId||'';supEl('sp-by').value=it.by||'';supEl('sp-notes').value=it.notes||'';
-  supEl('sp-form-title').textContent='✏️ Editing: '+it.name;
-  supEl('sp-submit').textContent='💾 Save changes';supEl('sp-cancel').style.display='inline-flex';
+  supEl('sp-name').value=it.name||'';supEl('sp-qty').value=it.qty||'';supEl('sp-unit').value=it.unit||'';
+  supEl('sp-store').value=it.store||'';supEl('sp-loc').value=it.location||'';supEl('sp-due').value=it.due||'';supEl('sp-urgent').checked=it.priority==='urgent';
+  supEl('sp-order').value=it.orderNo||'';supEl('sp-method').value=it.method||'pickup';supEl('sp-url').value=it.url||'';supEl('sp-notes').value=it.notes||'';
+  var ls=it.stapleId?supFind(it.stapleId):null;
+  supEl('sp-rep').value=(it.rep&&supIsRepeat(ls))?ls.repeatEvery:'';supEl('sp-repu').value=(ls&&ls.repeatUnit)||'months';
+  supEl('sp-form-title').textContent='Edit item';
+  supEl('sp-submit').textContent='Save changes';supEl('sp-cancel').style.display='inline-flex';
+  if(it.location||it.url||it.orderNo||it.notes||it.priority==='urgent'){var d=supEl('sp-name').closest('.card').querySelector('details');if(d)d.open=true;}
   supEl('sp-name').scrollIntoView({behavior:'smooth',block:'center'});supEl('sp-name').focus();
 }
 function supCancelEdit(){
   SUP_EDIT=null;supClearForm();
-  supEl('sp-form-title').innerHTML='&#10133; Add Supply Item';
-  supEl('sp-submit').innerHTML='&#10133; Add to List';supEl('sp-cancel').style.display='none';
+  supEl('sp-form-title').textContent='Add to list';
+  supEl('sp-submit').textContent='Add to list';supEl('sp-cancel').style.display='none';
 }
 function supDel(id){
   var it=supFind(id);if(!it)return;
   if(!confirm('Delete "'+it.name+'" from the list?'))return;
   if(SUP_EDIT===id)supCancelEdit();
-  var _s=(it.rep&&!it.advanced&&it.status==='needed'&&it.stapleId)?supFind(it.stapleId):null;
-  if(supIsRepeat(_s)){_s.nextDue=supAddInterval(supToday(),_s.repeatEvery,_s.repeatUnit);supTouch(_s);}
-  supRemove(id);renderSupplies();toast(supIsRepeat(_s)?'Skipped. Next reminder '+supFmtDate(_s.nextDue):'Item deleted');
+  var s=(it.rep&&!it.advanced&&it.status==='needed'&&it.stapleId)?supFind(it.stapleId):null;
+  if(supIsRepeat(s)){s.nextDue=supAddInterval(supToday(),s.repeatEvery,s.repeatUnit);supTouch(s);}
+  supRemove(id);renderSupplies();toast(supIsRepeat(s)?'Skipped. Next reminder '+supFmtDate(s.nextDue):'Item deleted');
 }
 function supSetStatus(id,st){
   var it=supFind(id);if(!it)return;
@@ -2054,180 +2011,138 @@ function supSetStatus(id,st){
   supTouch(it);renderSupplies();
 }
 function supMarkBought(it){
-  var ss=supKind('staple'),s=null;
-  for(var i=0;i<ss.length;i++){if(ss[i].id===it.stapleId||String(ss[i].name).toLowerCase()===String(it.name).toLowerCase()){s=ss[i];break;}}
-  if(s){s.last=supToday();supTouch(s);}
+  var ss=supKind('staple');
+  for(var i=0;i<ss.length;i++){if(ss[i].id===it.stapleId||String(ss[i].name).toLowerCase()===String(it.name).toLowerCase()){ss[i].last=supToday();supTouch(ss[i]);break;}}
 }
 function supReorder(id){
   var it=supFind(id);if(!it)return;
   var c=supNorm(it);c.id=supUid();c.status='needed';c.due='';c.orderNo='';c.pickedAt='';c.rep=0;c.advanced=0;c.created=new Date().toISOString();
-  SUP.push(c);supTouch(c);renderSupplies();toast(it.name+' added again - set a pickup date');
-}
-function supToStaple(id){
-  var it=supFind(id);if(!it)return;
-  var ss=supKind('staple');
-  for(var i=0;i<ss.length;i++){if(String(ss[i].name).toLowerCase()===String(it.name).toLowerCase()){toast('Already a standing item');return;}}
-  var rec={id:supUid(),kind:'staple',name:it.name,qty:it.qty,unit:it.unit,cat:it.cat,store:it.store,cost:it.cost||0,equipId:it.equipId||'',equipName:it.equipName||'',notes:it.notes||'',last:'',method:it.method||'pickup',url:it.url||'',repeatEvery:'',repeatUnit:'months',nextDue:''};
-  SUP.push(rec);supTouch(rec);renderSupplies();toast('Saved as a standing item');
+  SUP.push(c);supTouch(c);renderSupplies();toast(it.name+' added again');
 }
 function supPickGroup(idx){
   var ids=SUP_GROUP_IDS[idx]||[];
-  if(!ids.length||!confirm('Mark '+ids.length+' item(s) as picked up?'))return;
+  if(!ids.length||!confirm('Mark '+ids.length+' item(s) as done?'))return;
   ids.forEach(function(id){var it=supFind(id);if(it&&it.status!=='picked'){it.status='picked';it.pickedAt=new Date().toISOString();supMarkBought(it);supAdvanceFor(it);supTouch(it);}});
   renderSupplies();
 }
 function supClearPicked(){
   var done=supKind('item').filter(function(i){return i.status==='picked';});
   if(!done.length){toast('Nothing to clear');return;}
-  if(!confirm('Remove '+done.length+' picked-up item(s) from the list? (Standing items stay.)'))return;
+  if(!confirm('Remove '+done.length+' finished item(s) from the list? Repeat orders stay.'))return;
   done.forEach(function(i){supRemove(i.id);});renderSupplies();
 }
 
-/* ---------- standing supplies ---------- */
+/* ---------- repeat order form ---------- */
 function supSaveStaple(){
   var name=supEl('spt-name').value.trim();if(!name){alert('Enter an item name.');return;}
-  var eqId=supEl('spt-equip').value;
-  var obj={name:name,qty:supEl('spt-qty').value.trim()||'1',unit:supEl('spt-unit').value.trim(),cat:supEl('spt-cat').value,store:supEl('spt-store').value.trim(),cost:parseFloat(supEl('spt-cost').value)||0,equipId:eqId,equipName:supEquipName(eqId),notes:supEl('spt-notes').value.trim(),method:supEl('spt-method').value,url:supCleanUrl(supEl('spt-url').value),repeatEvery:'',repeatUnit:supEl('spt-repu').value,nextDue:supEl('spt-next').value};
-  var _n=parseFloat(supEl('spt-rep').value)||0;
-  if(_n>0){obj.repeatEvery=String(_n);if(!obj.nextDue)obj.nextDue=supAddInterval(supToday(),_n,obj.repeatUnit);}else obj.nextDue='';
+  var obj={name:name,qty:supEl('spt-qty').value.trim()||'1',unit:supEl('spt-unit').value.trim(),store:supEl('spt-store').value.trim(),method:supEl('spt-method').value,url:supCleanUrl(supEl('spt-url').value),repeatEvery:'',repeatUnit:supEl('spt-repu').value,nextDue:supEl('spt-next').value};
+  var n=parseFloat(supEl('spt-rep').value)||0;
+  if(n>0){obj.repeatEvery=String(n);if(!obj.nextDue)obj.nextDue=supAddInterval(supToday(),n,obj.repeatUnit);}else obj.nextDue='';
   var rec=SUP_EDIT_ST?supFind(SUP_EDIT_ST):null;
   if(rec){for(var k in obj)rec[k]=obj[k];}else{obj.id=supUid();obj.kind='staple';obj.last='';rec=obj;SUP.push(rec);}
-  supEnsureStore(obj.store);supTouch(rec);supCancelStaple();supAutoRepeat();renderSupplies();toast('Standing item saved');
+  supEnsureStore(obj.store);supTouch(rec);supCancelStaple();supAutoRepeat();renderSupplies();toast('Saved');
 }
 function supEditStaple(id){
   var s=supFind(id);if(!s)return;SUP_EDIT_ST=id;
-  supEl('spt-name').value=s.name||'';supEl('spt-qty').value=s.qty||'';supEl('spt-unit').value=s.unit||'';supEl('spt-cat').value=s.cat||SUP_CATS[0];
-  supEl('spt-store').value=s.store||'';supEl('spt-cost').value=s.cost||'';supEl('spt-method').value=s.method||'pickup';supEl('spt-url').value=s.url||'';supEl('spt-rep').value=supIsRepeat(s)?s.repeatEvery:'';supEl('spt-repu').value=s.repeatUnit||'months';supEl('spt-next').value=s.nextDue||'';supEl('spt-equip').value=s.equipId||'';supEl('spt-notes').value=s.notes||'';
-  supEl('spt-submit').innerHTML='&#128190; Save changes';supEl('spt-cancel').style.display='inline-flex';
-  supEl('sp-st-sum').textContent='✏️ Editing: '+s.name;supEl('sp-st-det').open=true;
+  supEl('spt-name').value=s.name||'';supEl('spt-qty').value=s.qty||'';supEl('spt-unit').value=s.unit||'';supEl('spt-store').value=s.store||'';
+  supEl('spt-method').value=s.method||'pickup';supEl('spt-url').value=s.url||'';supEl('spt-rep').value=supIsRepeat(s)?s.repeatEvery:'';supEl('spt-repu').value=s.repeatUnit||'months';supEl('spt-next').value=s.nextDue||'';
+  supEl('spt-cancel').style.display='inline-flex';supEl('spt-del').style.display='inline-flex';
+  supEl('sp-st-sum').textContent='Edit: '+s.name;supEl('sp-st-det').open=true;
   supEl('spt-name').scrollIntoView({behavior:'smooth',block:'center'});supEl('spt-name').focus();
 }
 function supCancelStaple(){
   SUP_EDIT_ST=null;
-  ['spt-name','spt-unit','spt-store','spt-cost','spt-notes'].forEach(function(id){supEl(id).value='';});
-  supEl('spt-qty').value='1';supEl('spt-cat').selectedIndex=0;supEl('spt-equip').value='';supEl('spt-method').value='pickup';supEl('spt-url').value='';supEl('spt-rep').value='';supEl('spt-repu').value='months';supEl('spt-next').value='';
-  supEl('spt-submit').innerHTML='&#128190; Save standing item';supEl('spt-cancel').style.display='none';
-  supEl('sp-st-sum').innerHTML='&#10133; Add / edit a standing item';
+  ['spt-name','spt-unit','spt-store','spt-url','spt-rep','spt-next'].forEach(function(id){supEl(id).value='';});
+  supEl('spt-qty').value='1';supEl('spt-method').value='pickup';supEl('spt-repu').value='months';
+  supEl('spt-cancel').style.display='none';supEl('spt-del').style.display='none';
+  supEl('sp-st-sum').textContent='+ New repeat order';
 }
-function supDelStaple(id){
-  var s=supFind(id);if(!s||!confirm('Remove "'+s.name+'" from standing supplies?'))return;
-  if(SUP_EDIT_ST===id)supCancelStaple();supRemove(id);renderSupplies();
+function supDelStaple(){
+  var s=SUP_EDIT_ST?supFind(SUP_EDIT_ST):null;if(!s||!confirm('Delete "'+s.name+'"?'))return;
+  supRemove(s.id);supCancelStaple();renderSupplies();
 }
-function supAddStaple(id,quiet){
-  var s=supFind(id);if(!s)return false;
-  var exists=supOpen().some(function(i){return String(i.name).toLowerCase()===String(s.name).toLowerCase();});
-  if(exists&&!quiet&&!confirm('"'+s.name+'" is already on the open list. Add another?'))return false;
-  var by='';try{by=localStorage.getItem(REP_TECH_KEY)||'';}catch(e){}
-  var rec={id:supUid(),kind:'item',name:s.name,qty:s.qty||'1',unit:s.unit||'',cat:s.cat||SUP_CATS[0],store:s.store||'',location:'',due:supEl('sp-st-due').value||'',priority:'normal',cost:s.cost||0,orderNo:'',equipId:s.equipId||'',equipName:s.equipName||'',by:by,notes:s.notes||'',method:s.method||'pickup',url:s.url||'',rep:supIsRepeat(s)?1:0,status:'needed',stapleId:s.id,created:new Date().toISOString()};
-  SUP.push(rec);supTouch(rec);
-  if(!quiet){renderSupplies();toast(s.name+' added to list');}
-  return true;
-}
-function supCheckAll(on){var c=document.querySelectorAll('#sp-staples .sup-chk');for(var i=0;i<c.length;i++)c[i].checked=on;}
-function supAddChecked(){
-  var c=document.querySelectorAll('#sp-staples .sup-chk:checked'),ids=[];
-  for(var i=0;i<c.length;i++)ids.push(c[i].value);
-  if(!ids.length){alert('Check at least one standing item first.');return;}
-  var n=0;ids.forEach(function(id){if(supAddStaple(id,true))n++;});
-  renderSupplies();toast(n+' item'+(n===1?'':'s')+' added to list');
+function supAddStaple(id){
+  var s=supFind(id);if(!s)return;
+  if(supOpen().some(function(i){return String(i.name).toLowerCase()===String(s.name).toLowerCase();})&&!confirm('"'+s.name+'" is already on the list. Add another?'))return;
+  var rec={id:supUid(),kind:'item',name:s.name,qty:s.qty||'1',unit:s.unit||'',store:s.store||'',location:'',due:'',priority:'normal',orderNo:'',notes:'',method:s.method||'pickup',url:s.url||'',rep:supIsRepeat(s)?1:0,status:'needed',stapleId:s.id,created:new Date().toISOString()};
+  SUP.push(rec);supTouch(rec);renderSupplies();toast(s.name+' added to list');
 }
 
 /* ---------- stores ---------- */
 function supAddStore(){var rec={id:supUid(),kind:'store',name:'',address:''};SUP.push(rec);supPersist();renderSupStores();var l=document.querySelectorAll('#sp-stores [data-sfield="name"]');if(l.length)l[l.length-1].focus();}
-function supStoreEdit(id,field,v){var s=supFind(id);if(!s)return;s[field]=v.trim();if(s.name)supTouch(s);else supPersist();supBuildSelects();supRenderList();}
-function supDelStore(id){if(!confirm('Remove this store from the list? (Items keep their store name.)'))return;supRemove(id);renderSupplies();}
+function supStoreEdit(id,field,v){var s=supFind(id);if(!s)return;s[field]=v.trim();if(s.name)supTouch(s);else supPersist();supBuildLists();supRenderList();}
+function supDelStore(id){if(!confirm('Remove this store? (Items keep their store name.)'))return;supRemove(id);renderSupplies();}
 function renderSupStores(){
   var el=supEl('sp-stores');if(!el)return;
   var h='';supKind('store').forEach(function(s){
-    h+='<div class="sup-row" style="margin-bottom:6px"><input class="sup-sel" style="flex:1;min-width:110px" data-sfield="name" data-id="'+supEsc(s.id)+'" placeholder="Store name" value="'+supEsc(s.name)+'">'
-      +'<input class="sup-sel" style="flex:2;min-width:150px" data-sfield="address" data-id="'+supEsc(s.id)+'" placeholder="Address / branch (for map link)" value="'+supEsc(s.address)+'">'
-      +'<button class="btn btn-danger btn-xs" data-sact="delstore" data-id="'+supEsc(s.id)+'">&#128465;</button></div>';
+    h+='<div class="sup-row" style="margin-bottom:6px;flex-wrap:nowrap"><input style="flex:1;min-width:0;padding:6px 8px;border:1px solid var(--br);border-radius:var(--ra);font:inherit;font-size:13px" data-sfield="name" data-id="'+supEsc(s.id)+'" placeholder="Store" value="'+supEsc(s.name)+'">'
+      +'<input style="flex:1.6;min-width:0;padding:6px 8px;border:1px solid var(--br);border-radius:var(--ra);font:inherit;font-size:13px" data-sfield="address" data-id="'+supEsc(s.id)+'" placeholder="Address (for map link)" value="'+supEsc(s.address)+'">'
+      +'<button class="btn btn-danger btn-xs" data-sact="delstore" data-id="'+supEsc(s.id)+'">&times;</button></div>';
   });
-  el.innerHTML=h||'<div style="font-size:12px;color:var(--gr)">No stores yet.</div>';
+  el.innerHTML=h;
 }
 
 /* ---------- rendering ---------- */
 function renderSupplies(){
-  supAutoRepeat();
-  supBuildSelects();
+  supAutoRepeat();supBuildLists();
   var em=supEl('sp-email');if(em&&!em.value){try{em.value=localStorage.getItem(SUP_MAIL_KEY)||'';}catch(e){}}
-  var by=supEl('sp-by');if(by&&!by.value&&!SUP_EDIT){try{by.value=localStorage.getItem(REP_TECH_KEY)||'';}catch(e){}}
-  supRenderKpis();supRenderStaples();supRenderList();renderSupStores();supBadge();supNote(SUP_Q.length||SUP_DQ.length?'':'ok');
+  supRenderStaples();supRenderList();renderSupStores();supBadge();supNote(SUP_Q.length||SUP_DQ.length?'':'ok');
   var btns=document.querySelectorAll('#sp-filter [data-sact="filter"]');
   for(var i=0;i<btns.length;i++){if(btns[i].getAttribute('data-id')===SUP_FILTER)btns[i].classList.add('on');else btns[i].classList.remove('on');}
-}
-function supRenderKpis(){
-  var open=supOpen();
-  var late=open.filter(function(i){var n=supDays(i.due);return n!==null&&n<0;}).length;
-  var soon=open.filter(function(i){var n=supDays(i.due);return n!==null&&n>=0&&n<=2;}).length;
-  var urg=open.filter(function(i){return i.priority==='urgent';}).length;
-  var est=open.reduce(function(t,i){return t+(Number(i.cost)||0);},0);
-  function k(cls,l,v){return '<div class="kpi '+cls+'"><div class="kpi-label">'+l+'</div><div class="kpi-val" style="font-size:'+(String(v).length>8?'20':'28')+'px">'+v+'</div></div>';}
-  supEl('sup-kpis').innerHTML=k('kpi-b','Open items',open.length)+k(late?'kpi-r':'kpi-g','Overdue',late)+k('kpi-a','Due in 2 days',soon)+k(urg?'kpi-r':'kpi-g','Urgent',urg)+k('kpi-g','Est. open total',supMoney(est));
+  supEl('sp-clear').style.display=SUP_FILTER==='picked'?'inline-flex':'none';
 }
 function supRenderStaples(){
   var list=supKind('staple').sort(function(a,b){return String(a.name).toLowerCase()<String(b.name).toLowerCase()?-1:1;});
   var open=supOpen(),h='';
   list.forEach(function(s){
     var on=open.some(function(i){return String(i.name).toLowerCase()===String(s.name).toLowerCase();});
-    h+='<div class="sup-st"><input type="checkbox" class="sup-chk" value="'+supEsc(s.id)+'">'
-      +'<div class="sup-info"><div class="sup-title">'+supEsc(s.name)+'<span class="sup-qty">'+supEsc(s.qty||'')+' '+supEsc(s.unit||'')+'</span></div>'
-      +'<div class="sup-meta"><span class="sup-tag">'+supEsc(s.cat||'')+'</span>'+(s.store?'<span class="sup-tag">&#127980; '+supEsc(s.store)+'</span>':'')
-      +(s.equipName?'<span class="sup-tag">&#128668; '+supEsc(s.equipName)+'</span>':'')
-      +supRepTag(s)+(s.last?'<span class="sup-tag">Last bought '+supEsc(supFmtDate(s.last))+'</span>':'')+(on?'<span class="sup-tag on">On list</span>':'')+'</div>'
-      +(s.notes?'<div class="sup-note">'+supEsc(s.notes)+'</div>':'')+'</div>'
-      +'<div class="sup-act"><button class="btn btn-primary btn-xs" data-sact="staple-add" data-id="'+supEsc(s.id)+'">+ Add</button><button class="btn btn-secondary btn-xs" data-sact="staple-edit" data-id="'+supEsc(s.id)+'">&#9998;</button><button class="btn btn-danger btn-xs" data-sact="staple-del" data-id="'+supEsc(s.id)+'">&#128465;</button></div></div>';
+    var sub=[];
+    if(s.store)sub.push(supEsc(s.store));
+    if(supIsRepeat(s))sub.push('&#128257; '+supEsc(supRepLabel(s))+(s.nextDue?' - next '+supEsc(supFmtDate(s.nextDue)):''));
+    h+='<div class="sup-st"><div class="sup-info"><div class="sup-title">'+supEsc(s.name)+'<span class="sup-qty">'+supEsc(s.qty||'')+' '+supEsc(s.unit||'')+'</span></div>'
+      +(sub.length?'<div class="sup-meta">'+sub.join(' &middot; ')+'</div>':'')+'</div>'
+      +'<div class="sup-act">'+(on?'<span class="sup-meta" style="color:var(--bl)">On list</span>':'<button class="btn btn-primary btn-xs" data-sact="staple-add" data-id="'+supEsc(s.id)+'">+ Add</button>')
+      +'<button class="btn btn-secondary btn-xs" data-sact="staple-edit" data-id="'+supEsc(s.id)+'" title="Edit">&#9998;</button></div></div>';
   });
-  supEl('sp-staples').innerHTML=h||'<div style="font-size:12px;color:var(--gr)">No standing items yet. Add one below, or tap the star on any list item.</div>';
+  supEl('sp-staples').innerHTML=h||'<div style="font-size:12px;color:var(--gr);margin-bottom:6px">Nothing yet. Add the things you buy again and again.</div>';
 }
 function supItemHtml(it){
-  var map=it.method==='order'?'':supMapUrl(it),cal=supCalUrl(it),addr=it.store?supStoreAddr(it.store):'',id=supEsc(it.id);
+  var id=supEsc(it.id),meta=[];
+  var n=supDays(it.due);
+  if(it.due){
+    if(it.status==='picked')meta.push(supEsc(supFmtDate(it.due)));
+    else if(n<0)meta.push('<span class="bad">Overdue '+(-n)+'d</span>');
+    else if(n===0)meta.push('<span class="warn">Due today</span>');
+    else if(n===1)meta.push('<span class="warn">Due tomorrow</span>');
+    else meta.push('Due '+supEsc(supFmtDate(it.due)));
+  }
+  if(it.method==='order'){meta.push('Order online'+(supSafeUrl(it.url)?' - <a href="'+supEsc(supSafeUrl(it.url))+'" target="_blank" rel="noopener">open link</a>':''));}
+  else if(it.location||it.store){var map=supMapUrl(it);meta.push(supEsc(it.location||'')+(it.location&&map?' ':'')+(map?'<a href="'+map+'" target="_blank" rel="noopener">map</a>':''));}
+  if(it.orderNo)meta.push('Order # '+supEsc(it.orderNo));
+  if(it.rep)meta.push('&#128257; repeats');
   function opt(v,l){return '<option value="'+v+'"'+(it.status===v?' selected':'')+'>'+l+'</option>';}
   return '<div class="sup-item st-'+it.status+(it.priority==='urgent'&&it.status!=='picked'?' urgent':'')+'">'
     +'<div class="sup-info"><div class="sup-title">'+(it.priority==='urgent'?'&#128293; ':'')+supEsc(it.name)+(it.qty?'<span class="sup-qty">'+supEsc(it.qty)+' '+supEsc(it.unit||'')+'</span>':'')+'</div>'
-    +'<div class="sup-meta">'+supDueTag(it)
-    +(it.store?'<span class="sup-tag">&#127980; '+supEsc(it.store)+(it.location?' - '+supEsc(it.location):'')+(map?' - <a href="'+map+'" target="_blank" rel="noopener">map &#8599;</a>':'')+'</span>':'')
-    +(addr?'<span class="sup-tag">'+supEsc(addr)+'</span>':'')
-    +(it.method==='order'?'<span class="sup-tag on">&#128722; Order online'+(supSafeUrl(it.url)?' - <a href="'+supEsc(supSafeUrl(it.url))+'" target="_blank" rel="noopener">open link &#8599;</a>':'')+'</span>':'')+(it.rep?'<span class="sup-tag on">&#128257; Repeat reminder</span>':'')
-    +(it.orderNo?'<span class="sup-tag on">Order # '+supEsc(it.orderNo)+'</span>':'')
-    +(it.equipName?'<span class="sup-tag" style="cursor:pointer" data-sact="equip" data-id="'+supEsc(it.equipId)+'">&#128668; '+supEsc(it.equipName)+'</span>':'')
-    +(it.by?'<span class="sup-tag">by '+supEsc(it.by)+'</span>':'')
-    +(it.cat?'<span class="sup-tag">'+supEsc(it.cat)+'</span>':'')+(it.cost?'<span class="sup-tag">~'+supMoney(it.cost)+'</span>':'')+'</div>'
+    +(meta.length?'<div class="sup-meta">'+meta.join('<span>&middot;</span>')+'</div>':'')
     +(it.notes?'<div class="sup-note">'+supEsc(it.notes)+'</div>':'')+'</div>'
-    +'<div class="sup-act"><select data-sact="status" data-id="'+id+'">'+opt('needed','To get')+opt('ordered','Ordered')+opt('picked','Picked up')+'</select>'
-    +(cal?'<a class="btn btn-secondary btn-xs" style="text-decoration:none" href="'+cal+'" target="_blank" rel="noopener" title="Add pickup reminder to Google Calendar">&#128197;</a>':'')
-    +(it.status==='picked'?'<button class="btn btn-primary btn-xs" data-sact="reorder" data-id="'+id+'" title="Add this item to the list again">&#10227; Reorder</button>':'')
-    +'<button class="btn btn-secondary btn-xs" data-sact="tostaple" data-id="'+id+'" title="Save as a standing item">&#11088;</button>'
+    +'<div class="sup-act"><select data-sact="status" data-id="'+id+'">'+opt('needed','To get')+opt('ordered','Ordered')+opt('picked','Done')+'</select>'
+    +(it.status==='picked'?'<button class="btn btn-secondary btn-xs" data-sact="reorder" data-id="'+id+'" title="Add to the list again">&#10227;</button>':'')
     +'<button class="btn btn-secondary btn-xs" data-sact="edit" data-id="'+id+'" title="Edit">&#9998;</button>'
-    +'<button class="btn btn-danger btn-xs" data-sact="del" data-id="'+id+'" title="Delete">&#128465;</button></div></div>';
+    +'<button class="btn btn-secondary btn-xs" data-sact="del" data-id="'+id+'" title="Delete">&#128465;</button></div></div>';
 }
 function supRenderList(){
-  var q=(supEl('sp-search').value||'').trim().toLowerCase(),mode=supEl('sp-group').value;
-  var items=supKind('item').filter(function(it){
-    if(SUP_FILTER==='open'&&it.status==='picked')return false;
-    if(SUP_FILTER==='picked'&&it.status!=='picked')return false;
-    if(q&&[it.name,it.store,it.location,it.notes,it.cat,it.orderNo,it.equipName,it.by].join(' ').toLowerCase().indexOf(q)<0)return false;
-    return true;
-  }).sort(supSortFn);
-  supEl('sp-count').textContent=items.length+' item'+(items.length===1?'':'s');
-  if(!items.length){SUP_GROUP_IDS=[];supEl('sp-list').innerHTML='<div class="card" style="text-align:center;color:var(--gr);font-size:13px">'+(supKind('item').length?'Nothing matches this filter.':'Your list is empty. Add an item or pick from your standing supplies.')+'</div>';return;}
+  var items=supKind('item').filter(function(it){return SUP_FILTER==='open'?it.status!=='picked':it.status==='picked';}).sort(supSortFn);
+  var late=supOpen().filter(function(i){var n=supDays(i.due);return n!==null&&n<0;}).length;
+  supEl('sp-count').textContent=items.length+(SUP_FILTER==='open'&&late?' - '+late+' overdue':'');
+  if(!items.length){SUP_GROUP_IDS=[];supEl('sp-list').innerHTML='<div class="sup-empty">'+(SUP_FILTER==='open'?'Nothing to get. Add an item, or tap <b>+ Add</b> on a repeat order.':'Nothing finished yet.')+'</div>';return;}
   var groups={},order=[];
-  items.forEach(function(it){
-    var k=mode==='store'?(it.store||'(No store)'):mode==='cat'?(it.cat||'(No category)'):mode==='equip'?(it.equipName||'(No equipment)'):(it.due||'(No pickup date)');
-    if(!groups[k]){groups[k]=[];order.push(k);}groups[k].push(it);
-  });
+  items.forEach(function(it){var k=it.store||'(No store)';if(!groups[k]){groups[k]=[];order.push(k);}groups[k].push(it);});
   order.sort(function(a,b){var an=a.charAt(0)==='(',bn=b.charAt(0)==='(';if(an!==bn)return an?1:-1;return a.toLowerCase()<b.toLowerCase()?-1:1;});
   SUP_GROUP_IDS=[];
   supEl('sp-list').innerHTML=order.map(function(k,idx){
-    var g=groups[k],openG=g.filter(function(i){return i.status!=='picked';});
-    var est=openG.reduce(function(t,i){return t+(Number(i.cost)||0);},0);
-    SUP_GROUP_IDS[idx]=openG.map(function(i){return i.id;});
-    var title;
-    if(mode==='store')title='&#127980; '+supEsc(k)+(k.charAt(0)!=='('&&supStoreAddr(k)?' <small>- '+supEsc(supStoreAddr(k))+'</small>':'');
-    else if(mode==='due')title=k.charAt(0)!=='('?'&#128197; '+supEsc(supFmtDate(k)):supEsc(k);
-    else title=supEsc(k);
-    return '<div class="sup-gh"><div>'+title+' <small>('+g.length+')'+(est?' - est '+supMoney(est):'')+'</small></div>'
-      +(openG.length?'<button class="btn btn-primary btn-xs no-print" data-sact="pickgroup" data-id="'+idx+'">&#10003; Mark all picked up</button>':'')+'</div>'
+    var g=groups[k];SUP_GROUP_IDS[idx]=g.filter(function(i){return i.status!=='picked';}).map(function(i){return i.id;});
+    return '<div class="sup-gh"><div>'+supEsc(k)+'<small>'+g.length+'</small></div>'
+      +(SUP_GROUP_IDS[idx].length>1?'<button class="btn btn-secondary btn-xs no-print" data-sact="pickgroup" data-id="'+idx+'">All done</button>':'')+'</div>'
       +g.map(supItemHtml).join('');
   }).join('');
 }
@@ -2242,19 +2157,17 @@ function supStoreGroups(){
 function supItemLine(it){
   var b=[it.name+(it.qty?' - '+it.qty+(it.unit?' '+it.unit:''):'')];
   if(it.priority==='urgent')b.push('URGENT');
-  if(it.due)b.push('pick up by '+supFmtDate(it.due));
+  if(it.due)b.push('by '+supFmtDate(it.due));
   if(it.method==='order')b.push('ORDER ONLINE'+(supSafeUrl(it.url)?' '+it.url:''));
   if(it.location)b.push('at '+it.location);
   if(it.orderNo)b.push('order # '+it.orderNo);
-  if(it.equipName)b.push('for '+it.equipName);
-  if(it.by)b.push('requested by '+it.by);
   var s=b.join(' | ');
   if(it.notes)s+=' ('+String(it.notes).replace(/\s*\n\s*/g,'; ')+')';
   return s;
 }
 function supListText(){
   var gs=supStoreGroups();if(!gs.length)return '';
-  var L=['WS Lawn Care - Supply Pickup List ('+supFmtDate(supToday())+')',''];
+  var L=['WS Lawn Care - Supply List ('+supFmtDate(supToday())+')',''];
   gs.forEach(function(g){
     var a=supStoreAddr(g.store);L.push(g.store.toUpperCase()+(a?' - '+a:''));
     g.items.forEach(function(it){L.push('  [ ] '+supItemLine(it));});L.push('');
@@ -2273,7 +2186,7 @@ function supEmail(mode){
   if(!list.length||bad.length){alert(bad.length?'This email address looks invalid: '+bad[0]:'Enter at least one email address first.');return;}
   var body=supListText();if(!body){alert('No open items to send.');return;}
   try{localStorage.setItem(SUP_MAIL_KEY,list.join(', '));}catch(e){}
-  var subject='Supply Pickup List - '+supFmtDate(supToday()),enc=encodeURIComponent;
+  var subject='Supply List - '+supFmtDate(supToday()),enc=encodeURIComponent;
   var make=function(b){return mode==='mailto'?'mailto:'+list.map(enc).join(',')+'?subject='+enc(subject)+'&body='+enc(b):'https://mail.google.com/mail/?view=cm&fs=1&to='+enc(list.join(','))+'&su='+enc(subject)+'&body='+enc(b);};
   var url=make(body);
   if(url.length>7000){
@@ -2286,20 +2199,20 @@ function supEmail(mode){
 function supPrint(){
   var gs=supStoreGroups();if(!gs.length){alert('No open items to print.');return;}
   var css='*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;padding:22px;max-width:820px;margin:0 auto;color:#1a1a1a;font-size:13px}.hdr{border-bottom:3px solid #2d6a2f;padding-bottom:10px;margin-bottom:14px}.co{font-size:20px;font-weight:700;color:#2d6a2f}.sub{font-size:11px;color:#555;margin-top:3px}h2{font-size:15px;color:#2d6a2f;margin:16px 0 4px;border-bottom:2px solid #c8e6c9;padding-bottom:3px}h2 small{font-weight:400;font-size:11px;color:#555}table{width:100%;border-collapse:collapse;font-size:12px}th{background:#f0f7f0;padding:5px 7px;text-align:left;border:1px solid #ddd;font-size:10px;text-transform:uppercase}td{padding:6px 7px;border:1px solid #ddd;vertical-align:top}.chk{width:26px;text-align:center;font-size:15px}.u{color:#c62828;font-weight:700}.footer{margin-top:24px;text-align:center;font-size:10px;color:#999;border-top:1px solid #eee;padding-top:8px}';
-  var body='<div class="hdr"><div class="co">Supply Pickup List</div><div class="sub">WS Lawn Care Services, LLC - '+supEsc(supFmtDate(supToday()))+'</div></div>';
+  var body='<div class="hdr"><div class="co">Supply List</div><div class="sub">WS Lawn Care Services, LLC - '+supEsc(supFmtDate(supToday()))+'</div></div>';
   gs.forEach(function(g){
     var a=supStoreAddr(g.store);
-    body+='<h2>'+supEsc(g.store)+(a?' <small>- '+supEsc(a)+'</small>':'')+'</h2><table><tr><th></th><th>Item</th><th>Qty</th><th>Pick up by</th><th>Details</th></tr>';
+    body+='<h2>'+supEsc(g.store)+(a?' <small>- '+supEsc(a)+'</small>':'')+'</h2><table><tr><th></th><th>Item</th><th>Qty</th><th>By</th><th>Details</th></tr>';
     g.items.forEach(function(it){
-      var det=[it.method==='order'?'ORDER ONLINE'+(supSafeUrl(it.url)?' '+it.url:''):'',it.location,it.orderNo?'Order # '+it.orderNo:'',it.equipName?'For: '+it.equipName:'',it.by?'By: '+it.by:'',it.notes].filter(Boolean).map(supEsc).join(' - ');
+      var det=[it.method==='order'?'ORDER ONLINE'+(supSafeUrl(it.url)?' '+it.url:''):'',it.location,it.orderNo?'Order # '+it.orderNo:'',it.notes].filter(Boolean).map(supEsc).join(' - ');
       body+='<tr><td class="chk">&#9744;</td><td><b>'+(it.priority==='urgent'?'<span class="u">URGENT</span> ':'')+supEsc(it.name)+'</b></td><td>'+supEsc((it.qty||'')+' '+(it.unit||''))+'</td><td>'+supEsc(supFmtDate(it.due))+'</td><td>'+det+'</td></tr>';
     });
     body+='</table>';
   });
-  body+='<div class="footer">"Jesus First Before Profits" - "You Grow It, We Mow It!" - WS Lawn Care Services, LLC - Titusville, FL - 321-209-0668</div>';
+  body+='<div class="footer">"Jesus First Before Profits" - WS Lawn Care Services, LLC - Titusville, FL - 321-209-0668</div>';
   var w=window.open('','_blank','width=870,height=1050');
   if(!w){alert('Your browser blocked the pop-up. Allow pop-ups for this page and try again.');return;}
-  w.document.write('<!DOCTYPE html><html><head><title>WS Lawn Care Supply Pickup List</title><style>'+css+'</style></head><body>'+body+'<script>window.onload=function(){window.print();}<\/script></body></html>');
+  w.document.write('<!DOCTYPE html><html><head><title>WS Lawn Care Supply List</title><style>'+css+'</style></head><body>'+body+'<script>window.onload=function(){window.print();}<\/script></body></html>');
   w.document.close();
 }
 
@@ -2317,7 +2230,7 @@ function supImport(file){
       var d=JSON.parse(r.result),arr=Array.isArray(d)?d:d.supplies;
       if(!Array.isArray(arr))throw new Error('bad');
       if(!confirm('Replace the current supplies with this backup ('+arr.length+' records)?'))return;
-      SUP.forEach(function(x){if(SUP_DQ.indexOf(x.id)<0)SUP_DQ.push(x.id);});supSaveDQ();
+      SUP.forEach(function(x){if(SUP_DQ.indexOf(x.id)<0)SUP_DQ.push(x.id);});
       SUP=arr.filter(function(x){return x&&x.id;}).map(supNorm);
       SUP_DQ=SUP_DQ.filter(function(id){return !SUP.some(function(x){return x.id===id;});});supSaveDQ();
       SUP_Q=SUP.map(function(x){return x.id;});supSaveQ();supPersist();supSync();
@@ -2335,27 +2248,22 @@ function supAct(act,id){
   else if(act==='edit')supEdit(id);
   else if(act==='del')supDel(id);
   else if(act==='reorder')supReorder(id);
-  else if(act==='tostaple')supToStaple(id);
   else if(act==='pickgroup')supPickGroup(parseInt(id,10));
   else if(act==='filter'){SUP_FILTER=id;renderSupplies();}
-  else if(act==='refresh'){toast('Refreshing...');if(API_URL)supPull();else renderSupplies();}
   else if(act==='staple-add')supAddStaple(id);
   else if(act==='staple-edit')supEditStaple(id);
-  else if(act==='staple-del')supDelStaple(id);
   else if(act==='st-submit')supSaveStaple();
   else if(act==='st-cancel')supCancelStaple();
-  else if(act==='addchecked')supAddChecked();
-  else if(act==='checkall')supCheckAll(true);
-  else if(act==='uncheckall')supCheckAll(false);
+  else if(act==='st-del')supDelStaple();
   else if(act==='addstore')supAddStore();
   else if(act==='delstore')supDelStore(id);
   else if(act==='print')supPrint();
   else if(act==='copy')supCopy();
+  else if(act==='emailtoggle'){var r=supEl('sp-email-row');r.style.display=r.style.display==='none'?'flex':'none';}
   else if(act==='email-gmail')supEmail('gmail');
   else if(act==='email-mailto')supEmail('mailto');
   else if(act==='clearpicked')supClearPicked();
   else if(act==='export')supExport();
-  else if(act==='equip'){if(id&&ge(id))openDetail(id);}
 }
 function initSupplies(){
   var pg=supEl('page-supplies');if(!pg)return;
@@ -2368,10 +2276,8 @@ function initSupplies(){
     var t=ev.target;if(!t||!t.getAttribute)return;
     if(t.getAttribute('data-sact')==='status')supSetStatus(t.getAttribute('data-id'),t.value);
     else if(t.getAttribute('data-sfield'))supStoreEdit(t.getAttribute('data-id'),t.getAttribute('data-sfield'),t.value);
-    else if(t.id==='sp-group')supRenderList();
     else if(t.id==='sp-import')supImport(t.files&&t.files[0]);
   });
-  pg.addEventListener('input',function(ev){if(ev.target&&ev.target.id==='sp-search')supRenderList();});
   supSeed();
   supAutoRepeat();
   supBadge();
