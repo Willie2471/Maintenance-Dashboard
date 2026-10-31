@@ -1,0 +1,20 @@
+{
+  "name": "WS Quick Entry",
+  "short_name": "WS Quick",
+  "description": "Fast field entry for repairs and supplies - WS Lawn Care Services",
+  "start_url": "./quick.html?src=app",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f7f4",
+  "theme_color": "#2d6a2f",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Report a repair", "url": "./quick.html?go=repair", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]},
+    {"name": "Add supply item", "url": "./quick.html?go=supply", "icons": [{"src": "icon-192.png", "sizes": "192x192"}]}
+  ]
+}
