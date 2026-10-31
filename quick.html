@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2d6a2f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="WS Quick">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>WS Quick Entry</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--gd:#2d6a2f;--gm:#3d8b40;--gl:#e8f5e9;--gb:#c8e6c9;--am:#e65100;--al:#fff3e0;--rd:#c62828;--rl:#ffebee;--bl:#1565c0;--gr:#546e7a;--grl:#eceff1;--wh:#fff;--br:#dde5dd}
+html,body{background:#f4f7f4;color:#1a2e1a;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16px;-webkit-text-size-adjust:100%}
+body{min-height:100vh;min-height:100dvh;padding-bottom:calc(24px + env(safe-area-inset-bottom));overscroll-behavior-y:contain}
+.top{position:sticky;top:0;z-index:20;background:var(--gd);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px;display:flex;align-items:center;gap:10px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.top .logo{width:34px;height:34px;border-radius:9px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.top .logo svg{width:20px;height:20px}
+.top h1{font-size:18px;font-weight:800;flex:1;line-height:1.1}
+.top h1 small{display:block;font-size:11px;font-weight:500;opacity:.75;margin-top:1px}
+.back{display:none;background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;min-height:38px;padding:0 12px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+body.sub .back{display:inline-block}
+body.sub .logo{display:none}
+.pill{font-size:12px;font-weight:700;padding:6px 11px;border-radius:20px;background:rgba(255,255,255,.2);border:0;color:#fff;font-family:inherit;min-height:32px;white-space:nowrap}
+.pill.ok{background:#c8e6c9;color:#1b5e20}.pill.wait{background:#ffe0b2;color:#bf360c}.pill.off{background:#cfd8dc;color:#37474f}
+.wrap{max-width:560px;margin:0 auto;padding:14px 14px 0}
+.view{display:none}.view.on{display:block}
+.tile{display:flex;align-items:center;gap:14px;width:100%;min-height:92px;padding:16px;margin-bottom:12px;background:var(--wh);border:2px solid var(--br);border-radius:18px;font:inherit;text-align:left;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.07);color:inherit}
+.tile:active{transform:scale(.985);border-color:var(--gm)}
+.tile .ic{width:56px;height:56px;border-radius:14px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:30px;flex-shrink:0}
+.tile b{display:block;font-size:19px;color:var(--gd)}
+.tile span.s{display:block;font-size:13px;color:var(--gr);margin-top:2px}
+.tile.dim{opacity:.55;cursor:default;min-height:70px;border-style:dashed}
+.tile.dim .ic{background:var(--grl)}
+.banner{display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:14px;margin-bottom:12px;font-size:14px;font-weight:600}
+.banner.wait{background:var(--al);color:#bf360c;border:1px solid #ffcc80}
+.banner.inst{background:var(--gl);color:var(--gd);border:1px solid var(--gb)}
+.banner .grow{flex:1}
+.banner small{display:block;font-weight:400;font-size:12px;margin-top:2px;opacity:.85}
+.btn{min-height:46px;padding:0 18px;border:0;border-radius:12px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;background:var(--gd);color:#fff}
+.btn.sec{background:var(--grl);color:#2c3e2c;border:1px solid var(--br)}
+.btn.sm{min-height:38px;padding:0 14px;font-size:13px}
+.btn:disabled{opacity:.6}
+h2.sec{font-size:12px;text-transform:uppercase;letter-spacing:.7px;color:var(--gr);margin:18px 2px 8px;font-weight:800}
+.rec{background:var(--wh);border:1px solid var(--br);border-radius:14px;padding:11px 13px;margin-bottom:8px;display:flex;gap:10px;align-items:flex-start}
+.rec .ri{font-size:20px;line-height:1.2}
+.rec .rb{flex:1;min-width:0}
+.rec .rt{font-weight:700;font-size:14px;word-break:break-word}
+.rec .rs{font-size:12px;color:var(--gr);margin-top:2px;word-break:break-word}
+.tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.tag.ok{background:var(--gl);color:var(--gd)}.tag.wait{background:var(--al);color:var(--am)}
+.empty{text-align:center;color:var(--gr);font-size:13px;padding:14px}
+.card{background:var(--wh);border:1px solid var(--br);border-radius:18px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.card h3{font-size:18px;color:var(--gd);margin-bottom:12px}
+.f{margin-bottom:14px}
+.f label{display:block;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;color:var(--gr);margin-bottom:5px}
+.f input,.f select,.f textarea{width:100%;min-height:52px;padding:12px 14px;border:2px solid var(--br);border-radius:12px;font:inherit;font-size:17px;background:var(--wh);color:#1a2e1a;outline:none}
+.f textarea{min-height:110px;resize:vertical}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--gm)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.urg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.urg button{min-height:56px;border:2px solid var(--br);background:var(--wh);border-radius:12px;font:inherit;font-size:16px;font-weight:800;color:var(--gr);cursor:pointer}
+.urg .low.on{background:var(--gl);border-color:var(--gm);color:var(--gd)}
+.urg .med.on{background:#e3f2fd;border-color:var(--bl);color:var(--bl)}
+.urg .high.on{background:var(--al);border-color:#ef6c00;color:var(--am)}
+.urg .crit.on{background:var(--rl);border-color:var(--rd);color:var(--rd)}
+.hint{font-size:12px;color:var(--gr);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:42px;padding:0 14px;border-radius:21px;border:1.5px solid var(--gb);background:var(--gl);color:var(--gd);font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.chip:active{background:var(--gb)}
+.toggle{display:flex;align-items:center;gap:12px;min-height:52px;padding:0 14px;border:2px solid var(--br);border-radius:12px;background:var(--wh);font-size:16px;font-weight:700;cursor:pointer;width:100%;font-family:inherit;color:var(--gr)}
+.toggle.on{border-color:var(--rd);background:var(--rl);color:var(--rd)}
+.err{color:var(--rd);font-size:13px;font-weight:700;margin:-4px 0 12px;display:none}
+.err.show{display:block}
+.submit{width:100%;min-height:58px;font-size:18px;border-radius:14px;margin-top:4px}
+details{margin-bottom:14px}
+summary{font-weight:800;color:var(--gd);font-size:14px;padding:8px 0;cursor:pointer}
+.done{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);display:none;align-items:flex-end;justify-content:center}
+.done.on{display:flex}
+.done .sheet{background:var(--wh);width:100%;max-width:560px;border-radius:22px 22px 0 0;padding:24px 18px calc(22px + env(safe-area-inset-bottom));text-align:center}
+.done .big{font-size:52px;line-height:1}
+.done h3{font-size:22px;color:var(--gd);margin:8px 0 4px}
+.done p{font-size:14px;color:var(--gr);margin-bottom:16px}
+.done .btn{width:100%;margin-top:8px}
+.toast{position:fixed;left:14px;right:14px;bottom:calc(20px + env(safe-area-inset-bottom));background:#263238;color:#fff;padding:12px 14px;border-radius:12px;font-size:14px;font-weight:600;text-align:center;z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
+.toast.show{opacity:1}
+.ph-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
+.ph-grid:empty{display:none}
+.ph{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:2px solid var(--br);background:var(--grl)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph button{position:absolute;top:3px;right:3px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:16px;line-height:1;cursor:pointer}
+.ph-add{width:100%;min-height:52px;border-style:dashed}
+.ph-note{font-size:12px;color:var(--gr);margin-top:6px}
+.foot{text-align:center;font-size:11px;color:var(--gr);margin:22px 0 6px;line-height:1.7}
+</style>
+</head>
+<body>
+<header class="top">
+  <button class="back" data-act="home">&#8592; Back</button>
+  <div class="logo"><svg viewBox="0 0 512 512"><path d="M292 60 L128 292 H232 L206 452 L384 210 H274 Z" fill="#2d6a2f"/></svg></div>
+  <h1 id="ttl">WS Quick<small>Field entry - no login</small></h1>
+  <button class="pill ok" id="pill" data-act="sync">Ready</button>
+</header>
+
+<div class="wrap">
+
+  <!-- HOME -->
+  <section class="view on" id="v-home">
+    <div class="banner inst" id="inst" style="display:none">
+      <div class="grow">Add WS Quick to your home screen<small id="inst-sub">One tap to open, works even with no signal.</small></div>
+      <button class="btn sm" id="inst-btn" data-act="install">Install</button>
+    </div>
+    <div class="banner wait" id="pend" style="display:none">
+      <div class="grow"><span id="pend-n">0</span> waiting to send<small>Saved on this phone. Sends automatically when you have signal.</small></div>
+      <button class="btn sm" data-act="sync">Send now</button>
+    </div>
+
+    <button class="tile" data-act="go-repair"><div class="ic">&#128295;</div><div><b>Report a Repair</b><span class="s">Equipment broken, leaking, making noise</span></div></button>
+    <button class="tile" data-act="go-supply"><div class="ic">&#128722;</div><div><b>Add Supply Item</b><span class="s">Trimmer line, fuel, blades, anything to get</span></div></button>
+    <div class="tile dim"><div class="ic">&#128172;</div><div><b>Message Office</b><span class="s">Coming soon</span></div></div>
+
+    <h2 class="sec">Sent from this phone</h2>
+    <div id="recent"></div>
+
+    <div class="foot">WS Lawn Care Services, LLC &#183; 321-209-0668<br>Entries show up in the main portal for office review and editing.</div>
+  </section>
+
+  <!-- REPAIR -->
+  <section class="view" id="v-repair">
+    <div class="card">
+      <h3>&#128295; Report a Repair</h3>
+      <div class="row2">
+        <div class="f"><label for="r-tech">Your name</label><input id="r-tech" list="tech-list" placeholder="Name" autocomplete="off" autocapitalize="words"></div>
+        <div class="f"><label for="r-date">Date</label><input id="r-date" type="date"></div>
+      </div>
+      <div class="f"><label for="r-equip">Equipment</label><select id="r-equip"></select></div>
+      <div class="f" id="r-other-wrap" style="display:none"><label for="r-other">What equipment?</label><input id="r-other" placeholder="Name of equipment" autocomplete="off"></div>
+      <div class="f"><label>How urgent?</label>
+        <div class="urg" id="r-urg">
+          <button type="button" class="low" data-urg="Low">Low</button>
+          <button type="button" class="med on" data-urg="Medium">Medium</button>
+          <button type="button" class="high" data-urg="High">High</button>
+          <button type="button" class="crit" data-urg="Critical">Critical</button>
+        </div>
+        <div class="hint" id="r-hint"></div>
+      </div>
+      <div class="f"><label for="r-desc">What is wrong?</label><textarea id="r-desc" maxlength="1000" placeholder="What did you notice? Any noise, leak, or damage?"></textarea></div>
+      <div class="f"><label>Photos <span style="text-transform:none;font-weight:500">(optional, up to 4)</span></label>
+        <div class="ph-grid" id="r-photos"></div>
+        <button type="button" class="btn sec ph-add" id="r-addph" data-act="add-photo">&#128247; Add Photos</button>
+        <input type="file" id="r-file" accept="image/*" multiple style="display:none">
+        <div class="ph-note" id="r-phnote"></div>
+      </div>
+      <div class="err" id="r-err"></div>
+      <button class="btn submit" data-act="submit-repair">&#10004; Submit Repair</button>
+    </div>
+  </section>
+
+  <!-- SUPPLY -->
+  <section class="view" id="v-supply">
+    <div class="card">
+      <h3>&#128722; Add Supply Item</h3>
+      <div class="f" id="s-common-wrap"><label>Tap a common item</label><div class="chips" id="s-common"></div></div>
+      <div class="f"><label for="s-name">Item</label><input id="s-name" placeholder="e.g. String trimmer line" autocomplete="off"></div>
+      <div class="row2">
+        <div class="f"><label for="s-qty">Qty</label><input id="s-qty" type="number" inputmode="decimal" step="any" value="1"></div>
+        <div class="f"><label for="s-unit">Unit</label><input id="s-unit" list="unit-list" placeholder="gal, box..." autocomplete="off"></div>
+      </div>
+      <div class="row2">
+        <div class="f"><label for="s-store">Store</label><input id="s-store" list="store-list" placeholder="Home Depot" autocomplete="off"></div>
+        <div class="f"><label for="s-method">How</label><select id="s-method"><option value="pickup">Pick up</option><option value="order">Order online</option></select></div>
+      </div>
+      <div class="f"><button type="button" class="toggle" id="s-urgent" data-act="toggle-urgent"><span id="s-urgent-ic">&#9898;</span> Mark urgent</button></div>
+      <details>
+        <summary>More details</summary>
+        <div class="f"><label for="s-due">Needed by</label><input id="s-due" type="date"></div>
+        <div class="f"><label for="s-notes">Notes</label><textarea id="s-notes" style="min-height:80px" placeholder="Size, brand, which truck..."></textarea></div>
+        <div class="f"><label for="s-tech">Your name</label><input id="s-tech" list="tech-list" placeholder="Name" autocomplete="off" autocapitalize="words"></div>
+      </details>
+      <div class="err" id="s-err"></div>
+      <button class="btn submit" data-act="submit-supply">&#10004; Add to List</button>
+    </div>
+  </section>
+
+</div>
+
+<datalist id="tech-list"><option value="Willie"><option value="William"><option value="Sandra"></datalist>
+<datalist id="store-list"></datalist>
+<datalist id="unit-list"><option value="ea"><option value="box"><option value="gal"><option value="qt"><option value="bag"><option value="roll"><option value="spool"><option value="case"><option value="pack"></datalist>
+
+<div class="done" id="done">
+  <div class="sheet">
+    <div class="big" id="done-ic">&#9989;</div>
+    <h3 id="done-t">Saved</h3>
+    <p id="done-p"></p>
+    <button class="btn" id="done-again" data-act="again">Add another</button>
+    <button class="btn sec" data-act="home-done">Done</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+'use strict';
+
+/* Same Google Apps Script backend as the main maintenance portal, so everything lands in the same sheet. */
+var API_URL = 'https://script.google.com/macros/s/AKfycbw2nRqb1O0W1Q_GjcfaPRkDyKPKbst5H74mFPqM4sRjEsjSzdNSryGk-VLJtVS3LMxE/exec';
+try { var ov = localStorage.getItem('ws_api_url_v1'); if (ov && ov.indexOf('script.google.com') >= 0) API_URL = ov; } catch (e) {}
+
+var KEY = 'wsq_v1';
+var D = { tech: '', queue: [], photoQ: [], recent: [], equip: [], staples: [], stores: [] };
+try { var raw = JSON.parse(localStorage.getItem(KEY) || '{}'); for (var k in raw) D[k] = raw[k]; } catch (e) {}
+try { if (!D.tech) D.tech = localStorage.getItem('ws_rep_tech_v1') || ''; } catch (e) {}
+function persist() { try { localStorage.setItem(KEY, JSON.stringify(D)); } catch (e) {} }
+
+var URG = {
+  Low: 'Can wait - cosmetic or minor',
+  Medium: 'Fix within the week',
+  High: 'Fix before next use',
+  Critical: 'Unsafe or down - stop using it'
+};
+var rUrg = 'Medium', sUrgent = false, lastKind = 'repair', busy = false;
+
+function $(id) { return document.getElementById(id); }
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function today() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function toast(m) { var t = $('toast'); t.textContent = m; t.classList.add('show'); setTimeout(function () { t.classList.remove('show'); }, 2600); }
+function vib() { try { if (navigator.vibrate) navigator.vibrate(30); } catch (e) {} }
+
+/* ---------- network ---------- */
+function apiGet(params, cb) {
+  var url = API_URL + '?action=' + params.action;
+  if (params.data) url += '&data=' + encodeURIComponent(JSON.stringify(params.data));
+  var ctl = window.AbortController ? new AbortController() : null;
+  var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 20000);
+  fetch(url, { method: 'GET', redirect: 'follow', signal: ctl ? ctl.signal : undefined })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { clearTimeout(timer); cb(d); })
+    .catch(function () { clearTimeout(timer); cb(null); });
+}
+
+/* ---------- photos ---------- */
+var MAX_PHOTOS = 4, PH = [];   /* PH: photos picked for the repair being written: {blob, url} */
+
+/* Photos wait on the phone in IndexedDB (too big for localStorage) until they are uploaded. */
+var idbP = null;
+function idb() {
+  if (idbP) return idbP;
+  idbP = new Promise(function (res, rej) {
+    if (!window.indexedDB) return rej(new Error('no idb'));
+    var q = indexedDB.open('wsq_photos', 1);
+    q.onupgradeneeded = function () { q.result.createObjectStore('p', { keyPath: 'key' }); };
+    q.onsuccess = function () { res(q.result); };
+    q.onerror = function () { rej(q.error); };
+  });
+  return idbP;
+}
+function idbDo(mode, fn) {
+  return idb().then(function (db) {
+    return new Promise(function (res, rej) {
+      var tx = db.transaction('p', mode), st = tx.objectStore('p'), out = fn(st);
+      tx.oncomplete = function () { res(out && out.result); };
+      tx.onerror = tx.onabort = function () { rej(tx.error); };
+    });
+  });
+}
+function idbPut(key, blob) { return idbDo('readwrite', function (st) { return st.put({ key: key, blob: blob }); }); }
+function idbGet(key) { return idbDo('readonly', function (st) { return st.get(key); }); }
+function idbDel(key) { return idbDo('readwrite', function (st) { return st.delete(key); }); }
+
+/* shrink to ~1280px JPEG (about 150-300 KB) so uploads are fast on a weak signal */
+function compress(file) {
+  return new Promise(function (resolve, reject) {
+    function draw(src, w, h) {
+      var sc = Math.min(1, 1280 / Math.max(w, h)), cw = Math.round(w * sc), ch = Math.round(h * sc);
+      var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+      c.getContext('2d').drawImage(src, 0, 0, cw, ch);
+      c.toBlob(function (b) { b ? resolve(b) : reject(new Error('encode')); }, 'image/jpeg', 0.72);
+    }
+    function viaImg() {
+      var u = URL.createObjectURL(file), im = new Image();
+      im.onload = function () { draw(im, im.naturalWidth, im.naturalHeight); URL.revokeObjectURL(u); };
+      im.onerror = function () { URL.revokeObjectURL(u); reject(new Error('decode')); };
+      im.src = u;
+    }
+    if (window.createImageBitmap) {
+      createImageBitmap(file, { imageOrientation: 'from-image' }).then(function (bm) { draw(bm, bm.width, bm.height); }, viaImg);
+    } else viaImg();
+  });
+}
+function renderPhotos() {
+  var g = $('r-photos');
+  g.innerHTML = PH.map(function (p, i) {
+    return '<div class="ph"><img src="' + p.url + '" alt="Photo ' + (i + 1) + '"><button type="button" data-act="rm-photo" data-i="' + i + '" aria-label="Remove photo">&times;</button></div>';
+  }).join('');
+  $('r-addph').style.display = PH.length >= MAX_PHOTOS ? 'none' : '';
+  $('r-addph').innerHTML = PH.length ? '&#128247; Add another photo' : '&#128247; Add Photos';
+}
+function clearPhotos() { PH.forEach(function (p) { URL.revokeObjectURL(p.url); }); PH = []; renderPhotos(); $('r-phnote').textContent = ''; }
+function addFiles(list) {
+  var files = Array.prototype.slice.call(list || []).filter(function (f) { return /^image\//.test(f.type) || !f.type; });
+  var room = MAX_PHOTOS - PH.length;
+  if (!room) return;
+  if (files.length > room) { files = files.slice(0, room); toast('Up to ' + MAX_PHOTOS + ' photos per repair'); }
+  if (!files.length) return;
+  $('r-phnote').textContent = 'Preparing ' + files.length + (files.length === 1 ? ' photo...' : ' photos...');
+  var bad = 0;
+  files.reduce(function (chain, f) {
+    return chain.then(function () {
+      return compress(f).then(function (b) { PH.push({ blob: b, url: URL.createObjectURL(b) }); renderPhotos(); },
+        function () { bad++; });
+    });
+  }, Promise.resolve()).then(function () {
+    $('r-phnote').textContent = bad ? bad + ' photo' + (bad === 1 ? '' : 's') + ' could not be read - try again.' : '';
+  });
+}
+function blobToB64(blob) {
+  return new Promise(function (res, rej) {
+    var fr = new FileReader();
+    fr.onload = function () { res(String(fr.result).split(',')[1] || ''); };
+    fr.onerror = function () { rej(fr.error); };
+    fr.readAsDataURL(blob);
+  });
+}
+/* Photos are sent with a POST (they are too big for the address-bar style calls everything else uses). */
+function apiPostPhoto(body, cb) {
+  var ctl = window.AbortController ? new AbortController() : null;
+  var timer = setTimeout(function () { if (ctl) ctl.abort(); }, 90000);
+  fetch(API_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body), signal: ctl ? ctl.signal : undefined })
+    .then(function (r) { return r.json(); })
+    .then(function (d) { clearTimeout(timer); cb(d); })
+    .catch(function () { clearTimeout(timer); cb(null); });
+}
+
+/* ---------- views ---------- */
+function show(name) {
+  ['home', 'repair', 'supply'].forEach(function (v) { $('v-' + v).classList.toggle('on', v === name); });
+  document.body.classList.toggle('sub', name !== 'home');
+  $('ttl').firstChild.nodeValue = name === 'repair' ? 'Repair' : name === 'supply' ? 'Supply' : 'WS Quick';
+  $('ttl').querySelector('small').style.display = name === 'home' ? '' : 'none';
+  window.scrollTo(0, 0);
+  if (name === 'repair') prepRepair();
+  if (name === 'supply') prepSupply();
+  if (name === 'home') renderHome();
+}
+
+/* ---------- lists ---------- */
+function buildEquip() {
+  var sel = $('r-equip'), cur = sel.value;
+  var h = '<option value="">- select equipment -</option>';
+  D.equip.forEach(function (e) { h += '<option value="' + esc(e.id) + '">' + esc(e.name) + '</option>'; });
+  h += '<option value="__other">Other / Not listed</option>';
+  sel.innerHTML = h;
+  if (cur) sel.value = cur;
+}
+function buildStores() {
+  $('store-list').innerHTML = D.stores.map(function (s) { return '<option value="' + esc(s) + '">'; }).join('');
+}
+var DEFAULT_COMMON = [
+  { name: 'String trimmer line', unit: 'spool' }, { name: 'Mixed fuel (2-cycle)', unit: 'gal' },
+  { name: '2-cycle oil', unit: 'ea' }, { name: 'Bar & chain oil', unit: 'ea' },
+  { name: 'Mower blades', unit: 'ea' }, { name: 'Trash bags (contractor)', unit: 'box' }
+];
+function buildCommon() {
+  var list = D.staples.length ? D.staples : DEFAULT_COMMON;
+  $('s-common').innerHTML = list.map(function (s, i) { return '<button type="button" class="chip" data-act="chip" data-i="' + i + '">' + esc(s.name) + '</button>'; }).join('');
+}
+
+/* ---------- repair ---------- */
+function setUrg(u) {
+  if (!URG[u]) return; rUrg = u;
+  var b = document.querySelectorAll('#r-urg button');
+  for (var i = 0; i < b.length; i++) b[i].classList.toggle('on', b[i].getAttribute('data-urg') === u);
+  $('r-hint').textContent = URG[u];
+}
+function prepRepair() {
+  buildEquip(); setUrg(rUrg);
+  $('r-tech').value = D.tech || '';
+  if (!$('r-date').value) $('r-date').value = today();
+  $('r-err').classList.remove('show');
+  if (!D.tech) $('r-tech').focus();
+}
+function showErr(id, msg) { var e = $(id); e.textContent = msg; e.classList.add('show'); vib(); }
+
+function submitRepair() {
+  var tech = $('r-tech').value.trim(), date = $('r-date').value, eid = $('r-equip').value, desc = $('r-desc').value.trim();
+  var other = $('r-other').value.trim();
+  if (!tech) return showErr('r-err', 'Enter your name.');
+  if (!date) return showErr('r-err', 'Pick a date.');
+  if (!eid) return showErr('r-err', 'Select the equipment.');
+  if (eid === '__other' && !other) return showErr('r-err', 'Type which equipment it is.');
+  if (!desc) return showErr('r-err', 'Describe what is wrong.');
+  var eq = null;
+  D.equip.forEach(function (e) { if (e.id === eid) eq = e; });
+  var now = new Date().toISOString();
+  /* same shape the main portal uses for repair requests */
+  var rec = {
+    id: 'rr' + Date.now() + Math.floor(Math.random() * 1000), tech: tech, date: date, urgency: rUrg,
+    equipId: eq ? eq.id : '', equipName: eq ? eq.name : (other || 'Other / Not Listed'),
+    desc: desc, status: 'open', completedDate: '', created: now, updatedAt: now
+  };
+  D.tech = tech;
+  var picked = PH.slice(), btn = document.querySelector('[data-act=submit-repair]');
+  btn.disabled = true;
+  /* keep the photos on the phone first, then queue the report */
+  Promise.all(picked.map(function (p, i) { return idbPut(rec.id + '_' + i, p.blob); })).then(function () {
+    picked.forEach(function (p, i) { D.photoQ.push({ key: rec.id + '_' + i, repairId: rec.id, name: rec.date + '_' + rec.equipName + '_' + (i + 1), tries: 0 }); });
+    return picked.length;
+  }, function () {
+    toast('Could not keep the photos on this phone - sending the report without them');
+    return 0;
+  }).then(function (n) {
+    btn.disabled = false;
+    enqueue('repair', rec, '🔧', rec.equipName, rUrg + ' - ' + (desc.length > 70 ? desc.slice(0, 67) + '...' : desc) + (n ? ' - 📷 ' + n : ''));
+    $('r-desc').value = ''; $('r-equip').value = ''; $('r-other').value = ''; $('r-other-wrap').style.display = 'none';
+    clearPhotos();
+    lastKind = 'repair';
+    finish('Repair submitted', rec.equipName + ' - ' + rUrg + (n ? ' - ' + n + (n === 1 ? ' photo' : ' photos') : ''), 'Report another');
+  });
+}
+
+/* ---------- supply ---------- */
+function prepSupply() {
+  buildCommon(); buildStores();
+  $('s-tech').value = D.tech || '';
+  $('s-err').classList.remove('show');
+}
+function setUrgent(v) {
+  sUrgent = v;
+  $('s-urgent').classList.toggle('on', v);
+  $('s-urgent-ic').innerHTML = v ? '&#128293;' : '&#9898;';
+}
+function clearSupply() {
+  ['s-name', 's-unit', 's-store', 's-due', 's-notes'].forEach(function (i) { $(i).value = ''; });
+  $('s-qty').value = '1'; $('s-method').value = 'pickup'; setUrgent(false);
+}
+function submitSupply() {
+  var name = $('s-name').value.trim();
+  if (!name) { showErr('s-err', 'Enter the item.'); $('s-name').focus(); return; }
+  var tech = $('s-tech').value.trim() || D.tech || '';
+  var notes = $('s-notes').value.trim();
+  if (tech) { D.tech = tech; notes = (notes ? notes + '\n' : '') + 'Added in field by ' + tech; }
+  var now = new Date().toISOString();
+  /* same shape the main portal's Supplies tab uses */
+  var rec = {
+    id: 'sp' + Date.now().toString(36) + Math.random().toString(36).substr(2, 5), kind: 'item', name: name,
+    qty: $('s-qty').value.trim(), unit: $('s-unit').value.trim(), store: $('s-store').value.trim(), location: '',
+    due: $('s-due').value, priority: sUrgent ? 'urgent' : 'normal', orderNo: '', notes: notes,
+    method: $('s-method').value, url: '', status: 'needed', created: now, updatedAt: now
+  };
+  var st = rec.store;
+  if (st && D.stores.map(function (s) { return s.toLowerCase(); }).indexOf(st.toLowerCase()) < 0) D.stores.push(st);
+  enqueue('supply', rec, '🛒', name + (rec.qty ? ' - ' + rec.qty + (rec.unit ? ' ' + rec.unit : '') : ''), (rec.store || 'No store') + (sUrgent ? ' - URGENT' : ''));
+  clearSupply();
+  lastKind = 'supply';
+  finish('Added to list', name, 'Add another');
+}
+
+/* ---------- queue + sync ---------- */
+function enqueue(kind, rec, icon, title, sub) {
+  D.queue.push({ kind: kind, rec: rec });
+  D.recent.unshift({ id: rec.id, icon: icon, title: title, sub: sub, ts: Date.now(), synced: false });
+  D.recent = D.recent.slice(0, 15);
+  persist(); updatePill(); syncNow(true);
+}
+function markSynced(id) { D.recent.forEach(function (r) { if (r.id === id) r.synced = true; }); }
+
+function syncNow(quiet) {
+  if (busy) return;
+  var waiting = D.queue.length + D.photoQ.length;
+  if (!waiting) { pullLists(); updatePill(); if (!quiet) toast('Nothing waiting - all sent'); return; }
+  if (navigator.onLine === false) { updatePill(); if (!quiet) toast('No signal - will send when you are back online'); return; }
+  busy = true; updatePill();
+  sendEntries(function (fail) {
+    sendPhotos(function (pfail) {
+      busy = false; persist(); updatePill(); renderHome();
+      var bad = fail + pfail;
+      if (!quiet) toast(bad ? 'Some items did not send - will retry' : 'All sent to the office');
+      if (!bad) pullLists();
+      if (D.photoQ.length && !bad && navigator.onLine !== false) setTimeout(function () { syncNow(true); }, 4000);
+    });
+  });
+}
+
+/* step 1: repair reports and supply items */
+function sendEntries(done) {
+  var items = D.queue.slice(), fail = 0;
+  (function next(i) {
+    if (i >= items.length) return done(fail);
+    var it = items[i];
+    apiGet({ action: it.kind === 'repair' ? 'saveRepair' : 'saveSupply', data: it.rec }, function (r) {
+      if (r && r.ok) {
+        D.queue = D.queue.filter(function (q) { return q.rec.id !== it.rec.id; });
+        markSynced(it.rec.id); persist(); renderHome();
+      } else fail++;
+      next(i + 1);
+    });
+  })(0);
+}
+
+/* step 2: photos, one at a time, only for reports the office already has */
+function sendPhotos(done) {
+  var fail = 0;
+  (function next() {
+    var inQ = {}; D.queue.forEach(function (q) { inQ[q.rec.id] = 1; });
+    var job = null;
+    for (var i = 0; i < D.photoQ.length; i++) { if (!inQ[D.photoQ[i].repairId]) { job = D.photoQ[i]; break; } }
+    if (!job) return done(fail);
+    function drop() { D.photoQ = D.photoQ.filter(function (p) { return p.key !== job.key; }); persist(); idbDel(job.key).catch(function () {}); renderHome(); updatePill(); }
+    idbGet(job.key).then(function (row) {
+      if (!row || !row.blob) { drop(); return next(); }       /* nothing left to send */
+      blobToB64(row.blob).then(function (b64) {
+        apiPostPhoto({ action: 'uploadPhoto', repairId: job.repairId, key: job.key, name: job.name, mime: 'image/jpeg', data: b64 }, function (r) {
+          if (r && r.ok) { drop(); next(); return; }
+          job.tries = (job.tries || 0) + 1; fail++;
+          /* the office deleted the report before the photo arrived: stop trying */
+          if (r && r.error === 'Repair not found' && job.tries >= 8) drop();
+          else persist();
+          done(fail);                                           /* stop here, retry on the next sync */
+        });
+      }, function () { drop(); next(); });
+    }, function () { fail++; done(fail); });
+  })();
+}
+
+/* refresh equipment dropdown + store/common-item suggestions (cached for offline use) */
+var lastPull = 0;
+function pullLists() {
+  if (navigator.onLine === false || Date.now() - lastPull < 60000) return;
+  lastPull = Date.now();
+  apiGet({ action: 'getAll' }, function (d) {
+    if (d && d.ok && Array.isArray(d.equipment) && d.equipment.length) {
+      D.equip = d.equipment.map(function (e) { return { id: String(e.id), name: String(e.name || '') }; })
+        .sort(function (a, b) { return a.name.localeCompare(b.name); });
+      persist(); buildEquip();
+    }
+  });
+  apiGet({ action: 'getSupplies' }, function (d) {
+    if (d && d.ok && Array.isArray(d.supplies) && d.supplies.length) {
+      var st = {}, stores = [], staples = [];
+      d.supplies.forEach(function (x) {
+        if (!x) return;
+        if (x.kind === 'store' && x.name) { if (!st[x.name]) { st[x.name] = 1; stores.push(String(x.name)); } }
+        if (x.kind === 'staple' && x.name) staples.push({ name: String(x.name), qty: x.qty || '1', unit: x.unit || '', store: x.store || '', method: x.method || 'pickup' });
+      });
+      if (stores.length) D.stores = stores;
+      if (staples.length) D.staples = staples;
+      persist(); buildStores(); buildCommon();
+    }
+  });
+}
+
+function updatePill() {
+  var p = $('pill'), n = D.queue.length, np = D.photoQ.length, tot = n + np;
+  p.className = 'pill';
+  if (busy) { p.classList.add('wait'); p.textContent = 'Sending...'; }
+  else if (navigator.onLine === false) { p.classList.add('off'); p.textContent = tot ? tot + ' saved - offline' : 'Offline'; }
+  else if (tot) { p.classList.add('wait'); p.textContent = tot + ' waiting'; }
+  else { p.classList.add('ok'); p.textContent = '✓ All sent'; }
+  var b = $('pend');
+  if (b) {
+    b.style.display = tot ? 'flex' : 'none';
+    var parts = [];
+    if (n) parts.push(n + (n === 1 ? ' entry' : ' entries'));
+    if (np) parts.push(np + (np === 1 ? ' photo' : ' photos'));
+    $('pend-n').textContent = parts.join(' and ') + (tot === 1 ? ' is' : ' are');
+  }
+}
+
+function renderHome() {
+  var el = $('recent');
+  if (!D.recent.length) { el.innerHTML = '<div class="empty">Nothing yet. Your entries will show here.</div>'; return; }
+  el.innerHTML = D.recent.map(function (r) {
+    var left = D.photoQ.filter(function (p) { return p.repairId === r.id; }).length;
+    var ok = r.synced && !left, label = !r.synced ? 'Waiting' : left ? left + (left === 1 ? ' photo left' : ' photos left') : 'Sent';
+    return '<div class="rec"><div class="ri">' + r.icon + '</div><div class="rb"><div class="rt">' + esc(r.title) + '</div><div class="rs">' + esc(r.sub) + '</div></div>' +
+      '<span class="tag ' + (ok ? 'ok' : 'wait') + '">' + label + '</span></div>';
+  }).join('');
+}
+
+/* ---------- done sheet ---------- */
+function finish(title, sub, againLabel) {
+  vib();
+  $('done-t').textContent = title;
+  $('done-p').textContent = sub + (navigator.onLine === false ? ' - saved on your phone, will send when you have signal.' : '');
+  $('done-again').textContent = '+ ' + againLabel;
+  $('done').classList.add('on');
+}
+function closeDone() { $('done').classList.remove('on'); }
+
+/* ---------- install ---------- */
+var deferred = null;
+function isStandalone() { return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true; }
+function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent); }
+window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferred = e; if (!isStandalone()) $('inst').style.display = 'flex'; });
+window.addEventListener('appinstalled', function () { $('inst').style.display = 'none'; deferred = null; toast('WS Quick installed'); });
+function doInstall() {
+  if (deferred) { deferred.prompt(); deferred.userChoice.then(function () { deferred = null; $('inst').style.display = 'none'; }); }
+  else if (isIOS()) alert('On iPhone: tap the Share button at the bottom of Safari, then "Add to Home Screen".');
+  else alert('Open the browser menu (three dots) and choose "Install app" or "Add to Home screen".');
+}
+if (!isStandalone() && isIOS()) {
+  $('inst').style.display = 'flex'; $('inst-sub').textContent = 'Tap Share, then "Add to Home Screen".'; $('inst-btn').textContent = 'How';
+}
+
+/* ---------- events ---------- */
+document.addEventListener('click', function (ev) {
+  var b = ev.target.closest ? ev.target.closest('[data-act]') : null;
+  if (!b) return;
+  var a = b.getAttribute('data-act');
+  if (a === 'home') show('home');
+  else if (a === 'go-repair') show('repair');
+  else if (a === 'go-supply') show('supply');
+  else if (a === 'submit-repair') submitRepair();
+  else if (a === 'submit-supply') submitSupply();
+  else if (a === 'toggle-urgent') setUrgent(!sUrgent);
+  else if (a === 'sync') { lastPull = 0; syncNow(false); }
+  else if (a === 'install') doInstall();
+  else if (a === 'add-photo') $('r-file').click();
+  else if (a === 'rm-photo') { var i = parseInt(b.getAttribute('data-i'), 10), p = PH[i]; if (p) { URL.revokeObjectURL(p.url); PH.splice(i, 1); renderPhotos(); } }
+  else if (a === 'again') { closeDone(); show(lastKind); }
+  else if (a === 'home-done') { closeDone(); show('home'); }
+  else if (a === 'chip') {
+    var s = (D.staples.length ? D.staples : DEFAULT_COMMON)[parseInt(b.getAttribute('data-i'), 10)];
+    if (!s) return;
+    $('s-name').value = s.name; $('s-qty').value = s.qty || '1'; $('s-unit').value = s.unit || '';
+    if (s.store) $('s-store').value = s.store;
+    if (s.method) $('s-method').value = s.method;
+    $('s-qty').focus(); $('s-qty').select();
+  }
+});
+$('r-urg').addEventListener('click', function (ev) { var b = ev.target.closest('[data-urg]'); if (b) setUrg(b.getAttribute('data-urg')); });
+$('r-file').addEventListener('change', function () { addFiles(this.files); this.value = ''; });
+$('r-equip').addEventListener('change', function () { $('r-other-wrap').style.display = this.value === '__other' ? '' : 'none'; });
+window.addEventListener('online', function () { updatePill(); syncNow(true); });
+window.addEventListener('offline', updatePill);
+document.addEventListener('visibilitychange', function () { if (!document.hidden) { updatePill(); syncNow(true); } });
+setInterval(function () { if (D.queue.length || D.photoQ.length) syncNow(true); }, 30000);
+
+/* ---------- start ---------- */
+var go = (location.search.match(/[?&]go=(repair|supply)/) || [])[1];
+buildEquip(); buildStores(); buildCommon(); updatePill(); renderHome(); renderPhotos();
+show(go || 'home');
+syncNow(true);
+if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+})();
+</script>
+</body>
+</html>
