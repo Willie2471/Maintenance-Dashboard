@@ -374,6 +374,24 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 .sidebar.collapsed #nav-sup-badge{display:none}
 @media(max-width:700px){#nav-sup-badge.show{display:none}}
 @media print{.main{height:auto!important;overflow:visible!important;padding:0!important}.app{height:auto!important}}
+
+.rep-photos{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.rep-photos img{width:82px;height:82px;object-fit:cover;border-radius:8px;border:1px solid var(--br);cursor:zoom-in;background:var(--grl)}
+.ph-lb{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.88);display:none;flex-direction:column;align-items:center;justify-content:center;padding:14px;gap:12px}
+.ph-lb.open{display:flex}
+.ph-lb img{max-width:100%;max-height:80vh;border-radius:8px;background:#222}
+.ph-lb .lb-bar{display:flex;gap:10px;align-items:center}
+.ph-lb a,.ph-lb button{color:#fff;font:inherit;font-size:14px;font-weight:600;background:rgba(255,255,255,.18);border:0;border-radius:8px;padding:9px 16px;text-decoration:none;cursor:pointer;min-height:40px;display:inline-flex;align-items:center}
+/* ---- FIELD APP INSTALL CARD ---- */
+.fq-card{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#e8f5e9 0%,#fff 70%);border:1px solid var(--gb);border-radius:var(--rlg);padding:14px;margin-bottom:16px;box-shadow:var(--sh)}
+.fq-ico{width:58px;height:58px;border-radius:14px;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.fq-body{flex:1;min-width:0}
+.fq-title{font-size:15px;font-weight:700;color:var(--gd)}
+.fq-sub{font-size:12px;color:var(--gr);margin-top:2px;line-height:1.5}
+.fq-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.fq-steps{display:none;margin-top:10px;padding:10px 12px;background:var(--wh);border:1px solid var(--br);border-radius:var(--ra);font-size:12px;line-height:1.7;color:#333}
+.fq-steps.open{display:block}
+.fq-steps b{color:var(--gd)}
 </style>
 </head>
 <body>
@@ -439,6 +457,27 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
       <div id="api-setup-notice" style="display:none;background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px">
         <b style="color:#e65100">&#9888; Setup Required:</b> To share data across devices, paste your Google Apps Script URL into the portal.
         <button class="btn btn-amber btn-sm" style="margin-left:10px" onclick="openApiSetup()">Configure Now</button>
+      </div>
+      <div class="fq-card no-print" id="fq-card">
+        <img class="fq-ico" src="icons/icon-192.png" alt="WS Quick">
+        <div class="fq-body">
+          <div class="fq-title">&#9889; WS Quick - Field App</div>
+          <div class="fq-sub">For crew in the field: report a repair or add a supply item in seconds. No login, works with no signal, and everything shows up here for the office to review and edit.</div>
+          <div class="fq-btns">
+            <button class="btn btn-primary btn-sm" onclick="fqOpen()">Open Field App</button>
+            <button class="btn btn-secondary btn-sm" onclick="fqCopy()">Copy Link</button>
+            <button class="btn btn-secondary btn-sm" onclick="fqText()">Text Link to Crew</button>
+            <button class="btn btn-secondary btn-sm" onclick="fqSteps()">How to install</button>
+          </div>
+          <div class="fq-steps" id="fq-steps">
+            <b>First time on a phone (30 seconds):</b><br>
+            1. Open the link on the crew member's phone (use <b>Text Link to Crew</b>).<br>
+            2. <b>Android / Chrome:</b> tap the <b>Install</b> button at the top of the app, or menu (&#8942;) &rarr; <b>Install app</b>.<br>
+            &nbsp;&nbsp;&nbsp;<b>iPhone / Safari:</b> tap <b>Share</b> &rarr; <b>Add to Home Screen</b>.<br>
+            3. Open the <b>WS Quick</b> lightning bolt icon on the home screen. Their name is remembered after the first entry.<br>
+            <span style="color:var(--gr)">Tip: open it from a browser, not from inside Wix, so the install option appears.</span>
+          </div>
+        </div>
       </div>
       <div class="kpi-grid">
         <div class="kpi kpi-g"><div class="kpi-label">Total Equipment</div><div class="kpi-val" id="k-total">0</div><div class="kpi-sub">pieces tracked</div></div>
@@ -791,6 +830,7 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 </div>
 </div>
 
+<div class="ph-lb no-print" id="ph-lb"><img id="ph-lb-img" alt="Repair photo"><div class="lb-bar"><a id="ph-lb-open" href="#" target="_blank" rel="noopener">Open full size</a><button type="button" id="ph-lb-close">Close</button></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1573,10 +1613,14 @@ function repAll(){if(!S.repairs)S.repairs=[];return S.repairs;}
 function repFind(id){var a=repAll();for(var i=0;i<a.length;i++){if(a[i].id===id)return a[i];}return null;}
 function repFmtDate(d){if(!d)return '';var s=String(d).slice(0,10);var x=new Date(s+'T12:00:00');return isNaN(x.getTime())?s:x.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
 function repNorm(x){
-  var r={};['id','tech','date','urgency','equipId','equipName','desc','status','completedDate','created','updatedAt'].forEach(function(k){r[k]=(x[k]==null)?'':String(x[k]);});
+  var r={};['id','tech','date','urgency','equipId','equipName','desc','status','completedDate','created','updatedAt','photos'].forEach(function(k){r[k]=(x[k]==null)?'':String(x[k]);});
   if(!URG_INFO[r.urgency])r.urgency='Medium';
   if(!REP_STATUS[r.status])r.status='open';
   return r;
+}
+function repPhotoIds(r){
+  if(!r||!r.photos)return [];
+  try{var a=JSON.parse(r.photos);return (Array.isArray(a)?a:[]).map(function(p){return p&&p.id?String(p.id).replace(/[^A-Za-z0-9_-]/g,''):'';}).filter(Boolean);}catch(e){return [];}
 }
 function repPersist(){try{localStorage.setItem(SK,JSON.stringify(S));}catch(e){}}
 function repSaveQ(){try{localStorage.setItem(REP_Q_KEY,JSON.stringify(REP_Q));}catch(e){}}
@@ -1641,7 +1685,7 @@ function pullRepairs(){
       r.repairs.forEach(function(x){
         if(!x||!x.id||REP_DQ.indexOf(String(x.id))>=0)return;
         var loc=repFind(String(x.id));
-        if(loc&&REP_Q.indexOf(loc.id)>=0)out.push(loc);else out.push(repNorm(x));
+        if(loc&&REP_Q.indexOf(loc.id)>=0){loc.photos=String(x.photos||'');out.push(loc);}else out.push(repNorm(x));
       });
       REP_Q.forEach(function(id){var l=repFind(id);if(l&&!out.some(function(o){return o.id===id;}))out.push(l);});
       S.repairs=out;repPersist();
@@ -1705,6 +1749,8 @@ function repRenderList(){
     h+='<div class="rep-meta">Reported by <b>'+repEsc(r.tech)+'</b> &#183; '+repEsc(repFmtDate(r.date))+'</div></div>';
     h+='<div class="rep-badges"><span class="badge rb-'+u.cls+'">'+repEsc(r.urgency)+'</span><span class="badge rs-'+r.status+'">'+REP_STATUS[r.status]+'</span></div></div>';
     h+='<div class="rep-desc">'+repEsc(r.desc).replace(/\n/g,'<br>')+'</div>';
+    var _ph=repPhotoIds(r);
+    if(_ph.length){h+='<div class="rep-photos">';_ph.forEach(function(id){h+='<img class="rep-ph" loading="lazy" data-ph="'+id+'" src="https://lh3.googleusercontent.com/d/'+id+'=w300" alt="Repair photo">';});h+='</div>';}
     if(r.status==='done'&&r.completedDate)h+='<div class="rep-done-line">&#10004; Completed '+repEsc(repFmtDate(r.completedDate))+'</div>';
     h+='<div class="rep-actions no-print">';
     if(r.status==='open')h+='<button class="btn btn-amber btn-sm" data-ract="prog" data-id="'+repEsc(r.id)+'">&#9654; Start Work</button>';
@@ -1766,6 +1812,22 @@ function initRepairs(){
     else if(act==='del')repDelete(id);
     else repSetStatus(id,act);
   });
+  if(ul){
+    ul.addEventListener('click',function(ev){
+      var im=ev.target;if(!im||!im.getAttribute||!im.getAttribute('data-ph'))return;
+      var id=im.getAttribute('data-ph');
+      document.getElementById('ph-lb-img').src='https://lh3.googleusercontent.com/d/'+id+'=w1600';
+      document.getElementById('ph-lb-open').href='https://drive.google.com/file/d/'+id+'/view';
+      document.getElementById('ph-lb').classList.add('open');
+    });
+    /* if the fast image address is refused, fall back to Drive's own thumbnail address once */
+    ul.addEventListener('error',function(ev){
+      var im=ev.target;if(!im||!im.getAttribute||!im.getAttribute('data-ph')||im.getAttribute('data-fb'))return;
+      im.setAttribute('data-fb','1');im.src='https://drive.google.com/thumbnail?id='+im.getAttribute('data-ph')+'&sz=w300';
+    },true);
+  }
+  var lb=document.getElementById('ph-lb');
+  if(lb)lb.addEventListener('click',function(ev){if(ev.target.id==='ph-lb-open')return;lb.classList.remove('open');document.getElementById('ph-lb-img').src='';});
   var uf=document.getElementById('rep-filter');
   if(uf)uf.addEventListener('click',function(ev){var b=ev.target.closest?ev.target.closest('[data-rfilter]'):null;if(!b)return;REP_FILTER=b.getAttribute('data-rfilter');repRenderList();});
   var uu=document.getElementById('rp-urg');
@@ -2351,6 +2413,23 @@ window.saveApiUrl = saveApiUrl;
 window.testApiConnection = testApiConnection;
 window.handleMgrNote = handleMgrNote;
 window.handleBulkInput = handleBulkInput;
+
+/* ---- FIELD APP (WS Quick) LINK / INSTALL HELP ---- */
+function fqUrl(){try{return new URL('quick.html',location.href).href;}catch(e){return 'quick.html';}}
+function fqOpen(){window.open(fqUrl(),'_blank');}
+function fqCopy(){
+  var u=fqUrl();
+  var ok=function(){toast('Field app link copied');};
+  var old=function(){var t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');ok();}catch(e){prompt('Copy this link:',u);}t.remove();};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,old);else old();
+}
+function fqText(){
+  var msg='WS Lawn Care field app - open this, then tap Install / Add to Home Screen: '+fqUrl();
+  var a=document.createElement('a');a.href='sms:?&body='+encodeURIComponent(msg);document.body.appendChild(a);a.click();a.remove();
+}
+function fqSteps(){var el=document.getElementById('fq-steps');if(el)el.classList.toggle('open');}
+window.fqOpen=fqOpen;window.fqCopy=fqCopy;window.fqText=fqText;window.fqSteps=fqSteps;
+
 
 </script>
 </body>
