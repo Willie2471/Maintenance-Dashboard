@@ -1,6 +1,6 @@
 /* WS Quick service worker - lets the app open with no signal.
    Only the app shell is cached. Google Sheets calls are never cached. */
-var CACHE = 'ws-quick-v2';
+var CACHE = 'ws-quick-v5';
 var SHELL = ['./quick.html', './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {
