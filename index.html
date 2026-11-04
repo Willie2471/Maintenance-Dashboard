@@ -382,23 +382,12 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 .ph-lb img{max-width:100%;max-height:80vh;border-radius:8px;background:#222}
 .ph-lb .lb-bar{display:flex;gap:10px;align-items:center}
 .ph-lb a,.ph-lb button{color:#fff;font:inherit;font-size:14px;font-weight:600;background:rgba(255,255,255,.18);border:0;border-radius:8px;padding:9px 16px;text-decoration:none;cursor:pointer;min-height:40px;display:inline-flex;align-items:center}
-/* ---- FIELD APP INSTALL CARD ---- */
-.fq-card{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(135deg,#e8f5e9 0%,#fff 70%);border:1px solid var(--gb);border-radius:var(--rlg);padding:14px;margin-bottom:16px;box-shadow:var(--sh)}
-.fq-ico{width:58px;height:58px;border-radius:14px;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.2)}
-.fq-body{flex:1;min-width:0}
-.fq-title{font-size:15px;font-weight:700;color:var(--gd)}
-.fq-sub{font-size:12px;color:var(--gr);margin-top:2px;line-height:1.5}
-.fq-btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.fq-steps{display:none;margin-top:10px;padding:10px 12px;background:var(--wh);border:1px solid var(--br);border-radius:var(--ra);font-size:12px;line-height:1.7;color:#333}
-.fq-steps.open{display:block}
-.fq-steps b{color:var(--gd)}
 </style>
 </head>
 <body>
 <nav class="tabbar no-print" id="tabbar" aria-label="Main">
   <button class="tb-item on" data-tb="dashboard" data-fn="navDashboard"><span class="tb-ico">&#128202;</span><span>Home</span></button>
   <button class="tb-item" data-tb="equipment" data-fn="navEquipment"><span class="tb-ico">&#128668;</span><span>Equipment</span></button>
-  <button class="tb-item" data-tb="bulkhours" data-fn="navBulkhours"><span class="tb-ico">&#9203;</span><span>Hours</span></button>
   <button class="tb-item" data-tb="repairs" data-fn="navRepairs"><span class="tb-ico">&#129520;</span><span>Repairs</span><span class="tb-badge" id="tb-rep-badge">0</span></button>
   <button class="tb-item" data-tb="more" data-fn="openMore"><span class="tb-ico">&#8943;</span><span>More</span></button>
 </nav>
@@ -408,9 +397,7 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
   <div class="more-grid">
     <button class="more-btn" data-fn="navWorkorders"><span class="ni">&#128295;</span><span>Work Orders</span></button>
     <button class="more-btn" data-fn="navSupplies"><span class="ni">&#128722;</span><span>Supplies</span></button>
-    <button class="more-btn" data-fn="navCalendar"><span class="ni">&#128197;</span><span>Calendar</span></button>
     <button class="more-btn" data-fn="openAddEquip"><span class="ni">&#10133;</span><span>Add Equipment</span></button>
-    <button class="more-btn" data-fn="printSelectedWO"><span class="ni">&#128424;</span><span>Print Work Orders</span></button>
     <button class="more-btn" data-fn="forceSync"><span class="ni">&#8635;</span><span>Sync Now</span></button>
     <button class="more-btn" data-fn="openApiSetup"><span class="ni">&#9729;&#65039;</span><span>Cloud Settings</span></button>
   </div>
@@ -428,13 +415,10 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
     <div class="nav-item active" data-nav="dashboard" onclick="navDashboard()" title="Dashboard"><span class="ni">&#128202;</span> <span>Dashboard</span></div>
     <div class="nav-item" data-nav="equipment" onclick="navEquipment()" title="Equipment"><span class="ni">&#128668;</span> <span>Equipment</span></div>
     <div class="nav-item" data-nav="workorders" onclick="navWorkorders()" title="Work Orders"><span class="ni">&#128295;</span> <span>Work Orders</span></div>
-    <div class="nav-item" data-nav="calendar" onclick="navCalendar()" title="Calendar"><span class="ni">&#128197;</span> <span>Calendar</span></div>
-    <div class="nav-item" data-nav="bulkhours" onclick="navBulkhours()" title="Update Hours"><span class="ni">&#9203;</span> <span>Update Hours</span></div>
     <div class="nav-item" data-nav="repairs" onclick="navRepairs()" title="Repair Requests"><span class="ni">&#129520;</span> <span>Repair Requests</span><span class="badge b-overdue" id="nav-rep-badge">0</span></div>
     <div class="nav-item" data-nav="supplies" onclick="navSupplies()" title="Supplies & Reorders"><span class="ni">&#128722;</span> <span>Supplies</span><span class="badge b-overdue" id="nav-sup-badge">0</span></div>
     <div class="nav-label" style="margin-top:8px">Quick Actions</div>
     <div class="nav-item" onclick="openAddEquip()" title="Add Equipment"><span class="ni">&#10133;</span> <span>Add Equipment</span></div>
-    <div class="nav-item" onclick="printSelectedWO()" title="Print Work Orders"><span class="ni">&#128424;</span> <span>Print Work Orders</span></div>
   </div>
   <div class="sidebar-bottom">WS Lawn Care Services, LLC<br>Titusville, FL - Brevard County<br>321-209-0668<br>"Jesus First Before Profits"</div>
 </div>
@@ -457,27 +441,6 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
       <div id="api-setup-notice" style="display:none;background:#fff3e0;border:1px solid #ffcc80;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px">
         <b style="color:#e65100">&#9888; Setup Required:</b> To share data across devices, paste your Google Apps Script URL into the portal.
         <button class="btn btn-amber btn-sm" style="margin-left:10px" onclick="openApiSetup()">Configure Now</button>
-      </div>
-      <div class="fq-card no-print" id="fq-card">
-        <img class="fq-ico" src="icon-192.png" alt="WS Quick">
-        <div class="fq-body">
-          <div class="fq-title">&#9889; WS Quick - Field App</div>
-          <div class="fq-sub">For crew in the field: report a repair or add a supply item in seconds. No login, works with no signal, and everything shows up here for the office to review and edit.</div>
-          <div class="fq-btns">
-            <button class="btn btn-primary btn-sm" onclick="fqOpen()">Open Field App</button>
-            <button class="btn btn-secondary btn-sm" onclick="fqCopy()">Copy Link</button>
-            <button class="btn btn-secondary btn-sm" onclick="fqText()">Text Link to Crew</button>
-            <button class="btn btn-secondary btn-sm" onclick="fqSteps()">How to install</button>
-          </div>
-          <div class="fq-steps" id="fq-steps">
-            <b>First time on a phone (30 seconds):</b><br>
-            1. Open the link on the crew member's phone (use <b>Text Link to Crew</b>).<br>
-            2. <b>Android / Chrome:</b> tap the <b>Install</b> button at the top of the app, or menu (&#8942;) &rarr; <b>Install app</b>.<br>
-            &nbsp;&nbsp;&nbsp;<b>iPhone / Safari:</b> tap <b>Share</b> &rarr; <b>Add to Home Screen</b>.<br>
-            3. Open the <b>WS Quick</b> lightning bolt icon on the home screen. Their name is remembered after the first entry.<br>
-            <span style="color:var(--gr)">Tip: open it from a browser, not from inside Wix, so the install option appears.</span>
-          </div>
-        </div>
       </div>
       <div class="kpi-grid">
         <div class="kpi kpi-g"><div class="kpi-label">Total Equipment</div><div class="kpi-val" id="k-total">0</div><div class="kpi-sub">pieces tracked</div></div>
@@ -1574,6 +1537,45 @@ function forceSync() {
   });
 }
 
+/* ── AUTO REFRESH (every minute) ─────────────────────────────
+   Pulls equipment, repair requests and supplies from Google Sheets while
+   the portal is open, so entries from the WS Quick field app show up on
+   their own. It is quiet (no pop-ups) and never interrupts the person:
+   it skips a round while they are typing, have a form or window open,
+   or the tab is hidden, and always keeps unsaved local changes. */
+var AUTO_MS=60000, AUTO_LAST=0, AUTO_BUSY=false;
+function autoUiBusy(){
+  var a=document.activeElement;
+  if(a&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))return true;
+  var mo=document.querySelectorAll('.modal-overlay');
+  for(var i=0;i<mo.length;i++){if(mo[i].style.display&&mo[i].style.display!=='none')return true;}
+  var lb=document.getElementById('ph-lb');if(lb&&lb.classList.contains('open'))return true;
+  var act=document.querySelector('.page.active');var pid=act?act.id:'';
+  var d1=document.getElementById('rp-desc');if(pid==='page-repairs'&&d1&&d1.value)return true;
+  var d2=document.getElementById('sp-name');if(pid==='page-supplies'&&d2&&d2.value)return true;
+  return false;
+}
+function autoRefresh(force){
+  if(!API_URL||document.hidden||navigator.onLine===false||AUTO_BUSY||SYNC_BUSY)return;
+  if(!force&&Date.now()-AUTO_LAST<AUTO_MS-1500)return;
+  if(autoUiBusy())return;
+  AUTO_LAST=Date.now();AUTO_BUSY=true;
+  apiGet({action:'getAll'},function(data){
+    AUTO_BUSY=false;
+    if(data&&data.ok){
+      mergeFromSheet(data);
+      afterMerge('Auto-synced');
+      if(!autoUiBusy())rerenderActive();
+    }
+  });
+  if(typeof pullRepairs==='function')pullRepairs();
+  if(typeof supPull==='function')supPull();
+}
+setInterval(function(){autoRefresh(false);},AUTO_MS);
+document.addEventListener('visibilitychange',function(){if(!document.hidden)autoRefresh(false);});
+window.addEventListener('online',function(){autoRefresh(true);});
+window.autoRefresh=autoRefresh;
+
 /* ── FIRST-TIME SHEET BOOTSTRAP ─────────────────────────────── */
 function bootstrapSheets() {
   if (!API_URL) return;
@@ -2413,23 +2415,6 @@ window.saveApiUrl = saveApiUrl;
 window.testApiConnection = testApiConnection;
 window.handleMgrNote = handleMgrNote;
 window.handleBulkInput = handleBulkInput;
-
-/* ---- FIELD APP (WS Quick) LINK / INSTALL HELP ---- */
-function fqUrl(){try{return new URL('quick.html',location.href).href;}catch(e){return 'quick.html';}}
-function fqOpen(){window.open(fqUrl(),'_blank');}
-function fqCopy(){
-  var u=fqUrl();
-  var ok=function(){toast('Field app link copied');};
-  var old=function(){var t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');ok();}catch(e){prompt('Copy this link:',u);}t.remove();};
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,old);else old();
-}
-function fqText(){
-  var msg='WS Lawn Care field app - open this, then tap Install / Add to Home Screen: '+fqUrl();
-  var a=document.createElement('a');a.href='sms:?&body='+encodeURIComponent(msg);document.body.appendChild(a);a.click();a.remove();
-}
-function fqSteps(){var el=document.getElementById('fq-steps');if(el)el.classList.toggle('open');}
-window.fqOpen=fqOpen;window.fqCopy=fqCopy;window.fqText=fqText;window.fqSteps=fqSteps;
-
 
 </script>
 </body>
