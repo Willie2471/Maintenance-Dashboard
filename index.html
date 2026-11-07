@@ -382,6 +382,57 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 .ph-lb img{max-width:100%;max-height:80vh;border-radius:8px;background:#222}
 .ph-lb .lb-bar{display:flex;gap:10px;align-items:center}
 .ph-lb a,.ph-lb button{color:#fff;font:inherit;font-size:14px;font-weight:600;background:rgba(255,255,255,.18);border:0;border-radius:8px;padding:9px 16px;text-decoration:none;cursor:pointer;min-height:40px;display:inline-flex;align-items:center}
+/* ---- repair rows (dashboard + work orders) ---- */
+.rq-row{display:flex;gap:9px;align-items:flex-start;padding:8px 10px;border-radius:var(--ra);margin-bottom:6px;border:1px solid var(--br);border-left-width:4px;background:var(--wh);font-size:12px}
+.rq-row[onclick]{cursor:pointer}
+.rq-row.u-low{border-left-color:var(--gm)}.rq-row.u-med{border-left-color:var(--bl)}.rq-row.u-high{border-left-color:#ef6c00}.rq-row.u-crit{border-left-color:var(--rd)}
+.rq-row.sel-task{background:var(--gl);box-shadow:0 0 0 2px rgba(45,106,47,.12)}
+.rq-top{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.rq-name{font-weight:700;color:var(--gd);font-size:12px}
+.rq-desc{margin-top:3px;color:#333;line-height:1.45;word-break:break-word}
+.rq-clamp .rq-desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rq-meta{font-size:10px;color:var(--gr);margin-top:3px}
+.rq-ph{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.rq-ph img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid var(--br);cursor:zoom-in;background:var(--grl)}
+.ub{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap}
+.ub.u-low{background:var(--gl);color:var(--gd)}.ub.u-med{background:#e3f2fd;color:var(--bl)}.ub.u-high{background:var(--al);color:var(--am)}.ub.u-crit{background:var(--rl);color:var(--rd)}
+.wo-rep{margin:0 14px 14px;padding:10px;border:1px solid #ffcc80;background:#fffaf2;border-radius:var(--ra)}
+.wo-rep-hdr{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--am);margin-bottom:7px}
+.wo-rep .rq-row:last-child{margin-bottom:0}
+/* ---- group Log Service (several entries at once) ---- */
+.gs-row{border:1px solid var(--br);border-radius:var(--ra);padding:9px 10px;margin-bottom:8px;background:#fafff9}
+.gs-row.off{opacity:.55;background:var(--wh)}
+.gs-top{display:flex;align-items:center;gap:9px;font-size:13px}
+.gs-top input[type=checkbox]{width:20px;height:20px;flex:none;accent-color:var(--gd)}
+.gs-top .gs-task{flex:1;min-width:0;padding:7px 9px;border:1px solid var(--br);border-radius:var(--ra);font-size:13px;font-family:inherit}
+.gs-st{font-size:11px;font-weight:700;margin-left:6px}.gs-st.ov{color:var(--rd)}.gs-st.du{color:#ef6c00}
+.gs-link{margin:7px 0 0 29px}
+.gs-link select{width:100%;padding:6px 8px;border:1px solid var(--br);border-radius:var(--ra);font-size:12px;font-family:inherit;background:var(--wh)}
+.gs-grid{display:grid;grid-template-columns:1fr 90px 90px;gap:7px;margin:8px 0 0 29px}
+.gs-grid input{padding:7px 9px;border:1px solid var(--br);border-radius:var(--ra);font-size:13px;font-family:inherit;min-width:0;background:var(--wh)}
+.gs-err,.sum-status{font-size:12px;font-weight:600;min-height:16px;margin-top:8px}
+.gs-err{color:var(--rd)}
+@media(max-width:600px){.gs-grid{grid-template-columns:1fr 1fr;margin-left:0}.gs-grid input:first-child{grid-column:1/-1}.gs-link{margin-left:0}}
+/* ---- summary + email ---- */
+.sum-sub{font-size:12px;color:var(--gr);margin-top:2px}
+.sum-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.sum-tiles div{background:var(--gl);border:1px solid var(--gb);border-radius:var(--ra);padding:8px;font-size:10px;text-transform:uppercase;letter-spacing:.3px;color:var(--gr);text-align:center}
+.sum-tiles b{display:block;font-size:18px;color:var(--gd);letter-spacing:0;text-transform:none}
+.sum-eq{border:1px solid var(--br);border-radius:var(--ra);margin-bottom:10px;overflow:hidden}
+.sum-eq-h{background:#f0f7f0;padding:7px 11px;font-weight:700;color:var(--gd);font-size:13px;display:flex;justify-content:space-between;gap:8px}
+.sum-eq-h span{font-weight:400;color:var(--gr);font-size:11px}
+.sum-it{padding:8px 11px;border-top:1px solid var(--br);font-size:12px}
+.sum-d{color:var(--gr);font-size:11px;margin-right:8px}
+.sum-it-m{font-size:11px;color:var(--gr);margin-top:2px}
+.sum-notes{margin-top:4px;background:#fffde7;border-left:3px solid #f59e0b;padding:5px 8px;border-radius:4px;font-size:12px;color:#444;white-space:pre-wrap;word-break:break-word}
+.sum-empty{padding:18px;text-align:center;color:var(--gr);font-size:13px;border:1px dashed var(--br);border-radius:var(--ra)}
+.em-box{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:6px 8px;border:1px solid var(--br);border-radius:var(--ra);background:var(--wh);min-height:44px}
+.em-box:focus-within{border-color:var(--gm)}
+.em-chip{display:inline-flex;align-items:center;gap:2px;background:var(--gl);color:var(--gd);border:1px solid var(--gb);border-radius:20px;padding:2px 3px 2px 10px;font-size:12px;font-weight:600}
+.em-chip button{border:0;background:transparent;color:var(--gd);font-size:17px;line-height:1;cursor:pointer;padding:0 7px;min-height:26px}
+.em-box input{flex:1;min-width:170px;border:0;outline:0;font-size:13px;padding:6px 2px;font-family:inherit;background:transparent}
+.em-hint{font-size:11px;color:var(--gr);margin-top:5px}
+@media(max-width:600px){.sum-tiles{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
@@ -450,8 +501,9 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
       </div>
       <div class="dash-grid">
         <div class="card"><div class="card-title">&#9888;&#65039; Priority Alerts <span>sorted by urgency</span></div><div id="d-alerts"></div></div>
+        <div class="card"><div class="card-title">&#128295; Open Repair Requests <button class="btn btn-secondary btn-xs no-print" onclick="navRepairs()">View All</button></div><div id="d-repairs"></div></div>
         <div class="card"><div class="card-title">&#128668; Fleet Status <button class="btn btn-secondary btn-xs no-print" onclick="navEquipment()">View All</button></div><div id="d-equip"></div></div>
-        <div class="card"><div class="card-title">&#128203; Recent Activity</div><div id="d-activity"></div></div>
+        <div class="card"><div class="card-title">&#128203; Recent Activity <button class="btn btn-secondary btn-xs no-print" onclick="openSummary('')">&#128196; Summary</button></div><div id="d-activity"></div></div>
         <div class="card"><div class="card-title">&#128197; Due Within 7 Days</div><div id="d-week"></div></div>
       </div>
     </div>
@@ -477,8 +529,7 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
           <div class="d-actions no-print">
             <button class="btn btn-secondary btn-sm" onclick="openEditEquip()">&#9999;&#65039; Edit</button>
             <button class="btn btn-danger btn-sm" onclick="delEquip()">&#128465;&#65039; Delete</button>
-            <button class="btn btn-primary btn-sm" onclick="openLogSvc()">&#10133; Log Service</button>
-            <button class="btn btn-amber btn-sm" onclick="printSelectedWO()">&#128424;&#65039; Print WOs</button>
+            <button class="btn btn-primary btn-sm" onclick="openSummary(CID)">&#128196; Summary</button>
           </div>
         </div>
       </div>
@@ -511,6 +562,7 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
           </div>
           <div style="display:flex;gap:8px;align-items:center">
             <span id="sel-count" style="font-size:12px;color:var(--gr)">None selected</span>
+            <button class="btn btn-secondary btn-sm" onclick="openSummary('')">&#128196; Summary</button>
             <button class="btn btn-primary btn-sm" onclick="printSelectedWO()">&#128424;&#65039; Print Selected</button>
           </div>
         </div>
@@ -783,12 +835,59 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
       <div class="fg"><label>Parts Cost ($)</label><input id="sv-cost" type="number" step="0.01" min="0"></div>
       <div class="fg"><label>Labor Cost ($)</label><input id="sv-labor" type="number" step="0.01" min="0"></div>
       <div class="fg full"><label>Notes</label><textarea id="sv-notes" rows="2"></textarea></div>
-      <div class="fg full"><label>Mark Interval Complete</label><select id="sv-int"><option value="">- select if applicable -</option></select></div>
+      <div class="fg full"><label>Mark Interval Complete</label><select id="sv-int" onchange="svIntChange()"><option value="">- select if applicable -</option></select></div>
     </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" onclick="closeMSvc()">Cancel</button>
     <button class="btn btn-primary" onclick="saveSvc()">&#10004; Log Service</button>
+  </div>
+</div>
+</div>
+
+<!-- MODAL: LOG SERVICE FOR A WORK ORDER GROUP (several entries at once) -->
+<div class="modal-overlay" id="m-gsvc" style="display:none">
+<div class="modal" style="max-width:720px">
+  <div class="modal-hdr"><h2 id="gs-title">Log Service</h2><button class="btn btn-secondary btn-sm" onclick="closeM('m-gsvc')">&#10005; Close</button></div>
+  <div class="modal-body">
+    <div class="fgrid">
+      <div class="fg"><label>Date *</label><input id="gs-date" type="date"></div>
+      <div class="fg"><label>Performed By</label><input id="gs-by" placeholder="Willie, William, Sandra..."></div>
+      <div class="fg"><label>Hours at Service</label><input id="gs-hrs" type="number" min="0"></div>
+      <div class="fg"><label>Miles at Service</label><input id="gs-mi" type="number" min="0"></div>
+    </div>
+    <div class="fsec" style="margin-top:14px;display:flex;align-items:center;justify-content:space-between;gap:8px"><span>Tasks completed - check each one that was done</span><span style="display:flex;gap:6px"><button type="button" class="btn btn-secondary btn-xs" onclick="gsAll(true)">Check all</button><button type="button" class="btn btn-secondary btn-xs" onclick="gsAll(false)">Uncheck all</button></span></div>
+    <div id="gs-rows"></div>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="gsAdd()">&#10133; Add another entry</button>
+    <div class="gs-err" id="gs-err"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeM('m-gsvc')">Cancel</button>
+    <button class="btn btn-primary" id="gs-save" onclick="gsSave()">&#10004; Log Services</button>
+  </div>
+</div>
+</div>
+
+<!-- MODAL: SUMMARY + EMAIL -->
+<div class="modal-overlay" id="m-sum" style="display:none">
+<div class="modal" style="max-width:760px">
+  <div class="modal-hdr"><h2>&#128196; Maintenance Summary</h2><button class="btn btn-secondary btn-sm" onclick="closeM('m-sum')">&#10005; Close</button></div>
+  <div class="modal-body">
+    <div class="fgrid">
+      <div class="fg"><label>Equipment</label><select id="sum-eq" onchange="sumRefresh()"></select></div>
+      <div class="fg"><label>Period</label><select id="sum-per" onchange="sumRefresh()"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="month">This month</option><option value="lastmonth">Last month</option><option value="year">This year</option><option value="all">All time</option><option value="custom">Custom range...</option></select></div>
+      <div class="fg" id="sum-cust1" style="display:none"><label>From</label><input id="sum-from" type="date" onchange="sumRefresh()"></div>
+      <div class="fg" id="sum-cust2" style="display:none"><label>To</label><input id="sum-to" type="date" onchange="sumRefresh()"></div>
+    </div>
+    <div id="sum-body" style="margin-top:14px"></div>
+    <div class="fsec" style="margin-top:16px">Email this summary</div>
+    <div class="em-box" id="em-box"><span id="em-chips"></span><input id="em-in" type="text" inputmode="email" autocapitalize="off" autocomplete="off" spellcheck="false" placeholder="name@company.com"></div>
+    <div class="em-hint">Type an address and press Enter, comma or space. Add as many as you need (up to 10) - they are remembered for next time.</div>
+    <div class="sum-status" id="sum-status"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-secondary" onclick="closeM('m-sum')">Close</button>
+    <button class="btn btn-primary" id="sum-send" onclick="sumEmail()">&#9993; Email Summary</button>
   </div>
 </div>
 </div>
@@ -1077,7 +1176,7 @@ function logAct(eq, act) {
 }
 function ge(id){for(var i=0;i<S.equipment.length;i++){if(S.equipment[i].id===id)return S.equipment[i];}return null;}
 function gid(){return 'id'+Date.now()+Math.floor(Math.random()*1000);}
-function td(){return new Date().toISOString().split('T')[0];}
+function td(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function toast(msg,dur){dur=dur||2500;var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},dur);}
 /* logAct is defined above with API sync */
 
@@ -1124,13 +1223,14 @@ function renderDash(){
   document.getElementById('k-ov').textContent=ov;
   document.getElementById('k-du').textContent=du;
   document.getElementById('k-wo').textContent=wo;
+  renderDashRepairs();
   var alerts=[];
   S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(r.s!=='ok')alerts.push({s:r.s,lbl:r.lbl,en:e.name,task:i.task,eid:e.id});});});
   alerts.sort(function(a,b){return a.s==='overdue'?-1:1;});
   var ae=document.getElementById('d-alerts');
-  if(!alerts.length){ae.innerHTML='<div class="alert-item a-ok"><div class="alert-dot dot-g"></div><div>All maintenance up to date</div></div>';return;}
+  if(!alerts.length){ae.innerHTML='<div class="alert-item a-ok"><div class="alert-dot dot-g"></div><div>All maintenance up to date</div></div>';}
   var h='';alerts.slice(0,8).forEach(function(a){var _wk=wfReg(function(){openDetail(a.eid);});h+='<div class="alert-item a-'+a.s+'" onclick="WF('+_wk+')">';h+='<div class="alert-dot dot-'+(a.s==='overdue'?'r':'a')+'"></div>';h+='<div><div style="font-weight:600;font-size:12px">'+a.task+'</div><div style="font-size:10px;color:var(--gr)">'+a.en+' - '+a.lbl+'</div></div></div>';});
-  ae.innerHTML=h;
+  if(alerts.length)ae.innerHTML=h;
   var eqh='';S.equipment.forEach(function(e){var st=eStatus(e);var _wk=wfReg(function(){openDetail(e.id);});eqh+='<div class="eq-mini" onclick="WF('+_wk+')">';eqh+='<div class="mini-ico">'+eico(e)+'</div>';eqh+='<div class="mini-info"><div class="mini-name">'+e.name+'</div><div class="mini-det">'+e.type+' - '+(e.hours||0)+'hrs'+(e.miles?' / '+e.miles.toLocaleString()+'mi':'')+'</div></div>';eqh+='<span class="badge b-'+st+'">'+(st==='ok'?'OK':st==='due'?'Due':'OVR')+'</span></div>';});
   document.getElementById('d-equip').innerHTML=eqh;
   var act=[].concat(S.activity).reverse().slice(0,6);
@@ -1161,12 +1261,12 @@ function dTab(t,el){document.querySelectorAll('.dtab').forEach(function(x){x.cla
 
 function renderDI(){wfClear();var e=ge(CID);if(!e)return;var el=document.getElementById('dt-intervals');if(!e.intervals||!e.intervals.length){el.innerHTML='<div style="color:var(--gr);font-size:12px;padding:10px 0">No intervals set. Edit to add.</div>';return;}
   var col={overdue:'var(--rd)',due:'#ef6c00',ok:'var(--gd)'};var h='<div class="ilist">';
-  e.intervals.forEach(function(i){var r=iStat(e,i);h+='<div class="iitem"><span style="font-size:18px">'+(r.s==='overdue'?'&#128308;':r.s==='due'?'&#128993;':'&#9989;')+'</span><div class="in">'+i.task+'</div><div class="ifreq">Every '+i.freq+' '+i.unit+'</div><div class="istat" style="color:'+col[r.s]+'">'+r.lbl+'</div>';h+='<button class="btn btn-primary btn-xs no-print" onclick="qDone(\''+i.id+'\')">Done</button>';h+='<button class="btn btn-danger btn-xs no-print" onclick="delInt(\''+i.id+'\')">&#10005;</button></div>';});
+  e.intervals.forEach(function(i){var r=iStat(e,i);h+='<div class="iitem"><span style="font-size:18px">'+(r.s==='overdue'?'&#128308;':r.s==='due'?'&#128993;':'&#9989;')+'</span><div class="in">'+i.task+'</div><div class="ifreq">Every '+i.freq+' '+i.unit+'</div><div class="istat" style="color:'+col[r.s]+'">'+r.lbl+'</div>';h+='<button class="btn btn-primary btn-xs no-print" onclick="openLogSvc(\''+i.id+'\')">Done</button></div>';});
   h+='</div><div style="font-size:11px;font-weight:700;color:var(--gd);margin:12px 0 5px">Add Interval</div>';h+='<div class="iadd"><input id="d-ii-task" placeholder="Task name"><input id="d-ii-freq" type="number" placeholder="Every" style="width:60px;flex:none" min="1"><select id="d-ii-unit" style="width:80px;flex:none"><option value="hours">Hours</option><option value="miles">Miles</option><option value="days">Days</option><option value="months">Months</option><option value="years">Years</option></select><button class="btn btn-primary btn-sm no-print" onclick="addIntDirect()">Add</button></div>';
   el.innerHTML=h;}
 
-function qDone(iid){var e=ge(CID);if(!e)return;var i=null;for(var x=0;x<e.intervals.length;x++){if(e.intervals[x].id===iid){i=e.intervals[x];break;}}if(!i)return;i.lastDone=td();i.lastHours=e.hours||0;i.lastMiles=e.miles||0;i.lastDate=td();logAct(e.name,'Completed: '+i.task);save();renderDI();toast('Marked complete: '+i.task);}
-function delInt(iid){if(!confirm('Remove this interval?'))return;var e=ge(CID);if(!e)return;e.intervals=e.intervals.filter(function(x){return x.id!==iid;});save();renderDI();}
+
+
 function addIntDirect(){var e=ge(CID);if(!e)return;var t=document.getElementById('d-ii-task').value.trim();var f=parseInt(document.getElementById('d-ii-freq').value);var u=document.getElementById('d-ii-unit').value;if(!t||!f){alert('Enter task and frequency.');return;}if(!e.intervals)e.intervals=[];e.intervals.push({id:gid(),task:t,freq:f,unit:u,lastDone:null,lastHours:0});save();renderDI();document.getElementById('d-ii-task').value='';document.getElementById('d-ii-freq').value='';toast('Interval added');}
 
 function renderDH(){var e=ge(CID);if(!e)return;var h=[].concat(e.history||[]).reverse();var el=document.getElementById('dt-history');var tot=h.reduce(function(s,x){return s+(x.cost||0)+(x.labor||0);},0);var out='';if(h.length)out='<div style="font-size:11px;color:var(--gr);margin-bottom:8px;padding:7px;background:var(--gl);border-radius:var(--ra)">Total tracked: <b style="color:var(--gd)">$'+tot.toFixed(2)+'</b></div>';if(h.length){h.forEach(function(x){out+='<div class="hist-item"><div class="hist-date">'+x.date+'</div><div class="hist-task"><div class="hist-main">'+x.task+'</div><div class="hist-meta">'+(x.by?'By '+x.by+' - ':'')+(x.hAtSvc||0)+'hrs'+(x.notes?' - '+x.notes:'')+'</div></div><div class="hist-cost">$'+((x.cost||0)+(x.labor||0)).toFixed(2)+'</div></div>';});}else{out='<div style="color:var(--gr);font-size:12px;padding:10px 0">No service history yet.</div>';}el.innerHTML=out;}
@@ -1184,16 +1284,17 @@ function addII(){var t=document.getElementById('ii-task').value.trim();var f=par
 function saveEquip(){var name=document.getElementById('f-name').value.trim();if(!name){alert('Name required.');return;}var eid=document.getElementById('edit-id').value;var data={name:name,type:document.getElementById('f-type').value,make:document.getElementById('f-make').value,model:document.getElementById('f-model').value,serial:document.getElementById('f-serial').value,year:document.getElementById('f-year').value,hours:parseFloat(document.getElementById('f-hrs').value)||0,miles:parseFloat(document.getElementById('f-mi').value)||0,purchaseDate:document.getElementById('f-pdate').value,cost:parseFloat(document.getElementById('f-cost').value)||0,annualHrs:parseFloat(document.getElementById('f-annhrs').value)||0,cph:parseFloat(document.getElementById('f-cph').value)||0,notes:document.getElementById('f-notes').value,intervals:EI};if(eid){var e=ge(eid);Object.keys(data).forEach(function(k){e[k]=data[k];});logAct(name,'Updated');}else{var ne=JSON.parse(JSON.stringify(data));ne.id=gid();ne.history=[];S.equipment.push(ne);logAct(name,'Added');}save();closeM('m-equip');toast(name+' saved');if(eid)openDetail(eid);else{nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}}
 function delEquip(){var e=ge(CID);if(!e)return;if(!confirm('Delete "'+e.name+'" and all history?'))return;var _did=CID;S.equipment=S.equipment.filter(function(x){return x.id!==_did;});queueDelete(_did);save();toast('Deleted');nav('equipment',document.querySelectorAll('.nav-item')[1]);renderEqList();}
 
-function openLogSvc(){var e=ge(CID);if(!e)return;document.getElementById('sv-date').value=td();document.getElementById('sv-by').value='';document.getElementById('sv-task').value='';document.getElementById('sv-hrs').value=e.hours||0;document.getElementById('sv-mi').value=e.miles||0;document.getElementById('sv-cost').value='';document.getElementById('sv-labor').value='';document.getElementById('sv-notes').value='';var sel=document.getElementById('sv-int');sel.innerHTML='<option value="">- select if applicable -</option>';(e.intervals||[]).forEach(function(i){sel.innerHTML+='<option value="'+i.id+'">'+i.task+' (every '+i.freq+' '+i.unit+')</option>';});document.getElementById('m-svc').style.display='flex';}
-function saveSvc(){var e=ge(CID);if(!e)return;var task=document.getElementById('sv-task').value.trim();if(!task){alert('Task required.');return;}var rec={id:gid(),date:document.getElementById('sv-date').value,task:task,by:document.getElementById('sv-by').value,hAtSvc:parseFloat(document.getElementById('sv-hrs').value)||0,miAtSvc:parseFloat(document.getElementById('sv-mi').value)||0,cost:parseFloat(document.getElementById('sv-cost').value)||0,labor:parseFloat(document.getElementById('sv-labor').value)||0,notes:document.getElementById('sv-notes').value};if(!e.history)e.history=[];e.history.push(rec);var si=document.getElementById('sv-int').value;if(si){for(var x=0;x<e.intervals.length;x++){if(e.intervals[x].id===si){e.intervals[x].lastDone=rec.date;e.intervals[x].lastHours=rec.hAtSvc;e.intervals[x].lastMiles=rec.miAtSvc;e.intervals[x].lastDate=rec.date;break;}}}logAct(e.name,'Service: '+task);save();closeM('m-svc');toast('Service logged');renderDH();renderDI();}
+
+function saveSvc(){var e=ge(CID);if(!e)return;var task=document.getElementById('sv-task').value.trim();if(!task){alert('Task required.');return;}var rec={id:gid(),date:document.getElementById('sv-date').value,task:task,by:document.getElementById('sv-by').value,hAtSvc:parseFloat(document.getElementById('sv-hrs').value)||0,miAtSvc:parseFloat(document.getElementById('sv-mi').value)||0,cost:parseFloat(document.getElementById('sv-cost').value)||0,labor:parseFloat(document.getElementById('sv-labor').value)||0,notes:document.getElementById('sv-notes').value};if(!e.history)e.history=[];e.history.push(rec);var si=document.getElementById('sv-int').value;if(si){for(var x=0;x<e.intervals.length;x++){if(e.intervals[x].id===si){e.intervals[x].lastDone=rec.date;e.intervals[x].lastHours=rec.hAtSvc;e.intervals[x].lastMiles=rec.miAtSvc;e.intervals[x].lastDate=rec.date;break;}}}logAct(e.name,'Service: '+task);save();closeM('m-svc');toast('Service logged');try{localStorage.setItem('ws_svc_by_v1',rec.by||'');}catch(x){}renderDH();renderDI();}
 
 function setWF(f,el){WF_FILTER=f;['wf-all','wf-ov','wf-du'].forEach(function(id){var b=document.getElementById(id);if(b){b.style.background='';b.style.color='';}});el.style.background='var(--gl)';el.style.color='var(--gd)';WO_SEL={};renderWO();}
-function getWOGroups(){var groups=[];S.equipment.forEach(function(e){var tasks=[];(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(WF_FILTER==='overdue'&&r.s!=='overdue')return;if(WF_FILTER==='due'&&r.s==='ok')return;if(WF_FILTER==='all'&&r.s==='ok')return;tasks.push({i:i,r:r,key:e.id+'-'+i.id});});if(tasks.length){tasks.sort(function(a,b){return a.r.s==='overdue'?-1:1;});var hasOv=tasks.some(function(t){return t.r.s==='overdue';});groups.push({e:e,tasks:tasks,status:hasOv?'overdue':'due'});}});groups.sort(function(a,b){return a.status==='overdue'?-1:1;});return groups;}
+function woRank(g){if(g.tasks.some(function(t){return t.r.s==='overdue';}))return 0;if(g.reps.some(function(r){return rqRank(r.urgency)>=2;}))return 1;return g.tasks.length?2:3;}
+function getWOGroups(){var groups=[];S.equipment.forEach(function(e){var tasks=[];(e.intervals||[]).forEach(function(i){var r=iStat(e,i);if(WF_FILTER==='overdue'&&r.s!=='overdue')return;if(WF_FILTER==='due'&&r.s==='ok')return;if(WF_FILTER==='all'&&r.s==='ok')return;tasks.push({i:i,r:r,key:e.id+'-'+i.id});});var reps=woRepairsFor(e);if(tasks.length||(reps.length&&WF_FILTER==='all')){tasks.sort(function(a,b){return a.r.s==='overdue'?-1:1;});var hasOv=tasks.some(function(t){return t.r.s==='overdue';});groups.push({e:e,tasks:tasks,reps:reps,status:hasOv?'overdue':'due'});}});groups.sort(function(a,b){return woRank(a)-woRank(b);});return groups;}
 function getWOItems(){var items=[];getWOGroups().forEach(function(g){g.tasks.forEach(function(t){items.push({e:g.e,i:t.i,r:t.r,key:t.key});});});return items;}
 function renderWO(){
   wfClear();
-  var groups=getWOGroups();var totalTasks=0;groups.forEach(function(g){totalTasks+=g.tasks.length;});
-  document.getElementById('wo-count').textContent=groups.length+' equipment group'+(groups.length!==1?'s':'')+', '+totalTasks+' task'+(totalTasks!==1?'s':'')+' - check tasks to select for printing';
+  var groups=getWOGroups();var totalTasks=0,totalReps=0;groups.forEach(function(g){totalTasks+=g.tasks.length;totalReps+=g.reps.length;});
+  document.getElementById('wo-count').textContent=groups.length+' equipment group'+(groups.length!==1?'s':'')+', '+totalTasks+' task'+(totalTasks!==1?'s':'')+(totalReps?', '+totalReps+' open repair request'+(totalReps!==1?'s':''):'')+' - check items to select for printing';
   var el=document.getElementById('wo-list');
   if(!groups.length){el.innerHTML='<div class="empty-state"><div class="es-icon">&#9989;</div><div class="es-title">No outstanding work orders</div></div>';updateSelCount();return;}
   var woNum=0;var h='';
@@ -1201,7 +1302,7 @@ function renderWO(){
     var e=g.e;
     var ovCount=g.tasks.filter(function(t){return t.r.s==='overdue';}).length;
     var duCount=g.tasks.filter(function(t){return t.r.s==='due';}).length;
-    var allSel=g.tasks.every(function(t){return !!WO_SEL[t.key];});
+    var allSel=g.tasks.every(function(t){return !!WO_SEL[t.key];})&&g.reps.every(function(r){return !!WO_SEL['rp-'+r.id];});
     var grpNoteKey='grp-'+e.id;
     h+='<div class="wo-group" id="grp-'+e.id+'">';
     h+='<div class="wo-group-hdr">';
@@ -1212,11 +1313,12 @@ function renderWO(){
     h+='<div class="wo-group-right">';
     h+='<div class="wo-group-badges">';
     if(ovCount)h+='<span class="badge b-overdue">&#128308; '+ovCount+' Overdue</span> ';
-    if(duCount)h+='<span class="badge b-due">&#128993; '+duCount+' Due</span>';
+    if(duCount)h+='<span class="badge b-due">&#128993; '+duCount+' Due</span> ';
+    if(g.reps.length)h+='<span class="badge" style="background:#e3f2fd;color:var(--bl)">&#128295; '+g.reps.length+' Repair'+(g.reps.length!==1?'s':'')+'</span>';
     h+='</div>';
     h+='<div class="wo-group-actions no-print">';
     (function(){var _eid=e.id,_v=!allSel;var _wk=wfReg(function(){selGroup(_eid,_v);});h+='<button class="btn btn-secondary btn-sm" onclick="WF('+_wk+')">&#9745; '+(allSel?'Deselect All':'Select All')+'</button> ';})();
-    (function(){var _eid=e.id;var _wk=wfReg(function(){CID=_eid;openLogSvc();});h+='<button class="btn btn-primary btn-sm" onclick="WF('+_wk+')">&#10004; Log Service</button> ';})();
+    (function(){var _eid=e.id;var _wk=wfReg(function(){gsOpen(_eid);});h+='<button class="btn btn-primary btn-sm" onclick="WF('+_wk+')">&#10004; Log Service</button> ';})();
     (function(){var _eid=e.id;var _wk=wfReg(function(){openDetail(_eid);});h+='<button class="btn btn-secondary btn-sm" onclick="WF('+_wk+')">View</button>';})();
     h+='</div></div></div>';
     h+='<div class="mgr-note-box no-print" style="margin:0 14px 10px 14px">';
@@ -1237,14 +1339,24 @@ function renderWO(){
       h+='<span class="badge b-'+(r.s==='overdue'?'overdue':'due')+'">'+(r.s==='overdue'?'OVERDUE':'Due')+'</span>';
       h+='</div></div></div>';
     });
-    h+='</div></div>';
+    h+='</div>';
+    if(g.reps.length){
+      h+='<div class="wo-rep"><div class="wo-rep-hdr">&#128295; Open repair requests for '+repEsc(e.name)+' ('+g.reps.length+')</div>';
+      g.reps.forEach(function(r){
+        var key='rp-'+r.id,sel=!!WO_SEL[key],_wk=wfReg(function(){toggleWO(key);});
+        var cb='<div class="wo-cb'+(sel?' on':'')+'" style="margin-top:2px">'+(sel?'&#10003;':'')+'</div>';
+        h+=rqRowHtml(r,{id:'woi-'+key,onclick:'WF('+_wk+')',cb:cb,noName:true,photos:true,sel:sel});
+      });
+      h+='</div>';
+    }
+    h+='</div>';
   });
   el.innerHTML=h;
   var dateEl=document.getElementById('wo-date');if(dateEl&&!dateEl.value)dateEl.value=td();
   updateSelCount();}
 function toggleWO(key){if(WO_SEL[key]){delete WO_SEL[key];}else{WO_SEL[key]=true;}var row=document.getElementById('woi-'+key);if(row){var on=!!WO_SEL[key];row.classList.toggle('sel-task',on);var cb=row.querySelector('.wo-cb');if(cb){cb.classList.toggle('on',on);cb.innerHTML=on?'&#10003;':'';}};updateSelCount();}
-function selGroup(eid,selectVal){var g=null;getWOGroups().forEach(function(gr){if(gr.e.id===eid)g=gr;});if(!g)return;g.tasks.forEach(function(t){if(selectVal)WO_SEL[t.key]=true;else delete WO_SEL[t.key];});renderWO();}
-function selAll(v){var items=getWOItems();items.forEach(function(item){if(v)WO_SEL[item.key]=true;else delete WO_SEL[item.key];});renderWO();}
+function selGroup(eid,selectVal){var g=null;getWOGroups().forEach(function(gr){if(gr.e.id===eid)g=gr;});if(!g)return;g.tasks.forEach(function(t){if(selectVal)WO_SEL[t.key]=true;else delete WO_SEL[t.key];});g.reps.forEach(function(r){if(selectVal)WO_SEL['rp-'+r.id]=true;else delete WO_SEL['rp-'+r.id];});renderWO();}
+function selAll(v){getWOGroups().forEach(function(g){g.tasks.forEach(function(t){if(v)WO_SEL[t.key]=true;else delete WO_SEL[t.key];});g.reps.forEach(function(r){if(v)WO_SEL['rp-'+r.id]=true;else delete WO_SEL['rp-'+r.id];});});renderWO();}
 function updateSelCount(){var n=Object.keys(WO_SEL).length;var el=document.getElementById('sel-count');if(el){el.textContent=n===0?'None selected':n+' selected';el.style.color=n>0?'var(--gd)':'var(--gr)';el.style.fontWeight=n>0?'700':'400';}}
 
 function printSelectedWO(){
@@ -1258,6 +1370,7 @@ function printSelectedWO(){
   var instr=(document.getElementById('wo-instr')||{}).value||'';
   var dateStr=new Date(woDate+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
   var css='*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;padding:22px;max-width:820px;margin:0 auto;color:#1a1a1a;font-size:13px}.phdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #2d6a2f;padding-bottom:12px;margin-bottom:18px}.coname{font-size:20px;font-weight:700;color:#2d6a2f}.cosub{font-size:11px;color:#555;margin-top:3px;line-height:1.6}.coinfo{font-size:11px;text-align:right;color:#555;line-height:1.8}.sumbar{background:#f0f7f0;border:1px solid #c8e6c9;border-radius:7px;padding:10px 13px;margin-bottom:16px;font-size:12px;display:flex;gap:20px;flex-wrap:wrap}.sumbar b{color:#2d6a2f}.wo{border:1px solid #bbb;border-radius:8px;padding:15px;margin-bottom:18px;page-break-inside:avoid}.wo-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:9px;gap:10px}.wo-n{font-size:10px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}.wo-t{font-size:15px;font-weight:700;color:#2d6a2f;margin-bottom:3px}.wo-m{font-size:11px;color:#555;line-height:1.7}.badge{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;white-space:nowrap;text-align:center}.bov{background:#ffebee;color:#c62828}.bdu{background:#fff3e0;color:#e65100}.mgr{background:#fffde7;border-left:3px solid #f59e0b;padding:7px 9px;border-radius:4px;margin:9px 0;font-size:11px}.mgr b{color:#92400e;font-size:10px;text-transform:uppercase;display:block;margin-bottom:2px}table{width:100%;border-collapse:collapse;font-size:12px;margin-top:9px}th{background:#f0f7f0;padding:5px 7px;text-align:left;border:1px solid #ddd;font-size:10px;text-transform:uppercase}td{padding:6px 7px;border:1px solid #ddd;vertical-align:top}.ret{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px;padding:9px;background:#f9fafb;border:1px solid #ddd;border-radius:6px}.retf{border-bottom:1px solid #999;padding-bottom:2px}.retl{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}.notes-sec{margin-top:12px;border:1px solid #ddd;border-radius:6px;overflow:hidden}.notes-hdr{background:#f5f5f5;padding:6px 10px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#444;display:flex;gap:0}.notes-hdr span{flex:1;padding:0 5px}.notes-hdr span:first-child{border-right:1px solid #ddd}.notes-body{display:grid;grid-template-columns:1fr 1fr}.notes-col{padding:9px}.notes-col:first-child{border-right:1px solid #ddd}.nclbl{font-size:10px;font-weight:700;text-transform:uppercase;color:#2d6a2f;margin-bottom:5px}.nline{border-bottom:1px solid #ddd;height:21px;margin-bottom:5px}.nfine{font-size:9px;color:#aaa;margin-top:3px}.sign{display:flex;gap:16px;margin-top:10px;font-size:11px;color:#555;padding-top:8px;border-top:1px dashed #ddd}.sign span{flex:1;border-bottom:1px solid #999;padding-bottom:2px}.footer{margin-top:26px;text-align:center;font-size:10px;color:#999;border-top:1px solid #eee;padding-top:10px;line-height:2}.eq-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;padding-bottom:10px;border-bottom:2px solid #c8e6c9}.eq-name{font-size:17px;font-weight:700;color:#2d6a2f;margin-bottom:3px}';
+  css+='.rep{background:#fff8e1;border:1px solid #ffcc80;border-radius:6px;padding:8px 10px;margin:9px 0;font-size:12px}.rep .rh{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#e65100;margin-bottom:4px}.rep .ri{padding:6px 0;border-top:1px dashed #e0c080;page-break-inside:avoid}.rep .ri:first-of-type{border-top:0}.rep .rm{font-size:10px;color:#777;margin-top:2px}.rep .rfix{margin-top:5px;font-size:10px;color:#888}.rep .rfix span{display:inline-block;border-bottom:1px solid #999;width:60%;margin-left:4px}';
   /* Group selected items by equipment */
   var printGroups=[];
   var seenEq={};
@@ -1269,13 +1382,15 @@ function printSelectedWO(){
   /* Fix: group might push to wrong group if equipment not contiguous - rebuild properly */
   var pgMap={};
   items.forEach(function(item){if(!pgMap[item.e.id])pgMap[item.e.id]={e:item.e,tasks:[]};pgMap[item.e.id].tasks.push(item);});
+  getWOGroups().forEach(function(g){if(!pgMap[g.e.id]&&g.reps.some(function(r){return !!WO_SEL['rp-'+r.id];}))pgMap[g.e.id]={e:g.e,tasks:[]};});
+  Object.keys(pgMap).forEach(function(id){pgMap[id].reps=woRepairsFor(pgMap[id].e);});
   printGroups=Object.values(pgMap);
   printGroups.sort(function(a,b){var aOv=a.tasks.some(function(t){return t.r.s==='overdue';});var bOv=b.tasks.some(function(t){return t.r.s==='overdue';});return aOv&&!bOv?-1:!aOv&&bOv?1:0;});
   var totalOv=items.filter(function(x){return x.r.s==='overdue';}).length;
   var totalDu=items.filter(function(x){return x.r.s==='due';}).length;
   var body='';
   body+='<div class="phdr"><div><div class="coname">WS Lawn Care Services, LLC</div><div class="cosub">Equipment Maintenance Work Orders<br>'+dateStr+(tech?' - Assigned: <b>'+tech+'</b>':'')+'</div></div><div class="coinfo">321-209-0668<br>info@wslawncareservicesllc.com<br>wslawncareservicesllc.com<br>Titusville, FL</div></div>';
-  body+='<div class="sumbar"><div><b>Equipment:</b> '+printGroups.length+'</div><div><b>Tasks:</b> '+items.length+'</div><div><b>Overdue:</b> '+totalOv+'</div><div><b>Due Soon:</b> '+totalDu+'</div>'+(tech?'<div><b>Tech:</b> '+tech+'</div>':'')+(instr?'<div style="flex:1"><b>Priority:</b> '+instr+'</div>':'')+'</div>';
+  body+='<div class="sumbar"><div><b>Equipment:</b> '+printGroups.length+'</div><div><b>Tasks:</b> '+items.length+'</div><div><b>Repairs:</b> '+printGroups.reduce(function(n,g){return n+g.reps.length;},0)+'</div><div><b>Overdue:</b> '+totalOv+'</div><div><b>Due Soon:</b> '+totalDu+'</div>'+(tech?'<div><b>Tech:</b> '+tech+'</div>':'')+(instr?'<div style="flex:1"><b>Priority:</b> '+instr+'</div>':'')+'</div>';
   /* One section per equipment, all tasks inside */
   printGroups.forEach(function(pg){
     var e=pg.e;
@@ -1294,7 +1409,16 @@ function printSelectedWO(){
     if(pgDu)body+='<span class="badge bdu">'+pgDu+' Due Soon</span>';
     body+='</div></div>';
     if(mn)body+='<div class="mgr"><b>Manager Notes</b>'+mn+'</div>';
+    if(pg.reps.length){
+      body+='<div class="rep"><div class="rh">Open Repair Requests for this Equipment ('+pg.reps.length+')</div>';
+      pg.reps.forEach(function(r){
+        var np=repPhotoIds(r).length;
+        body+='<div class="ri"><span class="badge '+(rqRank(r.urgency)>=2?'bov':'bdu')+'">'+repEsc(r.urgency)+'</span> '+repEsc(r.desc).replace(/\n/g,'<br>')+'<div class="rm">Reported by '+repEsc(r.tech||'?')+' on '+repEsc(repFmtDate(r.date))+(r.status==='prog'?' - In progress':'')+(np?' - '+np+' photo'+(np>1?'s':'')+' in the portal':'')+'</div><div class="rfix">Fixed / what was done:<span></span></div></div>';
+      });
+      body+='</div>';
+    }
     /* Task checklist table */
+    if(pg.tasks.length){
     body+='<table><tr><th style="width:30%">Task</th><th style="width:15%">Interval</th><th style="width:16%">Status</th><th style="width:55px">Done</th><th style="width:65px">Initial</th><th>Parts / Notes</th></tr>';
     pg.tasks.forEach(function(t){
       var i=t.i,r=t.r;
@@ -1304,6 +1428,7 @@ function printSelectedWO(){
       body+='<td></td><td></td><td></td></tr>';
     });
     body+='</table>';
+    }
     /* Return-to-office fields */
     body+='<div class="ret"><div><div class="retl">Hours at Service</div><div class="retf">&nbsp;</div></div><div><div class="retl">Miles at Service</div><div class="retf">&nbsp;</div></div><div><div class="retl">Parts Cost $</div><div class="retf">&nbsp;</div></div><div><div class="retl">Labor Hours</div><div class="retf">&nbsp;</div></div></div>';
     /* Tech notes section */
@@ -1699,6 +1824,9 @@ function pullRepairs(){
     repBadge();
     var pg=document.getElementById('page-repairs');
     if(pg&&pg.classList.contains('active'))repRenderList();
+    var ap=document.querySelector('.page.active');
+    if(ap&&ap.id==='page-dashboard')renderDashRepairs();
+    if(ap&&ap.id==='page-workorders'&&!autoUiBusy())renderWO();
   });
 }
 function repRefresh(){toast('Refreshing...');if(API_URL)pullRepairs();else repRenderList();}
@@ -2378,6 +2506,332 @@ function closeMore(){document.getElementById('more-sheet').classList.remove('ope
 })();
 window.openMore=openMore;window.closeMore=closeMore;
 
+/* ================= REPAIRS ON DASHBOARD + WORK ORDERS ================= */
+function qel(id){return document.getElementById(id);}
+function rqCls(u){return {Low:'u-low',Medium:'u-med',High:'u-high',Critical:'u-crit'}[u]||'u-med';}
+function rqRank(u){var v={Low:0,Medium:1,High:2,Critical:3}[u];return v==null?1:v;}
+function rqSort(list){return list.slice().sort(function(a,b){var d=rqRank(b.urgency)-rqRank(a.urgency);return d||String(a.date).localeCompare(String(b.date));});}
+function woRepairsFor(e){return rqSort(repAll().filter(function(r){return r.status!=='done'&&r.equipId&&r.equipId===e.id;}));}
+function rqPhotosHtml(r){
+  var ids=repPhotoIds(r);if(!ids.length)return '';
+  var h='<div class="rq-ph">';
+  ids.forEach(function(id){h+='<img class="rep-ph" loading="lazy" data-ph="'+id+'" src="https://lh3.googleusercontent.com/d/'+id+'=w160" onerror="if(!this.dataset.fb){this.dataset.fb=1;this.src=\'https://drive.google.com/thumbnail?id='+id+'&amp;sz=w160\';}" alt="Repair photo">';});
+  return h+'</div>';
+}
+function rqRowHtml(r,o){
+  o=o||{};var c=rqCls(r.urgency);
+  var h='<div class="rq-row '+c+(o.sel?' sel-task':'')+'"'+(o.id?' id="'+o.id+'"':'')+(o.onclick?' onclick="'+o.onclick+'"':'')+'>';
+  if(o.cb)h+=o.cb;
+  h+='<div style="flex:1;min-width:0"><div class="rq-top">';
+  if(!o.noName)h+='<span class="rq-name">'+repEsc(r.equipName||'Unknown equipment')+'</span> ';
+  h+='<span class="ub '+c+'">'+repEsc(r.urgency)+'</span>';
+  if(r.status==='prog')h+=' <span class="ub u-med">In Progress</span>';
+  h+='</div><div class="rq-desc">'+repEsc(r.desc).replace(/\n/g,'<br>')+'</div>';
+  h+='<div class="rq-meta">Reported by '+repEsc(r.tech||'?')+' &middot; '+repEsc(repFmtDate(r.date))+'</div>';
+  if(o.photos)h+=rqPhotosHtml(r);
+  return h+'</div></div>';
+}
+function renderDashRepairs(){
+  var el=qel('d-repairs');if(!el)return;
+  var list=rqSort(repAll().filter(function(r){return r.status!=='done';}));
+  if(!list.length){el.innerHTML='<div class="alert-item a-ok"><div class="alert-dot dot-g"></div><div>No open repair requests</div></div>';return;}
+  var h='<div class="rq-clamp">';
+  list.slice(0,6).forEach(function(r){var _wk=wfReg(function(){navRepairs();});h+=rqRowHtml(r,{onclick:'WF('+_wk+')'});});
+  h+='</div>';
+  if(list.length>6)h+='<div style="font-size:11px;color:var(--gr);text-align:center;margin-top:4px">+'+(list.length-6)+' more - tap View All</div>';
+  el.innerHTML=h;
+}
+/* tap a repair photo anywhere (dashboard, work orders, repairs list) to enlarge it */
+document.addEventListener('click',function(ev){
+  var im=ev.target;if(!im||im.tagName!=='IMG'||!im.getAttribute)return;
+  var id=im.getAttribute('data-ph');if(!id)return;
+  ev.stopPropagation();ev.preventDefault();
+  var lb=qel('ph-lb');if(!lb)return;
+  qel('ph-lb-img').src='https://lh3.googleusercontent.com/d/'+id+'=w1600';
+  qel('ph-lb-open').href='https://drive.google.com/file/d/'+id+'/view';
+  lb.classList.add('open');
+},true);
+
+/* ================= LOG SERVICE: prefilled from an interval's Done button ================= */
+var SV_AUTO='';
+function openLogSvc(iid){
+  var e=ge(CID);if(!e)return;
+  var by='';try{by=localStorage.getItem('ws_svc_by_v1')||'';}catch(x){}
+  qel('sv-date').value=td();qel('sv-by').value=by;qel('sv-task').value='';
+  qel('sv-hrs').value=e.hours||0;qel('sv-mi').value=e.miles||0;
+  qel('sv-cost').value='';qel('sv-labor').value='';qel('sv-notes').value='';
+  var sel=qel('sv-int');
+  sel.innerHTML='<option value="">- select if applicable -</option>'+(e.intervals||[]).map(function(i){return '<option value="'+repEsc(i.id)+'">'+repEsc(i.task)+' (every '+i.freq+' '+repEsc(i.unit)+')</option>';}).join('');
+  SV_AUTO='';
+  if(iid){
+    var it=null;(e.intervals||[]).forEach(function(x){if(x.id===iid)it=x;});
+    if(it){sel.value=it.id;qel('sv-task').value=it.task;SV_AUTO=it.task;}
+  }
+  qel('m-svc').style.display='flex';
+  if(!by){qel('sv-by').focus();}
+}
+/* picking a different interval in the box keeps the task name in step with it */
+function svIntChange(){
+  var e=ge(CID);if(!e)return;
+  var t=qel('sv-task'),v=qel('sv-int').value,it=null;
+  (e.intervals||[]).forEach(function(x){if(x.id===v)it=x;});
+  if(!t.value.trim()||t.value===SV_AUTO){t.value=it?it.task:'';SV_AUTO=it?it.task:'';}
+}
+
+/* ================= WORK ORDERS: log several services for one equipment group ================= */
+var GS={eid:'',rows:[]};
+function gsOpen(eid){
+  var e=ge(eid);if(!e)return;
+  var g=null;getWOGroups().forEach(function(x){if(x.e.id===eid)g=x;});
+  var by='';try{by=localStorage.getItem('ws_svc_by_v1')||'';}catch(x){}
+  var tasks=g?g.tasks:[];
+  var anySel=tasks.some(function(t){return !!WO_SEL[t.key];});
+  GS={eid:eid,rows:tasks.map(function(t){return {iid:t.i.id,task:t.i.task,lbl:t.r.lbl,s:t.r.s,key:t.key,on:anySel?!!WO_SEL[t.key]:true,notes:'',cost:'',labor:'',custom:false};})};
+  qel('gs-title').textContent='Log Service - '+e.name;
+  qel('gs-date').value=td();
+  qel('gs-by').value=by||((qel('wo-tech')||{}).value||'');
+  qel('gs-hrs').value=e.hours||0;qel('gs-mi').value=e.miles||0;
+  qel('gs-err').textContent='';
+  gsRender();
+  qel('m-gsvc').style.display='flex';
+}
+function gsCount(){
+  var n=GS.rows.filter(function(r){return r.on;}).length;
+  qel('gs-save').innerHTML='&#10004; Log '+n+' Service'+(n===1?'':'s');
+}
+function gsRender(){
+  var e=ge(GS.eid);if(!e)return;var h='';
+  if(!GS.rows.length)h+='<div style="font-size:12px;color:var(--gr);padding:4px 0 10px">No outstanding tasks for this equipment. Use Add another entry to log work that was done.</div>';
+  GS.rows.forEach(function(r,i){
+    h+='<div class="gs-row'+(r.on?'':' off')+'" id="gs-r'+i+'"><div class="gs-top"><input type="checkbox" data-gs="on" data-i="'+i+'"'+(r.on?' checked':'')+'>';
+    if(r.custom){
+      h+='<input class="gs-task" data-gs="task" data-i="'+i+'" placeholder="What was done? (e.g. Replaced trimmer head)" value="'+repEsc(r.task)+'">';
+      h+='<button type="button" class="btn btn-danger btn-xs" data-gs-rm="'+i+'" title="Remove this entry">&#10005;</button>';
+    }else{
+      h+='<div style="flex:1;min-width:0"><b>'+repEsc(r.task)+'</b> <span class="gs-st '+(r.s==='overdue'?'ov':'du')+'">'+repEsc(r.lbl)+'</span></div>';
+    }
+    h+='</div>';
+    if(r.custom){
+      h+='<div class="gs-link"><select data-gs="iid" data-i="'+i+'"><option value="">- not tied to a maintenance interval -</option>'+(e.intervals||[]).map(function(iv){return '<option value="'+repEsc(iv.id)+'"'+(r.iid===iv.id?' selected':'')+'>Also mark done: '+repEsc(iv.task)+'</option>';}).join('')+'</select></div>';
+    }
+    h+='<div class="gs-grid"><input data-gs="notes" data-i="'+i+'" placeholder="Notes - what was done, findings, parts used" value="'+repEsc(r.notes)+'"><input data-gs="cost" data-i="'+i+'" type="number" min="0" step="0.01" placeholder="Parts $" value="'+repEsc(r.cost)+'"><input data-gs="labor" data-i="'+i+'" type="number" min="0" step="0.01" placeholder="Labor $" value="'+repEsc(r.labor)+'"></div></div>';
+  });
+  qel('gs-rows').innerHTML=h;
+  gsCount();
+}
+function gsAdd(){
+  GS.rows.push({iid:'',task:'',lbl:'',s:'',key:'',on:true,notes:'',cost:'',labor:'',custom:true});
+  gsRender();
+  var els=qel('gs-rows').querySelectorAll('.gs-task');if(els.length)els[els.length-1].focus();
+}
+function gsAll(v){GS.rows.forEach(function(r){r.on=!!v;});gsRender();}
+qel('gs-rows').addEventListener('input',function(ev){
+  var t=ev.target,f=t.getAttribute&&t.getAttribute('data-gs');
+  if(!f||f==='on'||f==='iid')return;
+  var r=GS.rows[+t.getAttribute('data-i')];if(r)r[f]=t.value;
+});
+qel('gs-rows').addEventListener('change',function(ev){
+  var t=ev.target,f=t.getAttribute&&t.getAttribute('data-gs');if(!f)return;
+  var i=+t.getAttribute('data-i'),r=GS.rows[i];if(!r)return;
+  if(f==='on'){r.on=t.checked;var row=qel('gs-r'+i);if(row)row.classList.toggle('off',!r.on);gsCount();}
+  else if(f==='iid'){
+    r.iid=t.value;
+    if(t.value){
+      var e=ge(GS.eid),iv=null;(e.intervals||[]).forEach(function(x){if(x.id===t.value)iv=x;});
+      if(iv&&(!String(r.task).trim()||r.autoTask===r.task)){r.task=iv.task;r.autoTask=iv.task;var ti=qel('gs-r'+i).querySelector('.gs-task');if(ti)ti.value=iv.task;}
+    }
+  }
+});
+qel('gs-rows').addEventListener('click',function(ev){
+  var b=ev.target.closest?ev.target.closest('[data-gs-rm]'):null;if(!b)return;
+  GS.rows.splice(+b.getAttribute('data-gs-rm'),1);gsRender();
+});
+function gsSave(){
+  var e=ge(GS.eid);if(!e)return;
+  var err=qel('gs-err');err.textContent='';
+  var date=qel('gs-date').value;if(!date){err.textContent='Pick a date.';return;}
+  var rows=GS.rows.filter(function(r){return r.on;});
+  if(!rows.length){err.textContent='Check at least one task that was done.';return;}
+  for(var k=0;k<rows.length;k++){if(!String(rows[k].task||'').trim()){err.textContent='Give every checked entry a task name.';return;}}
+  var by=qel('gs-by').value.trim(),hrs=parseFloat(qel('gs-hrs').value)||0,mi=parseFloat(qel('gs-mi').value)||0;
+  if(!e.history)e.history=[];
+  rows.forEach(function(r,n){
+    var rec={id:gid()+'_'+n,date:date,task:String(r.task).trim(),by:by,hAtSvc:hrs,miAtSvc:mi,cost:parseFloat(r.cost)||0,labor:parseFloat(r.labor)||0,notes:r.notes||''};
+    e.history.push(rec);
+    if(r.iid){(e.intervals||[]).forEach(function(iv){if(iv.id===r.iid){iv.lastDone=date;iv.lastHours=hrs;iv.lastMiles=mi;iv.lastDate=date;}});}
+    if(r.key)delete WO_SEL[r.key];
+    logAct(e.name,'Service: '+rec.task);
+  });
+  try{localStorage.setItem('ws_svc_by_v1',by);}catch(x){}
+  save();closeM('m-gsvc');
+  toast(rows.length+' service'+(rows.length===1?'':'s')+' logged for '+e.name);
+  renderWO();
+}
+
+/* ================= SUMMARY + EMAIL ================= */
+var SUM_TO=[];try{SUM_TO=JSON.parse(localStorage.getItem('ws_sum_to_v1')||'[]');if(!Array.isArray(SUM_TO))SUM_TO=[];}catch(x){SUM_TO=[];}
+var SUM_DATA=null;
+function pad2(n){return ('0'+n).slice(-2);}
+function isoLocal(d){return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+function sumNormDate(s){
+  s=String(s==null?'':s).trim();
+  var m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);if(m)return m[1]+'-'+m[2]+'-'+m[3];
+  m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return m[3]+'-'+pad2(m[1])+'-'+pad2(m[2]);
+  return '';
+}
+function sumFmt(iso){if(!iso)return '';var d=new Date(iso+'T12:00:00');return isNaN(d.getTime())?String(iso):d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+function sumRange(){
+  var p=qel('sum-per').value,now=new Date(),today=isoLocal(now),from='',to='';
+  if(p==='7'||p==='30'){var d=new Date(now);d.setDate(d.getDate()-(parseInt(p,10)-1));from=isoLocal(d);to=today;}
+  else if(p==='month'){from=isoLocal(new Date(now.getFullYear(),now.getMonth(),1));to=today;}
+  else if(p==='lastmonth'){from=isoLocal(new Date(now.getFullYear(),now.getMonth()-1,1));to=isoLocal(new Date(now.getFullYear(),now.getMonth(),0));}
+  else if(p==='year'){from=now.getFullYear()+'-01-01';to=today;}
+  else if(p==='custom'){from=qel('sum-from').value;to=qel('sum-to').value;}
+  return {from:from,to:to,all:p==='all'};
+}
+function sumInRange(iso,rg){if(rg.all)return true;if(!iso)return false;if(rg.from&&iso<rg.from)return false;if(rg.to&&iso>rg.to)return false;return true;}
+function sumBuild(eid,rg){
+  var eqs=[],totals={count:0,parts:0,labor:0,repairs:0};
+  S.equipment.forEach(function(e){
+    if(eid&&e.id!==eid)return;
+    var items=[];
+    (e.history||[]).forEach(function(x){
+      var d=sumNormDate(x.date);if(!sumInRange(d,rg))return;
+      items.push({date:d||String(x.date||''),task:String(x.task||''),by:String(x.by||''),hAtSvc:Number(x.hAtSvc)||0,miAtSvc:Number(x.miAtSvc)||0,cost:Number(x.cost)||0,labor:Number(x.labor)||0,notes:String(x.notes||'')});
+    });
+    if(!items.length)return;
+    items.sort(function(a,b){return String(a.date).localeCompare(String(b.date));});
+    items.forEach(function(x){totals.count++;totals.parts+=x.cost;totals.labor+=x.labor;});
+    eqs.push({name:e.name,type:e.type||'',hours:e.hours||0,items:items});
+  });
+  eqs.sort(function(a,b){return String(a.name).localeCompare(String(b.name));});
+  var reps=[];
+  repAll().forEach(function(r){
+    if(r.status!=='done')return;if(eid&&r.equipId!==eid)return;
+    var d=sumNormDate(r.completedDate)||sumNormDate(r.updatedAt);if(!sumInRange(d,rg))return;
+    reps.push({equipName:String(r.equipName||''),completedDate:d,date:sumNormDate(r.date),tech:String(r.tech||''),urgency:String(r.urgency||''),desc:String(r.desc||'')});
+  });
+  reps.sort(function(a,b){return String(a.completedDate).localeCompare(String(b.completedDate));});
+  totals.repairs=reps.length;totals.parts=Math.round(totals.parts*100)/100;totals.labor=Math.round(totals.labor*100)/100;
+  var scope=eid&&ge(eid)?ge(eid).name:'All equipment';
+  var range=rg.all?'All time':(rg.from&&rg.to?(rg.from===rg.to?sumFmt(rg.from):sumFmt(rg.from)+' - '+sumFmt(rg.to)):rg.from?'From '+sumFmt(rg.from):rg.to?'Through '+sumFmt(rg.to):'All dates');
+  return {title:'Maintenance Summary',scope:scope,range:range,generated:new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}),totals:totals,equipment:eqs,repairs:reps};
+}
+function sumMoney(n){return '$'+(Number(n)||0).toFixed(2);}
+function sumHtml(d){
+  var t=d.totals;
+  var h='<div style="font-size:15px;font-weight:700;color:var(--gd)">WS Lawn Care - '+repEsc(d.title)+'</div><div class="sum-sub">'+repEsc(d.scope)+' &middot; '+repEsc(d.range)+'</div>';
+  h+='<div class="sum-tiles"><div><b>'+t.count+'</b>Services done</div><div><b>'+sumMoney(t.parts)+'</b>Parts</div><div><b>'+sumMoney(t.labor)+'</b>Labor</div><div><b>'+t.repairs+'</b>Repairs fixed</div></div>';
+  if(!t.count&&!t.repairs)return h+'<div class="sum-empty">Nothing was completed in this period.<br>Try a longer period or a different piece of equipment.</div>';
+  d.equipment.forEach(function(g){
+    h+='<div class="sum-eq"><div class="sum-eq-h">'+repEsc(g.name)+'<span>'+g.items.length+' completed</span></div>';
+    g.items.forEach(function(x){
+      var m=[];if(x.by)m.push('By '+repEsc(x.by));if(x.hAtSvc)m.push(x.hAtSvc+' hrs');if(x.miAtSvc)m.push(x.miAtSvc.toLocaleString()+' mi');if(x.cost||x.labor)m.push('Parts '+sumMoney(x.cost)+' / Labor '+sumMoney(x.labor));
+      h+='<div class="sum-it"><div><span class="sum-d">'+repEsc(sumFmt(x.date))+'</span><b>'+repEsc(x.task)+'</b></div>'+(m.length?'<div class="sum-it-m">'+m.join(' &middot; ')+'</div>':'')+(x.notes?'<div class="sum-notes">'+repEsc(x.notes)+'</div>':'')+'</div>';
+    });
+    h+='</div>';
+  });
+  if(d.repairs.length){
+    h+='<div class="sum-eq"><div class="sum-eq-h">&#128295; Repairs completed<span>'+d.repairs.length+'</span></div>';
+    d.repairs.forEach(function(r){
+      h+='<div class="sum-it"><div><span class="sum-d">'+repEsc(sumFmt(r.completedDate))+'</span><b>'+repEsc(r.equipName||'Equipment')+'</b> <span class="ub '+rqCls(r.urgency)+'">'+repEsc(r.urgency)+'</span></div><div class="sum-it-m">Reported by '+repEsc(r.tech||'?')+(r.date?' on '+repEsc(sumFmt(r.date)):'')+'</div><div class="sum-notes">'+repEsc(r.desc)+'</div></div>';
+    });
+    h+='</div>';
+  }
+  return h;
+}
+function sumText(d){
+  var L=['WS Lawn Care - '+d.title,d.scope+' | '+d.range,'','Services completed: '+d.totals.count+'   Parts: '+sumMoney(d.totals.parts)+'   Labor: '+sumMoney(d.totals.labor)+'   Repairs completed: '+d.totals.repairs];
+  d.equipment.forEach(function(g){
+    L.push('');L.push(String(g.name).toUpperCase()+' ('+g.items.length+')');
+    g.items.forEach(function(x){
+      var m=[];if(x.by)m.push('by '+x.by);if(x.hAtSvc)m.push(x.hAtSvc+' hrs');if(x.cost||x.labor)m.push('parts '+sumMoney(x.cost)+', labor '+sumMoney(x.labor));
+      L.push('- '+sumFmt(x.date)+': '+x.task+(m.length?' ('+m.join('; ')+')':''));
+      if(x.notes)L.push('    Notes: '+x.notes);
+    });
+  });
+  if(d.repairs.length){
+    L.push('');L.push('REPAIRS COMPLETED ('+d.repairs.length+')');
+    d.repairs.forEach(function(r){L.push('- '+sumFmt(r.completedDate)+': '+(r.equipName||'Equipment')+' ['+r.urgency+'] '+r.desc+' (reported by '+(r.tech||'?')+')');});
+  }
+  return L.join('\n');
+}
+function openSummary(eid){
+  var sel=qel('sum-eq');
+  sel.innerHTML='<option value="">All equipment</option>'+S.equipment.slice().sort(function(a,b){return String(a.name).localeCompare(String(b.name));}).map(function(e){return '<option value="'+repEsc(e.id)+'">'+repEsc(e.name)+'</option>';}).join('');
+  sel.value=eid||'';
+  qel('sum-per').value='30';
+  qel('sum-status').textContent='';qel('sum-status').style.color='';
+  emRender();sumRefresh();
+  qel('m-sum').style.display='flex';
+}
+function sumRefresh(){
+  var cust=qel('sum-per').value==='custom';
+  qel('sum-cust1').style.display=cust?'':'none';qel('sum-cust2').style.display=cust?'':'none';
+  if(cust&&!qel('sum-from').value&&!qel('sum-to').value){var d=new Date();qel('sum-to').value=isoLocal(d);d.setDate(d.getDate()-29);qel('sum-from').value=isoLocal(d);}
+  SUM_DATA=sumBuild(qel('sum-eq').value,sumRange());
+  qel('sum-body').innerHTML=sumHtml(SUM_DATA);
+}
+/* --- recipient list: add as many addresses as needed --- */
+function emOk(s){return /^[^\s@<>,;"']+@[^\s@<>,;"']+\.[^\s@<>,;"']{2,}$/.test(s);}
+function emSave(){try{localStorage.setItem('ws_sum_to_v1',JSON.stringify(SUM_TO));}catch(x){}}
+function emRender(){qel('em-chips').innerHTML=SUM_TO.map(function(a,i){return '<span class="em-chip">'+repEsc(a)+'<button type="button" data-rm="'+i+'" aria-label="Remove '+repEsc(a)+'">&times;</button></span>';}).join('');}
+function sumStatus(msg,color){var s=qel('sum-status');s.textContent=msg||'';s.style.color=color||'';}
+function emAdd(text){
+  var bad=[],over=false;
+  String(text||'').split(/[\s,;]+/).forEach(function(t){
+    t=t.trim().toLowerCase();if(!t)return;
+    if(!emOk(t)){bad.push(t);return;}
+    if(SUM_TO.indexOf(t)>=0)return;
+    if(SUM_TO.length>=10){over=true;return;}
+    SUM_TO.push(t);
+  });
+  emSave();emRender();
+  if(bad.length)sumStatus('Not a valid email address: '+bad.join(', '),'var(--rd)');
+  else if(over)sumStatus('You can email up to 10 addresses at a time.','var(--rd)');
+  else sumStatus('');
+  return !bad.length&&!over;
+}
+qel('em-in').addEventListener('keydown',function(ev){
+  if(ev.key==='Enter'||ev.key===','||ev.key===' '||ev.key===';'){ev.preventDefault();if(this.value.trim()){emAdd(this.value);this.value='';}}
+  else if(ev.key==='Backspace'&&!this.value&&SUM_TO.length){SUM_TO.pop();emSave();emRender();}
+});
+qel('em-in').addEventListener('blur',function(){if(this.value.trim()){if(emAdd(this.value))this.value='';}});
+qel('em-in').addEventListener('paste',function(){var el=this;setTimeout(function(){if(/[\s,;]/.test(el.value.trim())){emAdd(el.value);el.value='';}},0);});
+qel('em-chips').addEventListener('click',function(ev){var b=ev.target.closest?ev.target.closest('[data-rm]'):null;if(!b)return;SUM_TO.splice(+b.getAttribute('data-rm'),1);emSave();emRender();});
+/* the portal's server sends the email; a real POST is used because a summary is too big for a link */
+function apiPostJson(body,cb){
+  if(!API_URL){cb(null);return;}
+  var ctl=window.AbortController?new AbortController():null;
+  var timer=setTimeout(function(){if(ctl)ctl.abort();},45000);
+  fetch(API_URL,{method:'POST',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),signal:ctl?ctl.signal:undefined})
+    .then(function(r){return r.json();})
+    .then(function(d){clearTimeout(timer);cb(d);})
+    .catch(function(){clearTimeout(timer);cb(null);});
+}
+function sumMailto(d){
+  var body=sumText(d);if(body.length>1800)body=body.slice(0,1800)+'\n\n(Trimmed - open the portal for the full summary.)';
+  var a=document.createElement('a');
+  a.href='mailto:'+SUM_TO.join(',')+'?subject='+encodeURIComponent('WS Lawn Care: Maintenance Summary - '+d.range)+'&body='+encodeURIComponent(body);
+  document.body.appendChild(a);a.click();a.remove();
+}
+function sumEmail(){
+  var inp=qel('em-in');if(inp.value.trim()){if(emAdd(inp.value))inp.value='';else return;}
+  if(!SUM_TO.length){sumStatus('Add at least one email address first.','var(--rd)');inp.focus();return;}
+  var d=SUM_DATA;
+  if(!d||(!d.totals.count&&!d.totals.repairs)){sumStatus('Nothing was completed in this period, so there is nothing to send.','var(--rd)');return;}
+  var btn=qel('sum-send');btn.disabled=true;sumStatus('Sending...');
+  var to=SUM_TO.slice();
+  apiPostJson({action:'emailSummary',to:to,summary:d},function(r){
+    btn.disabled=false;
+    if(r&&r.ok){sumStatus('Sent to '+to.join(', ')+'.','var(--gd)');toast('Summary emailed');return;}
+    var why=r?(r.error||'the server refused it'):'could not reach the server';
+    if(r&&/Unknown POST action/i.test(String(r.error||'')))why='the Apps Script needs the v11 update';
+    sumStatus('Could not send from the portal ('+why+'). Opening your email app instead.','var(--rd)');
+    sumMailto(d);
+  });
+}
+
 /* Expose all onclick-called functions on window for Wix iframe compatibility */
 window.navDashboard = navDashboard;
 window.navEquipment = navEquipment;
@@ -2409,6 +2863,16 @@ window.closeMApi = closeMApi;
 window.openEditEquip = openEditEquip;
 window.delEquip = delEquip;
 window.openLogSvc = openLogSvc;
+window.svIntChange = svIntChange;
+window.gsOpen = gsOpen;
+window.gsAdd = gsAdd;
+window.gsAll = gsAll;
+window.gsSave = gsSave;
+window.openSummary = openSummary;
+window.sumRefresh = sumRefresh;
+window.sumEmail = sumEmail;
+window.closeM = closeM;
+window.navRepairs = navRepairs;
 window.forceSync = forceSync;
 window.openApiSetup = openApiSetup;
 window.saveApiUrl = saveApiUrl;
