@@ -95,6 +95,7 @@ summary{font-weight:800;color:var(--gd);font-size:14px;padding:8px 0;cursor:poin
 .ph{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:2px solid var(--br);background:var(--grl)}
 .ph img{width:100%;height:100%;object-fit:cover;display:block}
 .ph button{position:absolute;top:3px;right:3px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(0,0,0,.65);color:#fff;font-size:16px;line-height:1;cursor:pointer}
+.ph-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .ph-add{width:100%;min-height:52px;border-style:dashed}
 .ph-note{font-size:12px;color:var(--gr);margin-top:6px}
 .foot{text-align:center;font-size:11px;color:var(--gr);margin:22px 0 6px;line-height:1.7}
@@ -154,7 +155,11 @@ summary{font-weight:800;color:var(--gd);font-size:14px;padding:8px 0;cursor:poin
       <div class="f"><label for="r-desc">What is wrong?</label><textarea id="r-desc" maxlength="1000" placeholder="What did you notice? Any noise, leak, or damage?"></textarea></div>
       <div class="f"><label>Photos <span style="text-transform:none;font-weight:500">(optional, up to 4)</span></label>
         <div class="ph-grid" id="r-photos"></div>
-        <button type="button" class="btn sec ph-add" id="r-addph" data-act="add-photo">&#128247; Add Photos</button>
+        <div class="ph-btns" id="r-addph">
+          <button type="button" class="btn sec ph-add" id="r-cam" data-act="take-photo">&#128247; Take Photo</button>
+          <button type="button" class="btn sec ph-add" id="r-gal" data-act="add-photo">&#128444; From Gallery</button>
+        </div>
+        <input type="file" id="r-cam-file" accept="image/*" capture="environment" style="display:none">
         <input type="file" id="r-file" accept="image/*" multiple style="display:none">
         <div class="ph-note" id="r-phnote"></div>
       </div>
@@ -300,8 +305,8 @@ function renderPhotos() {
   g.innerHTML = PH.map(function (p, i) {
     return '<div class="ph"><img src="' + p.url + '" alt="Photo ' + (i + 1) + '"><button type="button" data-act="rm-photo" data-i="' + i + '" aria-label="Remove photo">&times;</button></div>';
   }).join('');
-  $('r-addph').style.display = PH.length >= MAX_PHOTOS ? 'none' : '';
-  $('r-addph').innerHTML = PH.length ? '&#128247; Add another photo' : '&#128247; Add Photos';
+  $('r-addph').style.display = PH.length >= MAX_PHOTOS ? 'none' : 'grid';
+  $('r-cam').innerHTML = PH.length ? '&#128247; Another Photo' : '&#128247; Take Photo';
 }
 function clearPhotos() { PH.forEach(function (p) { URL.revokeObjectURL(p.url); }); PH = []; renderPhotos(); $('r-phnote').textContent = ''; }
 function addFiles(list) {
@@ -623,6 +628,7 @@ document.addEventListener('click', function (ev) {
   else if (a === 'toggle-urgent') setUrgent(!sUrgent);
   else if (a === 'sync') { lastPull = 0; syncNow(false); }
   else if (a === 'install') doInstall();
+  else if (a === 'take-photo') $('r-cam-file').click();
   else if (a === 'add-photo') $('r-file').click();
   else if (a === 'rm-photo') { var i = parseInt(b.getAttribute('data-i'), 10), p = PH[i]; if (p) { URL.revokeObjectURL(p.url); PH.splice(i, 1); renderPhotos(); } }
   else if (a === 'again') { closeDone(); show(lastKind); }
@@ -638,6 +644,7 @@ document.addEventListener('click', function (ev) {
 });
 $('r-urg').addEventListener('click', function (ev) { var b = ev.target.closest('[data-urg]'); if (b) setUrg(b.getAttribute('data-urg')); });
 $('r-file').addEventListener('change', function () { addFiles(this.files); this.value = ''; });
+$('r-cam-file').addEventListener('change', function () { addFiles(this.files); this.value = ''; });
 $('r-equip').addEventListener('change', function () { $('r-other-wrap').style.display = this.value === '__other' ? '' : 'none'; });
 window.addEventListener('online', function () { updatePill(); syncNow(true); });
 window.addEventListener('offline', updatePill);
