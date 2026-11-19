@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{if(new URLSearchParams(location.search).has('noavatar'))document.documentElement.classList.add('av')}catch(e){}</script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#2d6a2f">
@@ -433,6 +435,8 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
 .em-box input{flex:1;min-width:170px;border:0;outline:0;font-size:13px;padding:6px 2px;font-family:inherit;background:transparent}
 .em-hint{font-size:11px;color:var(--gr);margin-top:5px}
 @media(max-width:600px){.sum-tiles{grid-template-columns:1fr 1fr}}
+@media (min-width:701px){.av .topbar{padding-right:84px!important}}
+@media (max-width:700px){html.av .tabbar{padding-right:56px}}
 </style>
 </head>
 <body>
