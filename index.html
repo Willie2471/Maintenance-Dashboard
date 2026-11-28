@@ -499,9 +499,9 @@ html.navtop .toast{bottom:auto;top:calc(var(--tbh) + 70px)}
       </div>
       <div class="kpi-grid">
         <div class="kpi kpi-g"><div class="kpi-label">Total Equipment</div><div class="kpi-val" id="k-total">0</div><div class="kpi-sub">pieces tracked</div></div>
-        <div class="kpi kpi-r"><div class="kpi-label">Overdue Service</div><div class="kpi-val" id="k-ov">0</div><div class="kpi-sub">needs attention now</div></div>
+        <div class="kpi kpi-r" style="cursor:pointer" onclick="goOverdue()" title="View all overdue items"><div class="kpi-label">Overdue Service</div><div class="kpi-val" id="k-ov">0</div><div class="kpi-sub">overdue tasks - tap to view</div></div>
         <div class="kpi kpi-a"><div class="kpi-label">Due This Month</div><div class="kpi-val" id="k-du">0</div><div class="kpi-sub">coming up soon</div></div>
-        <div class="kpi kpi-b"><div class="kpi-label">Open Work Orders</div><div class="kpi-val" id="k-wo">0</div><div class="kpi-sub">tasks pending</div></div>
+        <div class="kpi kpi-b"><div class="kpi-label">Open Work Orders</div><div class="kpi-val" id="k-wo">0</div><div class="kpi-sub">equipment with open work</div></div>
       </div>
       <div class="dash-grid">
         <div class="card"><div class="card-title">&#9888;&#65039; Priority Alerts <span>sorted by urgency</span></div><div id="d-alerts"></div></div>
@@ -1220,9 +1220,9 @@ function nav(id,el){
 
 function renderDash(){
   wfClear();
-  var ov=S.equipment.filter(function(e){return eStatus(e)==='overdue';}).length;
+  var ov=0;S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){if(iStat(e,i).s==='overdue')ov++;});});
   var du=S.equipment.filter(function(e){return eStatus(e)==='due';}).length;
-  var wo=0;S.equipment.forEach(function(e){(e.intervals||[]).forEach(function(i){if(iStat(e,i).s!=='ok')wo++;});});
+  var wo=S.equipment.filter(function(e){return (e.intervals||[]).some(function(i){return iStat(e,i).s!=='ok';})||woRepairsFor(e).length>0;}).length;
   document.getElementById('k-total').textContent=S.equipment.length;
   document.getElementById('k-ov').textContent=ov;
   document.getElementById('k-du').textContent=du;
@@ -1509,6 +1509,8 @@ window.toggleSidebar = toggleSidebar;
 function navDashboard(){var n=document.querySelectorAll('.nav-item');nav('dashboard',n[0]);}
 function navEquipment(){var n=document.querySelectorAll('.nav-item');nav('equipment',n[1]);}
 function navWorkorders(){var n=document.querySelectorAll('.nav-item');nav('workorders',n[2]);}
+function goOverdue(){navWorkorders();setWF('overdue',document.getElementById('wf-ov'));}
+window.goOverdue=goOverdue;
 function navCalendar(){var n=document.querySelectorAll('.nav-item');nav('calendar',n[3]);}
 function navBulkhours(){var n=document.querySelectorAll('.nav-item');nav('bulkhours',n[4]);}
 function dTabIntervals(el){dTab('intervals',el);}
